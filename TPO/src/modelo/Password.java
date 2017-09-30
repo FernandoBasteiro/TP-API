@@ -24,5 +24,11 @@ public class Password {
 	public boolean passwordCorrecta(String passwordString) {
 		return (this.passwordString.equals(passwordString));
 	}
+
+	public void setPasswordString(String passwordString) {
+		this.passwordString = passwordString;
+	}
+
+	
 	
 }
