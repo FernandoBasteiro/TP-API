@@ -3,6 +3,7 @@ package modelo;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import controlador.MovCtaCteView;
 import persistencia.AdmPersistenciaUsuario;
 
 public class Usuario {
@@ -72,4 +73,12 @@ public class Usuario {
 		return AdmPersistenciaUsuario.getInstancia().buscarUsuario(nombreDeUsuario);
 	}
 	
+	public int cargarMovimiento(Venta venta, float monto, String concepto) {
+		ctacte.generarMovimiento(venta, monto, concepto);
+		return 0;
+	}
+	
+	public ArrayList<MovCtaCteView> getMovimientos(){
+		return ctacte.getMovsCtaCteView();
+	}
 }

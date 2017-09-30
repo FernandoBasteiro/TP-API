@@ -67,4 +67,16 @@ public class AdmUsuarios {
 		return 1;
 	}
 	
+	public int cargarMovCtaCte(String nombreDeUsuario, float monto, String concepto, Venta venta) {
+		Usuario usuarioAux = buscarUsuario(nombreDeUsuario);
+		usuarioAux.cargarMovimiento(venta, monto, concepto);
+		return 0;
+	}
+	
+	public ArrayList<MovCtaCteView> getMovsCtaCteView(){
+		if (usuarioLogueado != null) {
+			return usuarioLogueado.getMovimientos();
+		}
+		return null;
+	}
 }
