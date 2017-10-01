@@ -28,6 +28,7 @@ public class AdmUsuarios {
 			if (usuarioAux.passwordCorrecta(passwordString)) {
 				if (! usuarioAux.passwordVencida()) {
 					usuarioLogueado = usuarioAux;
+					//TODO Set nueva fecha de ultima modificacion del usuario.
 					return 0; //Login correcto.
 				}
 				return 1; //Password vencida. Solicitar cambio.
@@ -41,6 +42,7 @@ public class AdmUsuarios {
 		for (int i = 0; i < usuarios.size(); i++) {
 			if (nombreDeUsuario.equals(usuarios.get(i).getNombreDeUsuario())) {
 				return usuarios.get(i);
+				//TODO Set nueva fecha de ultima modificacion del usuario.
 			}
 		}
 		Usuario usuarioAux = Usuario.buscarUsuarioDB(nombreDeUsuario);
@@ -77,6 +79,13 @@ public class AdmUsuarios {
 	public ArrayList<MovCtaCteView> getMovsCtaCteView(){
 		if (usuarioLogueado != null) {
 			return usuarioLogueado.getMovimientos();
+		}
+		return null;
+	}
+	
+	public UsuarioView getLoggedUserView(){
+		if (usuarioLogueado != null) {
+			return this.usuarioLogueado.getUsuarioView();
 		}
 		return null;
 	}

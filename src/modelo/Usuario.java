@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import controlador.MovCtaCteView;
+import controlador.UsuarioView;
 import persistencia.AdmPersistenciaUsuario;
 
 public class Usuario {
@@ -74,5 +75,9 @@ public class Usuario {
 	
 	public ArrayList<MovCtaCteView> getMovimientos(){
 		return ctacte.getMovsCtaCteView();
+	}
+	
+	public UsuarioView getUsuarioView(){
+		return (new UsuarioView(this.nombre, this.domicilio, this.mail, this.nombreDeUsuario));
 	}
 }
