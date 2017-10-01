@@ -3,6 +3,7 @@ package controlador;
 import java.util.ArrayList;
 
 import modelo.Usuario;
+import modelo.Venta;
 
 public class AdmUsuarios {
 	static private AdmUsuarios instancia;
@@ -14,7 +15,7 @@ public class AdmUsuarios {
 		usuarioLogueado = null;
 	}
 	
-	public AdmUsuarios getInstance(){
+	static public AdmUsuarios getInstance(){
 		if (instancia == null) {
 			instancia = new AdmUsuarios();
 		}
@@ -62,9 +63,9 @@ public class AdmUsuarios {
 		if (buscarUsuario(nombreDeUsuario) == null) {
 			Usuario usuarioAux = new Usuario (nombre, domicilio, mail, nombreDeUsuario, passwordString);
 			usuarios.add(usuarioAux);
-			return 0;
+			return 0; //Usuario Creado
 		}
-		return 1;
+		return 1; //Usuario ya existe.
 	}
 	
 	public int cargarMovCtaCte(String nombreDeUsuario, float monto, String concepto, Venta venta) {
