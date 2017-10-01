@@ -3,7 +3,9 @@ package persistencia;
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
 import java.util.Vector;
 
@@ -115,5 +117,29 @@ public class PoolConnection
 	public void realeaseConnection(Connection c)
 	{
 		connections.add(c);
+	}
+
+	public void testConnection()
+	{
+		try {
+			int numUsuarios=0;
+			Connection con = PoolConnection.getPoolConnection().getConnection();
+			
+			Statement s = con.createStatement();
+			String sentencia = "select count(*) usuarios from sys.sysusers where sid is not null and islogin=1";
+			s.executeQuery(sentencia);
+			ResultSet rs = s.getResultSet();
+			
+			while (rs.next())
+			{
+				numUsuarios = Integer.parseInt(rs.getString("usuarios"));
+			}
+			if (numUsuarios>0)
+				System.out.println("Existen usuarios");
+			else
+				System.out.println("No se encontraron usuarios");
+		} catch (Exception e) {
+			System.out.println("Error Query: " + e.getMessage());
+		}
 	}
 }
