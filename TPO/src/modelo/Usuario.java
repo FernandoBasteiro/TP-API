@@ -14,8 +14,6 @@ public class Usuario {
 	private LocalDateTime ultimaModificacion;
 	private CtaCte ctacte;
 	private Password password;
-	private ArrayList<Calificacion> calificacionesComprador;
-	private ArrayList<Calificacion> calificacionesVendedor;	
 	private LocalDateTime fechaCreacion;
 	
 	public Usuario(String nombre, String domicilio, String mail,
@@ -28,8 +26,6 @@ public class Usuario {
 		this.ultimaModificacion = LocalDateTime.now();
 		this.ctacte = new CtaCte();
 		this.password = new Password(passwordString);
-		this.calificacionesComprador = new ArrayList<Calificacion>();
-		this.calificacionesVendedor = new ArrayList<Calificacion>();
 		this.fechaCreacion = LocalDateTime.now();
 		AdmPersistenciaUsuario.getInstancia().insertUsuario(this);
 	}
@@ -44,8 +40,6 @@ public class Usuario {
 		this.ultimaModificacion = LocalDateTime.now();
 		this.ctacte = new CtaCte();
 		this.password = new Password(passwordString);
-		this.calificacionesComprador = new ArrayList<Calificacion>();
-		this.calificacionesVendedor = new ArrayList<Calificacion>();
 		this.fechaCreacion = fechaCreacion;
 	}
 	
