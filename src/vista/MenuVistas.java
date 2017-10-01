@@ -62,6 +62,12 @@ public class MenuVistas extends JFrame {
 		contentPane.add(btnModificarUsuario);
 		
 		JButton btnLogin = new JButton("Login");
+		btnLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VistaLogin vl = new VistaLogin();
+				vl.setVisible(true);
+			}
+		});
 		btnLogin.setBounds(10, 79, 125, 23);
 		contentPane.add(btnLogin);
 		
