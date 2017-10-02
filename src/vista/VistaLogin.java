@@ -30,7 +30,7 @@ public class VistaLogin extends JFrame {
 	public VistaLogin() {
 		setResizable(false);
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 211, 152);
+		setBounds(100, 100, 210, 150);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -58,6 +58,46 @@ public class VistaLogin extends JFrame {
 		labelMensaje.setBounds(10, 102, 186, 14);
 		contentPane.add(labelMensaje);
 		
+		TextField textNPassword = new TextField();
+		textNPassword.setEchoChar('*');
+		textNPassword.setBounds(106, 122, 88, 22);
+		textNPassword.setVisible(false);
+		contentPane.add(textNPassword);
+		
+		JLabel lblNuevaContrasea = new JLabel("Nueva Contrase\u00F1a");
+		lblNuevaContrasea.setBounds(10, 127, 90, 14);
+		lblNuevaContrasea.setVisible(false);
+		contentPane.add(lblNuevaContrasea);
+		
+		JButton btnPwdReset = new JButton("Cambiar Contrase\u00F1a");
+		btnPwdReset.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (!textNPassword.getText().isEmpty()) {
+					int resPwdReset = AdmUsuarios.getInstance().cambiarPassword(textUsuario.getText(), textPassword.getText(), textNPassword.getText());
+					if (resPwdReset == 0) {
+						int resLogin = AdmUsuarios.getInstance().login(textUsuario.getText(), textNPassword.getText());
+						if (resLogin == 0) {
+							labelMensaje.setText("Usuario logueado correctamente."); //TODO Traducir mensaje
+						}
+						else {
+							labelMensaje.setText("Contraseña cambiada. Fallo el login."); //TODO Traducir mensaje	
+						}
+					}
+					else {
+						labelMensaje.setText("La contraseña no pudo ser cambiada.");
+					}
+				}
+				else {
+					labelMensaje.setText("Introduzca una nueva contraseña.");
+					textNPassword.requestFocus();
+				}
+				
+			}
+		});
+		btnPwdReset.setBounds(10, 152, 184, 23);
+		btnPwdReset.setVisible(false);
+		contentPane.add(btnPwdReset);
+		
 		JButton btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -69,7 +109,14 @@ public class VistaLogin extends JFrame {
 							//TODO Pasar a la siguiente ventana!
 							break;
 						case 1:
-							//TODO Solicitar cambio de contraseña.
+							labelMensaje.setText("Contraseña expirada. Cambie la contaseña.");
+							setBounds(100, 100, 210, 210);
+							textNPassword.setVisible(true);
+							lblNuevaContrasea.setVisible(true);
+							textNPassword.requestFocus();
+							textUsuario.setEnabled(false);
+							textPassword.setEnabled(false);
+							btnPwdReset.setVisible(true);
 							break;
 						case 2:
 							labelMensaje.setText("Contraseña incorrecta.");
@@ -92,6 +139,9 @@ public class VistaLogin extends JFrame {
 		contentPane.add(btnLogin);
 		
 		
-	}
+		
 
+		
+		
+	}
 }

@@ -57,7 +57,18 @@ public class AdmUsuarios {
 			usuarioLogueado.cambiarPassword(passwordString);
 			return 0; //Cambio correcto.
 		}
-		return 1; //Usuario no logueado.
+		return 1; //Fallo el cambio.
+	}
+	
+	public int cambiarPassword (String nombreDeUsuario, String passwordString, String nPasswordString) {
+		Usuario usuarioAux = buscarUsuario(nombreDeUsuario);
+		if (usuarioAux != null) {
+			if (usuarioAux.passwordCorrecta(passwordString)) {
+				usuarioAux.cambiarPassword(nPasswordString);
+				return 0; //Cambio correcto.
+			}
+		}
+		return 1; //Fallo el cambio.
 	}
 	
 	public int crearUsuario (String nombre, String domicilio, String mail,

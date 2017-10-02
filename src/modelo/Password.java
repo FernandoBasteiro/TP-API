@@ -3,7 +3,7 @@ package modelo;
 import java.time.LocalDateTime;
 
 public class Password {
-	static private int caducidad;
+	static private int caducidad = 90; //TODO Este valor tiene que venir de la DB.
 	private LocalDateTime ultimaModificacion;
 	private String passwordString;
 	
@@ -18,7 +18,7 @@ public class Password {
 	}
 	
 	public boolean estaVencida() {
-		return (this.ultimaModificacion.plusDays(Password.caducidad).compareTo(LocalDateTime.now()) > 0);
+		return (this.ultimaModificacion.plusDays(Password.caducidad).compareTo(LocalDateTime.now()) < 0);
 	}
 	
 	public boolean passwordCorrecta(String passwordString) {
