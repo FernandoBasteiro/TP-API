@@ -12,7 +12,7 @@ public class Usuario {
 	private String domicilio;
 	private String mail;
 	private String nombreDeUsuario;
-	private LocalDateTime ultimaModificacion;
+	private LocalDateTime ultimaModificacion; //Este dato no se persiste. Es solo en memoria para evaluar si se debe mantener o si se puede liberar.
 	private CtaCte ctacte;
 	private Password password;
 	private LocalDateTime fechaCreacion;
@@ -80,4 +80,18 @@ public class Usuario {
 	public UsuarioView getUsuarioView(){
 		return (new UsuarioView(this.nombre, this.domicilio, this.mail, this.nombreDeUsuario));
 	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public void setDomicilio(String domicilio) {
+		this.domicilio = domicilio;
+	}
+
+	public void setMail(String mail) {
+		this.mail = mail;
+	}
+	
+	
 }

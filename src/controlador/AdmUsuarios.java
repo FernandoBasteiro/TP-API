@@ -89,4 +89,15 @@ public class AdmUsuarios {
 		}
 		return null;
 	}
+	
+	public int modificarLoggedUser(String nombre, String mail, String domicilio) {
+		if (usuarioLogueado != null) {
+			usuarioLogueado.setNombre(nombre);
+			usuarioLogueado.setMail(mail);
+			usuarioLogueado.setDomicilio(domicilio);
+			//TODO Persistir cambios!
+			return 0;
+		}
+		return 1;
+	}
 }

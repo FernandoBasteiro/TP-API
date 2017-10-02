@@ -54,7 +54,6 @@ public class VistaLogin extends JFrame {
 		contentPane.add(textUsuario);
 		
 		JLabel labelMensaje = new JLabel("");
-		labelMensaje.setForeground(Color.RED);
 		labelMensaje.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		labelMensaje.setBounds(10, 102, 186, 14);
 		contentPane.add(labelMensaje);
