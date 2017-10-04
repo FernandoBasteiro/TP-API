@@ -3,6 +3,8 @@ package modelo;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import controlador.PublicacionView;
+
 public abstract class Publicacion {
 	protected static float comision = 5; //TODO
 	protected String nombreProducto;
@@ -37,5 +39,9 @@ public abstract class Publicacion {
 		return false;
 	}
 	
+	public PublicacionView getPublicacionView() {
+		
+		return null;
+	}
 	
 }
