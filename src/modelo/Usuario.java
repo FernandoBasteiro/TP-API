@@ -16,7 +16,6 @@ public class Usuario {
 	private CtaCte ctacte;
 	private Password password;
 	private LocalDateTime fechaCreacion;
-	private ArrayList<Publicacion> publicaciones;
 	
 	public Usuario(String nombre, String domicilio, String mail,
 			String nombreDeUsuario, String passwordString) {
@@ -29,12 +28,11 @@ public class Usuario {
 		this.ctacte = new CtaCte();
 		this.password = new Password(passwordString);
 		this.fechaCreacion = LocalDateTime.now();
-		this.publicaciones = new ArrayList<Publicacion>();
 		AdmPersistenciaUsuario.getInstancia().insertUsuario(this);
 	}
 	
 	public Usuario(String nombre, String domicilio, String mail,
-			String nombreDeUsuario, String passwordString, LocalDateTime fechaCreacion, ArrayList<Publicacion> publicaciones) {
+			String nombreDeUsuario, String passwordString, LocalDateTime fechaCreacion) {
 		super();
 		this.nombre = nombre;
 		this.domicilio = domicilio;
@@ -44,7 +42,6 @@ public class Usuario {
 		this.ctacte = new CtaCte();
 		this.password = new Password(passwordString);
 		this.fechaCreacion = fechaCreacion;
-		this.publicaciones = publicaciones;
 	}
 	
 	public boolean sosUsuario (String nombreDeUsuario) {
@@ -96,12 +93,5 @@ public class Usuario {
 		this.mail = mail;
 	}
 	
-	public ArrayList<Publicacion> getPublicaciones () {
-		return this.publicaciones;
-	}
 	
-	public int agregarPublicacion(Publicacion p) {
-		publicaciones.add(p);
-		return 0;
-	}
 }

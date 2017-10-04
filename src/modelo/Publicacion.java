@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public abstract class Publicacion {
-	protected static float comision = 5; //TODO
+	protected static float comision = 5;
 	protected String nombreProducto;
 	protected String descripcion;
 	protected LocalDateTime fechaPublicacion;
@@ -14,28 +14,17 @@ public abstract class Publicacion {
 	protected ArrayList<Venta> ventas;
 	
 	
+	// Se ha agregado el Constructor ya que otras clases heredan Publicacion.
 	
-	public Publicacion(String nombreProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado) {
-		super();
+	public Publicacion(String nombreProducto, String descripcion, LocalDateTime fechaPublicacion, float precioPublicado){
+		
 		this.nombreProducto = nombreProducto;
 		this.descripcion = descripcion;
-		this.fechaPublicacion = LocalDateTime.now();
-		this.imagenes = imagenes;
+		this.fechaPublicacion = fechaPublicacion;
 		this.precioPublicado = precioPublicado;
-		this.estadoPublicacion = "Activa";
-		this.ventas = new ArrayList<Venta>();
+		
 	}
-
+	
 	public abstract int ofertar(float monto, Usuario comprador, String medioDePago);
-	
-	public abstract float getPrecioActual();
-	
-	public boolean sosBuscado(String buscado) {
-		if (nombreProducto.contains(buscado)) {
-			return true;
-		}
-		return false;
-	}
-	
 	
 }
