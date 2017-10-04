@@ -9,12 +9,12 @@ import modelo.Subasta;
 
 public class SistPublicaciones {
 	private ArrayList<Publicacion> publicaciones;
-	private Publicacion publicacionActual;
+	private ArrayList<Publicacion> publicacionesActuales;
 	static private SistPublicaciones instancia;
 	
 	private SistPublicaciones(){
 		publicaciones = new ArrayList<Publicacion>();
-		publicacionActual = null;
+		publicacionesActuales = null;
 	}
 	
 	static public SistPublicaciones getInstancia() {
@@ -38,19 +38,23 @@ public class SistPublicaciones {
 		return 0;
 	}
 	
-	public ArrayList<Publicacion> buscarPublicaciones(String publicacionBuscada) {
-		//TODO Probablemente deba traer un array de publicacionesView, no las Publicaciones en si. 
-		// Y las publicaciones seguramente tengan que tener algun numero de publicacion, que sea un Static para evitar duplicados.
-		// La otra opcion es guardar una lista de publicaciones actuales, que son las que se le pasan a la vista en forma de publicacionView,
-		//para poder encontrar la publicacion seleccionada desde la vista.
+	public ArrayList<PublicacionView> buscarPublicaciones(String publicacionBuscada) {
 		//TODO Hacer el Select en la DB -> Traer todos los usuarios que esten vendiendo el producto buscado con sus respectivas publicaciones, etc.
-		ArrayList<Publicacion> ps = new ArrayList<Publicacion>();
+		publicacionesActuales = new ArrayList<Publicacion>();
 		for (int i = 0; i < publicaciones.size(); i++) {
 			if (publicaciones.get(i).sosBuscado(publicacionBuscada)) {
-				ps.add(publicaciones.get(i));
+				publicacionesActuales.add(publicaciones.get(i));
 			}
 		}
-		return ps;
+		
+		ArrayList<PublicacionView> pv = new ArrayList<PublicacionView>(); 
+		//TODO Crear las publicaciones View con la informacion de las publicaciones que deban mostrarse en pantalla. 
+		// Esto deberia ser un metodo abstracto, dado que Subasta y CompraInmediata van a traer informaciones distintas.
+		for (int i = 0; i < publicacionesActuales.size(); i++) {
+			pv.add(publicacionesActuales.get(i).getPublicacionView());
+		}
+		
+		return pv;
 	}
 
 }
