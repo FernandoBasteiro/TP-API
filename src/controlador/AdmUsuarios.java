@@ -39,7 +39,7 @@ public class AdmUsuarios {
 		return 3; //No existe el usuario.
 	}
 	
-	private Usuario buscarUsuario(String nombreDeUsuario) {
+	public Usuario buscarUsuario(String nombreDeUsuario) {
 		for (int i = 0; i < usuarios.size(); i++) {
 			if (nombreDeUsuario.equals(usuarios.get(i).getNombreDeUsuario())) {
 				return usuarios.get(i);
@@ -53,6 +53,10 @@ public class AdmUsuarios {
 		return usuarioAux;
 	}
 	
+	public Usuario getUsuarioLogueado() {
+		return usuarioLogueado;
+	}
+
 	public int cambiarPassword (String passwordString) {
 		if (usuarioLogueado != null) {
 			usuarioLogueado.cambiarPassword(passwordString);

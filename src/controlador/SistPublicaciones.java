@@ -6,15 +6,16 @@ import java.util.ArrayList;
 import modelo.CompraInmediata;
 import modelo.Publicacion;
 import modelo.Subasta;
+import modelo.Usuario;
 
 public class SistPublicaciones {
 	private ArrayList<Publicacion> publicaciones;
-	private ArrayList<Publicacion> publicacionesActuales;
+	private Publicacion publicacionActual;
 	static private SistPublicaciones instancia;
 	
 	private SistPublicaciones(){
 		publicaciones = new ArrayList<Publicacion>();
-		publicacionesActuales = null;
+		publicacionActual = null;
 	}
 	
 	static public SistPublicaciones getInstancia() {
@@ -39,22 +40,41 @@ public class SistPublicaciones {
 	}
 	
 	public ArrayList<PublicacionView> buscarPublicaciones(String publicacionBuscada) {
+
 		//TODO Hacer el Select en la DB -> Traer todos los usuarios que esten vendiendo el producto buscado con sus respectivas publicaciones, etc.
-		publicacionesActuales = new ArrayList<Publicacion>();
+		
+		ArrayList<PublicacionView> pv = new ArrayList<PublicacionView>();
 		for (int i = 0; i < publicaciones.size(); i++) {
 			if (publicaciones.get(i).sosBuscado(publicacionBuscada)) {
-				publicacionesActuales.add(publicaciones.get(i));
+				pv.add(publicaciones.get(i).getPublicacionView());
 			}
 		}
-		
-		ArrayList<PublicacionView> pv = new ArrayList<PublicacionView>(); 
-		//TODO Crear las publicaciones View con la informacion de las publicaciones que deban mostrarse en pantalla. 
-		// Esto deberia ser un metodo abstracto, dado que Subasta y CompraInmediata van a traer informaciones distintas.
-		for (int i = 0; i < publicacionesActuales.size(); i++) {
-			pv.add(publicacionesActuales.get(i).getPublicacionView());
-		}
-		
 		return pv;
 	}
-
+	
+	public ArrayList<PublicacionView> buscarPublicaciones(Usuario u) {
+		if (u != null) {
+			ArrayList<PublicacionView> pv = new ArrayList<PublicacionView>();
+			for (int i = 0; i < u.getPublicaciones().size(); i++) {
+				pv.add(u.getPublicaciones().get(i).getPublicacionView());
+			}	
+			return pv;
+		}
+		return null;
+	}
+	
+	public Publicacion buscarPublicacion(int numeroPublicacion) {
+		for (int i = 0; i < publicaciones.size(); i++) {
+			if (publicaciones.get(i).sosBuscado(numeroPublicacion)) {
+				return publicaciones.get(i);
+			}
+		}
+		//TODO Buscar en base de datos la publicacion -> Depende de como queramos trabajar, puede llegar a ser al pedo hacer esto.
+		return null;
+	}
+	
+	public ArrayList<PublicacionView> verMisPublicaciones() {
+		return this.buscarPublicaciones(AdmUsuarios.getInstancia().getUsuarioLogueado());
+	}
+	
 }

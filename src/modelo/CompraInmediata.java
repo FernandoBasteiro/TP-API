@@ -1,12 +1,23 @@
 package modelo;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+
+import controlador.CompraInmediataView;
+import controlador.PublicacionView;
+import controlador.SubastaView;
 
 public class CompraInmediata extends Publicacion {
 	private int stock;
 
 	public CompraInmediata(String nombreDeProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, int stock) {
 		super(nombreDeProducto, descripcion, imagenes, precioPublicado);
+		this.stock = stock;
+		// this.numPublicacion = persistir! -> Puede que en realidad lo tenga que hacer el controlador, para poder revisar los errores del persistir.
+	}
+	
+	public CompraInmediata(String nombreDeProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, int stock, int numPublicacion, LocalDateTime fechaPublicacion) {
+		super(nombreDeProducto, descripcion, imagenes, precioPublicado, numPublicacion, fechaPublicacion);
 		this.stock = stock;
 	}
 
@@ -26,6 +37,9 @@ public class CompraInmediata extends Publicacion {
 		return this.precioPublicado;
 	}
 	
-	
+	public PublicacionView getPublicacionView() {
+		CompraInmediataView civ = new CompraInmediataView("Compra Inmediata", nombreProducto, descripcion, fechaPublicacion, imagenes, this.getPrecioActual(), estadoPublicacion, numPublicacion, stock);
+		return civ;
+	}
 	
 }
