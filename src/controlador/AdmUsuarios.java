@@ -2,6 +2,7 @@ package controlador;
 
 import java.util.ArrayList;
 
+import modelo.Publicacion;
 import modelo.Usuario;
 import modelo.Venta;
 
@@ -15,7 +16,7 @@ public class AdmUsuarios {
 		usuarioLogueado = null;
 	}
 	
-	static public AdmUsuarios getInstance(){
+	static public AdmUsuarios getInstancia(){
 		if (instancia == null) {
 			instancia = new AdmUsuarios();
 		}
@@ -107,6 +108,15 @@ public class AdmUsuarios {
 			usuarioLogueado.setMail(mail);
 			usuarioLogueado.setDomicilio(domicilio);
 			//TODO Persistir cambios!
+			return 0;
+		}
+		return 1;
+	}
+	
+	public int agregarPublicacionAUsuario(Publicacion p) {
+		if (usuarioLogueado != null) {
+			usuarioLogueado.agregarPublicacion(p);
+			//TODO Persistir Cambios.
 			return 0;
 		}
 		return 1;

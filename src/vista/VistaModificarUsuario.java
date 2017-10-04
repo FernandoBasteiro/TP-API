@@ -35,7 +35,7 @@ public class VistaModificarUsuario extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		UsuarioView uv = AdmUsuarios.getInstance().getLoggedUserView();
+		UsuarioView uv = AdmUsuarios.getInstancia().getLoggedUserView();
 		
 		JLabel lblUsuario = new JLabel("Usuario:");
 		lblUsuario.setBounds(10, 11, 90, 14);
@@ -97,10 +97,10 @@ public class VistaModificarUsuario extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				if (! textNombre.getText().isEmpty() & ! textDomicilio.getText().isEmpty() & ! textMail.getText().isEmpty()) {
 					int resPassRst = -1;
-					int resModificar = AdmUsuarios.getInstance().modificarLoggedUser(textNombre.getText(), textMail.getText(), textDomicilio.getText());
+					int resModificar = AdmUsuarios.getInstancia().modificarLoggedUser(textNombre.getText(), textMail.getText(), textDomicilio.getText());
 					//TODO Trabajar errores.
 					if (! textPassword.getText().isEmpty()) {
-						resPassRst = AdmUsuarios.getInstance().cambiarPassword(textPassword.getText());
+						resPassRst = AdmUsuarios.getInstancia().cambiarPassword(textPassword.getText());
 					}
 					
 					if (resModificar == 0 & resPassRst <= 0) {

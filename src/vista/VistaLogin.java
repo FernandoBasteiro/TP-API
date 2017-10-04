@@ -73,9 +73,9 @@ public class VistaLogin extends JFrame {
 		btnPwdReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (!textNPassword.getText().isEmpty()) {
-					int resPwdReset = AdmUsuarios.getInstance().cambiarPassword(textUsuario.getText(), textPassword.getText(), textNPassword.getText());
+					int resPwdReset = AdmUsuarios.getInstancia().cambiarPassword(textUsuario.getText(), textPassword.getText(), textNPassword.getText());
 					if (resPwdReset == 0) {
-						int resLogin = AdmUsuarios.getInstance().login(textUsuario.getText(), textNPassword.getText());
+						int resLogin = AdmUsuarios.getInstancia().login(textUsuario.getText(), textNPassword.getText());
 						if (resLogin == 0) {
 							labelMensaje.setText("Usuario logueado correctamente."); //TODO Traducir mensaje
 						}
@@ -102,7 +102,7 @@ public class VistaLogin extends JFrame {
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (!textUsuario.getText().isEmpty() & !textPassword.getText().isEmpty()) {
-					int resLogin = AdmUsuarios.getInstance().login(textUsuario.getText(), textPassword.getText());
+					int resLogin = AdmUsuarios.getInstancia().login(textUsuario.getText(), textPassword.getText());
 					switch (resLogin) {
 						case 0:
 							labelMensaje.setText("Usuario logueado correctamente."); //TODO Traducir mensaje

@@ -101,7 +101,7 @@ public class VistaAltaUsuario extends JFrame {
 				String mail = textMail.getText();
 				String nombreDeUsuario = textNombreDeUsuario.getText();
 				String passwordString = textPassword.getText();
-				int error = AdmUsuarios.getInstance().crearUsuario(nombre, domicilio, mail, nombreDeUsuario, passwordString);
+				int error = AdmUsuarios.getInstancia().crearUsuario(nombre, domicilio, mail, nombreDeUsuario, passwordString);
 				switch (error) {
 					case 0:
 						labelResultado.setText("Usuario creado correctamente.");

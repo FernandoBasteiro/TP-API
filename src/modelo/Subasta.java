@@ -11,14 +11,29 @@ public class Subasta extends Publicacion {
 	public int ofertar(float monto, Usuario comprador, String medioDePago) {
 		Oferta o = new Oferta(monto, comprador, medioDePago);
 		ofertas.add(o);
-		return 0;
+		return 1;
 	}
 
-	public Subasta(LocalDateTime fechaHasta) {
-		super();
+	public Subasta(String nombreDeProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, LocalDateTime fechaHasta) {
+		super(nombreDeProducto, descripcion, imagenes, precioPublicado);
 		this.fechaHasta = fechaHasta;
 		this.ofertas = new ArrayList<Oferta>();
+		Oferta ofertaVacia = new Oferta(precioPublicado, null, null);
+		ofertas.add(ofertaVacia);
 	}
+
+	@Override
+	public float getPrecioActual() {
+		float mayorOferta = 0;
+		for (int i = 0; i < ofertas.size(); i++) {
+			if (ofertas.get(i).getMonto() > mayorOferta) {
+				mayorOferta = ofertas.get(i).getMonto();
+			}
+		}
+		return mayorOferta;
+	}
+	
+	
 	
 
 }
