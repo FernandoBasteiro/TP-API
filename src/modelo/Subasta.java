@@ -3,6 +3,9 @@ package modelo;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import controlador.PublicacionView;
+import controlador.SubastaView;
+
 public class Subasta extends Publicacion {
 	private LocalDateTime fechaHasta;
 	private ArrayList<Oferta> ofertas;
@@ -21,6 +24,13 @@ public class Subasta extends Publicacion {
 		Oferta ofertaVacia = new Oferta(precioPublicado, null, null);
 		ofertas.add(ofertaVacia);
 	}
+	
+	public Subasta(String nombreDeProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, LocalDateTime fechaHasta, int numPublicacion, LocalDateTime fechaPublicacion, Oferta ultimaOferta) {
+		super(nombreDeProducto, descripcion, imagenes, precioPublicado, numPublicacion, fechaPublicacion);
+		this.fechaHasta = fechaHasta;
+		this.ofertas = new ArrayList<Oferta>();
+		ofertas.add(ultimaOferta);
+	}
 
 	@Override
 	public float getPrecioActual() {
@@ -31,6 +41,12 @@ public class Subasta extends Publicacion {
 			}
 		}
 		return mayorOferta;
+	}
+
+	@Override
+	public PublicacionView getPublicacionView() {
+		SubastaView sv = new SubastaView("Subasta", nombreProducto, descripcion, fechaPublicacion, imagenes, this.getPrecioActual(), estadoPublicacion, numPublicacion, fechaHasta);
+		return sv;
 	}
 	
 	

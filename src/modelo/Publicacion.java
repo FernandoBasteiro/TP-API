@@ -14,6 +14,7 @@ public abstract class Publicacion {
 	protected float precioPublicado;
 	protected String estadoPublicacion;
 	protected ArrayList<Venta> ventas;
+	protected int numPublicacion;
 	
 	
 	
@@ -27,10 +28,24 @@ public abstract class Publicacion {
 		this.estadoPublicacion = "Activa";
 		this.ventas = new ArrayList<Venta>();
 	}
+	
+	public Publicacion(String nombreProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, int numPublicacion, LocalDateTime fechaPublicacion) {
+		super();
+		this.nombreProducto = nombreProducto;
+		this.descripcion = descripcion;
+		this.fechaPublicacion = fechaPublicacion;
+		this.imagenes = imagenes;
+		this.precioPublicado = precioPublicado;
+		this.estadoPublicacion = "Activa";
+		this.ventas = new ArrayList<Venta>();
+		this.numPublicacion = numPublicacion;
+	}
 
 	public abstract int ofertar(float monto, Usuario comprador, String medioDePago);
 	
 	public abstract float getPrecioActual();
+	
+	public abstract PublicacionView getPublicacionView();
 	
 	public boolean sosBuscado(String buscado) {
 		if (nombreProducto.contains(buscado)) {
@@ -39,9 +54,12 @@ public abstract class Publicacion {
 		return false;
 	}
 	
-	public PublicacionView getPublicacionView() {
-		
-		return null;
+	public boolean sosBuscado(int buscado) {
+		if (numPublicacion == buscado) {
+			return true;
+		}
+		return false;
 	}
+	
 	
 }
