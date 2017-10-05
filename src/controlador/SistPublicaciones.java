@@ -49,6 +49,7 @@ public class SistPublicaciones {
 
 		//TODO Hacer el Select en la DB -> Traer todos los usuarios que esten vendiendo el producto buscado con sus respectivas publicaciones, etc.
 		
+		//TODO Esto ahora es Case sensitive. Arreglarlo para que ignore el case.
 		ArrayList<PublicacionView> pv = new ArrayList<PublicacionView>();
 		for (int i = 0; i < publicaciones.size(); i++) {
 			if (publicaciones.get(i).sosBuscado(publicacionBuscada)) {
@@ -60,11 +61,14 @@ public class SistPublicaciones {
 	
 	public ArrayList<PublicacionView> buscarPublicaciones(Usuario u) {
 		if (u != null) {
-			ArrayList<PublicacionView> pv = new ArrayList<PublicacionView>();
-			for (int i = 0; i < u.getPublicaciones().size(); i++) {
-				pv.add(u.getPublicaciones().get(i).getPublicacionView());
-			}	
-			return pv;
+			//TODO El get publicaciones es directo al usuario o al controlador?
+			if (u.getPublicaciones() != null) {
+				ArrayList<PublicacionView> pv = new ArrayList<PublicacionView>();
+				for (int i = 0; i < u.getPublicaciones().size(); i++) {
+					pv.add(u.getPublicaciones().get(i).getPublicacionView());
+				}
+				return pv;
+			}
 		}
 		return null;
 	}

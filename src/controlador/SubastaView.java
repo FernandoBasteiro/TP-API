@@ -18,6 +18,11 @@ public class SubastaView extends PublicacionView {
 	public LocalDateTime getFechaHasta() {
 		return fechaHasta;
 	}
+
+	@Override
+	public int getStock() {
+		return 0;
+	}
 	
 	
 

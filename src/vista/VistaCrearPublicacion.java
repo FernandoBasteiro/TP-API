@@ -9,6 +9,7 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -16,6 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.JSpinner;
 import javax.swing.JList;
 import javax.swing.JButton;
+import javax.swing.ListModel;
 import javax.swing.SpinnerNumberModel;
 
 import controlador.SistPublicaciones;
@@ -104,14 +106,19 @@ public class VistaCrearPublicacion extends JFrame {
 		contentPane.add(txtImagen);
 		txtImagen.setColumns(10);
 		
-		JList list = new JList();
+		ArrayList<String> imagenes = new ArrayList<String>();
+		DefaultListModel<String> modelImagenes = new DefaultListModel<>();
+		JList list = new JList(modelImagenes);
 		list.setBounds(10, 161, 483, 95);
 		contentPane.add(list);
+		//TODO Agregar alguna funcion para eliminar imagenes de la lista.
 		
 		JButton btnAgregar = new JButton("Agregar");
 		btnAgregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//TODO Agregar URL del txt a la lista.
+				imagenes.add(txtImagen.getText()); //TODO Buscar una forma de reducir el ListModel y el AarrayList a un solo objeto.
+				modelImagenes.addElement(txtImagen.getText());
+				txtImagen.setText("");
 			}
 		});
 		btnAgregar.setBounds(404, 132, 89, 23);
@@ -143,7 +150,6 @@ public class VistaCrearPublicacion extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				//TODO Si todos los campos estan completos y son correctos.
 				int resultado;
-				ArrayList<String> imagenes = new ArrayList<String>();
 				imagenes.add(txtImagen.getText()); //TODO Esto tiene que ser un loop que traiga las imagenes de la lista.
 				
 				if (comboBoxTipodePublicacion.getSelectedItem().equals("Subasta")) {
@@ -152,7 +158,6 @@ public class VistaCrearPublicacion extends JFrame {
 				else {
 					resultado = SistPublicaciones.getInstancia().crearCompraInmediata(txtNombreProducto.getText(), txtDescripcion.getText(), imagenes, Float.parseFloat(txtPrecioPublicacion.getText()), Integer.parseInt(spinnerStock.getValue().toString()));
 				}
-				System.out.println(resultado);
 			}
 		});
 		btnCrearPublicacion.setBounds(10, 267, 483, 23);

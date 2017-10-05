@@ -29,7 +29,7 @@ public class Usuario {
 		this.ctacte = new CtaCte();
 		this.password = new Password(passwordString);
 		this.fechaCreacion = LocalDateTime.now();
-		this.publicaciones = new ArrayList<Publicacion>();
+		this.publicaciones = null;
 		AdmPersistenciaUsuario.getInstancia().insertUsuario(this);
 	}
 	
@@ -101,6 +101,9 @@ public class Usuario {
 	}
 	
 	public int agregarPublicacion(Publicacion p) {
+		if(this.publicaciones == null) {
+			publicaciones = new ArrayList<Publicacion>();
+		}
 		publicaciones.add(p);
 		return 0;
 	}

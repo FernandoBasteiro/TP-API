@@ -11,6 +11,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import controlador.SistPublicaciones;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+
 public class MenuVistas extends JFrame {
 
 	/**
@@ -19,6 +23,7 @@ public class MenuVistas extends JFrame {
 	private static final long serialVersionUID = 9144541504916134590L;
 	
 	private JPanel contentPane;
+	private JTextField txtBuscar;
 
 	/**
 	 * Launch the application.
@@ -86,8 +91,33 @@ public class MenuVistas extends JFrame {
 		btnCrearPublicacion.setBounds(10, 113, 125, 23);
 		contentPane.add(btnCrearPublicacion);
 		
-		JButton btnVerMovimientos = new JButton("Ver Movimientos");
-		btnVerMovimientos.setBounds(10, 147, 125, 23);
-		contentPane.add(btnVerMovimientos);
+		JButton btnVerMisPublicaciones = new JButton("Ver Mis Publicaciones");
+		btnVerMisPublicaciones.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VistaVerPublicaciones vvp = new VistaVerPublicaciones(SistPublicaciones.getInstancia().verMisPublicaciones());
+				vvp.setVisible(true);
+			}
+		});
+		btnVerMisPublicaciones.setBounds(10, 147, 125, 23);
+		contentPane.add(btnVerMisPublicaciones);
+		
+		JLabel lblBuscarPublicacion = new JLabel("Buscar Publicacion:");
+		lblBuscarPublicacion.setBounds(145, 15, 85, 14);
+		contentPane.add(lblBuscarPublicacion);
+		
+		txtBuscar = new JTextField();
+		txtBuscar.setBounds(240, 12, 86, 20);
+		contentPane.add(txtBuscar);
+		txtBuscar.setColumns(10);
+		
+		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VistaVerPublicaciones vvp = new VistaVerPublicaciones(SistPublicaciones.getInstancia().buscarPublicaciones(txtBuscar.getText()));
+				vvp.setVisible(true);
+			}
+		});
+		btnBuscar.setBounds(335, 11, 89, 23);
+		contentPane.add(btnBuscar);
 	}
 }

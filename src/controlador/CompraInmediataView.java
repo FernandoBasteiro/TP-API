@@ -19,4 +19,9 @@ public class CompraInmediataView extends PublicacionView {
 		return stock;
 	}
 
+	@Override
+	public LocalDateTime getFechaHasta() {
+		return null;
+	}
+
 }

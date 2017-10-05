@@ -50,4 +50,8 @@ public abstract class PublicacionView {
 	public int getNumPublicacion() {
 		return numPublicacion;
 	}
+	
+	public abstract int getStock();
+	
+	public abstract LocalDateTime getFechaHasta();
 }
