@@ -1,6 +1,7 @@
 package persistencia;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -26,7 +27,21 @@ public class AdmPersistenciaUsuario {
 	}
 	
 	public int insertUsuario(Usuario usuario) {
-		return 0;
+		try {
+			Connection con = PoolConnection.getPoolConnection().getConnection();
+			PreparedStatement s = con.prepareStatement("Insert into dbo.usuario (usuid,nombre,domicilio,mail,usuairo,password,passmodif) values (?,?,?,?,?,?,?)");
+//			s.setLong(1, usuario.get);(1, dni);
+//			s.setString(2, nombre);
+//			s.setString(3, domicilio);
+//			s.setString(4, telefono);
+//			s.execute();
+			System.out.println("\nInsert ejecutado\n");
+			PoolConnection.getPoolConnection().realeaseConnection(con);
+			return 0;
+		} catch (Exception e) {
+			System.out.println("Error Query: " + e.getMessage());
+			return 1;
+		}
 	}
 	
 	public int nuevoUsuarioId() {
