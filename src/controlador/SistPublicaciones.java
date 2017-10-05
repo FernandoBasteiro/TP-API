@@ -61,11 +61,10 @@ public class SistPublicaciones {
 	
 	public ArrayList<PublicacionView> buscarPublicaciones(Usuario u) {
 		if (u != null) {
-			//TODO El get publicaciones es directo al usuario o al controlador?
-			if (u.getPublicaciones() != null) {
+			if (AdmUsuarios.getInstancia().getPublicacionesUsuario(u) != null) {
 				ArrayList<PublicacionView> pv = new ArrayList<PublicacionView>();
-				for (int i = 0; i < u.getPublicaciones().size(); i++) {
-					pv.add(u.getPublicaciones().get(i).getPublicacionView());
+				for (int i = 0; i < AdmUsuarios.getInstancia().getPublicacionesUsuario(u).size(); i++) {
+					pv.add(AdmUsuarios.getInstancia().getPublicacionesUsuario(u).get(i).getPublicacionView());
 				}
 				return pv;
 			}

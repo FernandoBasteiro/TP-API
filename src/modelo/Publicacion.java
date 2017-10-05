@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import controlador.PublicacionView;
 
 public abstract class Publicacion {
-	protected static float comision = 5; //TODO
+	protected static float comision = 5; //TODO Viene de la BD
 	protected String nombreProducto;
 	protected String descripcion;
 	protected LocalDateTime fechaPublicacion;

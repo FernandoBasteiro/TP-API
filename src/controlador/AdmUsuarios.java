@@ -125,4 +125,8 @@ public class AdmUsuarios {
 		}
 		return 1;
 	}
+	
+	public ArrayList<Publicacion> getPublicacionesUsuario(Usuario u) {
+		return u.getPublicaciones();
+	}
 }

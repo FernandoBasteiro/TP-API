@@ -94,8 +94,7 @@ public class MenuVistas extends JFrame {
 		JButton btnVerMisPublicaciones = new JButton("Ver Mis Publicaciones");
 		btnVerMisPublicaciones.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VistaVerPublicaciones vvp = new VistaVerPublicaciones(SistPublicaciones.getInstancia().verMisPublicaciones());
-				vvp.setVisible(true);
+				VistaVerPublicaciones.getInstancia(SistPublicaciones.getInstancia().verMisPublicaciones()).setVisible(true);
 			}
 		});
 		btnVerMisPublicaciones.setBounds(10, 147, 125, 23);
@@ -113,8 +112,7 @@ public class MenuVistas extends JFrame {
 		JButton btnBuscar = new JButton("Buscar");
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VistaVerPublicaciones vvp = new VistaVerPublicaciones(SistPublicaciones.getInstancia().buscarPublicaciones(txtBuscar.getText()));
-				vvp.setVisible(true);
+				VistaVerPublicaciones.getInstancia(SistPublicaciones.getInstancia().buscarPublicaciones(txtBuscar.getText())).setVisible(true);
 			}
 		});
 		btnBuscar.setBounds(335, 11, 89, 23);

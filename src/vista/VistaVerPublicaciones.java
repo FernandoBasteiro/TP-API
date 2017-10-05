@@ -12,15 +12,22 @@ import javax.swing.JList;
 import javax.swing.ListSelectionModel;
 
 import controlador.PublicacionView;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowFocusListener;
+import java.awt.event.WindowEvent;
 
 public class VistaVerPublicaciones extends JFrame {
 
 	private JPanel contentPane;
+	static private VistaVerPublicaciones instancia;
+	private DefaultListModel<String> modelPublicaciones;
+	private JList listPublicaciones;
 
-
-	public VistaVerPublicaciones(ArrayList<PublicacionView> publicaciones) {
+	//TODO La lista de publicaciones no se actualiza sola, por que el Array List no se actualiza. Hay que desarrollar alguna forma para que esta vista
+	// le pida al SistPublicaciones un nuevo ArrayList cada vez que se focusea esta ventana, permitiendo asi recargar la lista.
+	private VistaVerPublicaciones(ArrayList<PublicacionView> publicaciones) {
 		setResizable(false);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -30,9 +37,23 @@ public class VistaVerPublicaciones extends JFrame {
 		
 		//TODO Reducir el ArrayList y el ListModel a un solo objeto.
 		// El ListModel deberia ser algo custom que muestre el nombre, el tipo de publicacion y el precio, por ejemplo.
-		DefaultListModel<String> modelPublicaciones = new DefaultListModel<>();
-		JList listPublicaciones = new JList(modelPublicaciones);
+		modelPublicaciones = new DefaultListModel<>();
+		listPublicaciones = new JList(modelPublicaciones);
+		listPublicaciones.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		listPublicaciones.setBounds(10, 11, 424, 249);
+		contentPane.add(listPublicaciones);
 		
+		cargarPublicaciones(publicaciones);
+	}
+	
+	public static VistaVerPublicaciones getInstancia(ArrayList<PublicacionView> publicaciones) {
+		if (instancia == null) {
+			instancia = new VistaVerPublicaciones(publicaciones);
+		}
+		return instancia;
+	}
+	
+	private void cargarPublicaciones (ArrayList<PublicacionView> publicaciones) {
 		if (publicaciones != null) {
 			for (int i = 0; i < publicaciones.size(); i++) {
 				modelPublicaciones.addElement(publicaciones.get(i).getNombreProducto());
@@ -50,12 +71,5 @@ public class VistaVerPublicaciones extends JFrame {
 		else {
 			modelPublicaciones.addElement("No se encontraron publicaciones");
 		}
-		
-		
-		
-		listPublicaciones.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		listPublicaciones.setBounds(10, 11, 424, 249);
-		contentPane.add(listPublicaciones);
 	}
-
 }
