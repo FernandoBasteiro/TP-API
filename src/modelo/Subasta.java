@@ -17,16 +17,16 @@ public class Subasta extends Publicacion {
 		return 1;
 	}
 
-	public Subasta(String nombreDeProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, LocalDateTime fechaHasta) {
-		super(nombreDeProducto, descripcion, imagenes, precioPublicado);
+	public Subasta(String nombreDeProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, LocalDateTime fechaHasta, Usuario vendedor) {
+		super(nombreDeProducto, descripcion, imagenes, precioPublicado, vendedor);
 		this.fechaHasta = fechaHasta;
 		this.ofertas = new ArrayList<Oferta>();
 		Oferta ofertaVacia = new Oferta(precioPublicado, null, null);
 		ofertas.add(ofertaVacia);
 	}
 	
-	public Subasta(String nombreDeProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, LocalDateTime fechaHasta, int numPublicacion, LocalDateTime fechaPublicacion, Oferta ultimaOferta) {
-		super(nombreDeProducto, descripcion, imagenes, precioPublicado, numPublicacion, fechaPublicacion);
+	public Subasta(String nombreDeProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, LocalDateTime fechaHasta, int numPublicacion, LocalDateTime fechaPublicacion, Oferta ultimaOferta, Usuario vendedor) {
+		super(nombreDeProducto, descripcion, imagenes, precioPublicado, numPublicacion, fechaPublicacion, vendedor);
 		this.fechaHasta = fechaHasta;
 		this.ofertas = new ArrayList<Oferta>();
 		ofertas.add(ultimaOferta);
@@ -45,7 +45,7 @@ public class Subasta extends Publicacion {
 
 	@Override
 	public PublicacionView getPublicacionView() {
-		SubastaView sv = new SubastaView("Subasta", nombreProducto, descripcion, fechaPublicacion, imagenes, this.getPrecioActual(), estadoPublicacion, numPublicacion, fechaHasta);
+		SubastaView sv = new SubastaView("Subasta", nombreProducto, descripcion, fechaPublicacion, imagenes, this.getPrecioActual(), estadoPublicacion, numPublicacion, fechaHasta);  //TODO Sera aceptable esto?
 		return sv;
 	}
 	

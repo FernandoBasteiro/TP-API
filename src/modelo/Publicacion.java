@@ -15,10 +15,11 @@ public abstract class Publicacion {
 	protected String estadoPublicacion;
 	protected ArrayList<Venta> ventas;
 	protected int numPublicacion;
+	protected Usuario vendedor;
 	
 	
 	
-	public Publicacion(String nombreProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado) {
+	public Publicacion(String nombreProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, Usuario vendedor) {
 		super();
 		this.nombreProducto = nombreProducto;
 		this.descripcion = descripcion;
@@ -26,10 +27,11 @@ public abstract class Publicacion {
 		this.imagenes = imagenes;
 		this.precioPublicado = precioPublicado;
 		this.estadoPublicacion = "Activa";
+		this.vendedor = vendedor;
 		this.ventas = new ArrayList<Venta>();
 	}
 	
-	public Publicacion(String nombreProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, int numPublicacion, LocalDateTime fechaPublicacion) {
+	public Publicacion(String nombreProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, int numPublicacion, LocalDateTime fechaPublicacion, Usuario vendedor) {
 		super();
 		this.nombreProducto = nombreProducto;
 		this.descripcion = descripcion;
@@ -39,6 +41,7 @@ public abstract class Publicacion {
 		this.estadoPublicacion = "Activa";
 		this.ventas = new ArrayList<Venta>();
 		this.numPublicacion = numPublicacion;
+		this.vendedor = vendedor;
 	}
 
 	public abstract int ofertar(float monto, Usuario comprador, String medioDePago);

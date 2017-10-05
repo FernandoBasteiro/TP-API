@@ -10,14 +10,14 @@ import controlador.SubastaView;
 public class CompraInmediata extends Publicacion {
 	private int stock;
 
-	public CompraInmediata(String nombreDeProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, int stock) {
-		super(nombreDeProducto, descripcion, imagenes, precioPublicado);
+	public CompraInmediata(String nombreDeProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, int stock, Usuario vendedor) {
+		super(nombreDeProducto, descripcion, imagenes, precioPublicado, vendedor);
 		this.stock = stock;
 		// this.numPublicacion = persistir! -> Puede que en realidad lo tenga que hacer el controlador, para poder revisar los errores del persistir.
 	}
 	
-	public CompraInmediata(String nombreDeProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, int stock, int numPublicacion, LocalDateTime fechaPublicacion) {
-		super(nombreDeProducto, descripcion, imagenes, precioPublicado, numPublicacion, fechaPublicacion);
+	public CompraInmediata(String nombreDeProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, int stock, int numPublicacion, LocalDateTime fechaPublicacion, Usuario vendedor) {
+		super(nombreDeProducto, descripcion, imagenes, precioPublicado, numPublicacion, fechaPublicacion, vendedor);
 		this.stock = stock;
 	}
 
@@ -38,7 +38,7 @@ public class CompraInmediata extends Publicacion {
 	}
 	
 	public PublicacionView getPublicacionView() {
-		CompraInmediataView civ = new CompraInmediataView("Compra Inmediata", nombreProducto, descripcion, fechaPublicacion, imagenes, this.getPrecioActual(), estadoPublicacion, numPublicacion, stock);
+		CompraInmediataView civ = new CompraInmediataView("Compra Inmediata", nombreProducto, descripcion, fechaPublicacion, imagenes, this.getPrecioActual(), estadoPublicacion, numPublicacion, stock); //TODO Sera aceptable esto?
 		return civ;
 	}
 	

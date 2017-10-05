@@ -76,9 +76,15 @@ public class MenuVistas extends JFrame {
 		btnLogin.setBounds(10, 79, 125, 23);
 		contentPane.add(btnLogin);
 		
-		JButton btnCargarMovimiento = new JButton("Cargar Movimiento");
-		btnCargarMovimiento.setBounds(10, 113, 125, 23);
-		contentPane.add(btnCargarMovimiento);
+		JButton btnCrearPublicacion = new JButton("Crear Publicacion");
+		btnCrearPublicacion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VistaCrearPublicacion vcp = new VistaCrearPublicacion();
+				vcp.setVisible(true);
+			}
+		});
+		btnCrearPublicacion.setBounds(10, 113, 125, 23);
+		contentPane.add(btnCrearPublicacion);
 		
 		JButton btnVerMovimientos = new JButton("Ver Movimientos");
 		btnVerMovimientos.setBounds(10, 147, 125, 23);

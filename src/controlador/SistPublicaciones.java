@@ -26,17 +26,23 @@ public class SistPublicaciones {
 	}
 	
 	public int crearSubasta(String nombreDeProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, LocalDateTime fechaHasta) {
-		Subasta s = new Subasta(nombreDeProducto, descripcion, imagenes, precioPublicado, fechaHasta);
-		publicaciones.add(s);
-		AdmUsuarios.getInstancia().agregarPublicacionAUsuario(s);
-		return 0;
+		if (AdmUsuarios.getInstancia().getUsuarioLogueado() != null) {
+			Subasta s = new Subasta(nombreDeProducto, descripcion, imagenes, precioPublicado, fechaHasta, AdmUsuarios.getInstancia().getUsuarioLogueado());
+			publicaciones.add(s);
+			AdmUsuarios.getInstancia().agregarPublicacionAUsuario(s);
+			return 0;
+		}
+		return 1;
 	}
 	
 	public int crearCompraInmediata(String nombreDeProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, int stock) {
-		CompraInmediata ci = new CompraInmediata(nombreDeProducto, descripcion, imagenes, precioPublicado, stock);
-		publicaciones.add(ci);
-		AdmUsuarios.getInstancia().agregarPublicacionAUsuario(ci);
-		return 0;
+		if (AdmUsuarios.getInstancia().getUsuarioLogueado() != null) {
+			CompraInmediata ci = new CompraInmediata(nombreDeProducto, descripcion, imagenes, precioPublicado, stock, AdmUsuarios.getInstancia().getUsuarioLogueado());
+			publicaciones.add(ci);
+			AdmUsuarios.getInstancia().agregarPublicacionAUsuario(ci);
+			return 0;
+		}
+		return 1;
 	}
 	
 	public ArrayList<PublicacionView> buscarPublicaciones(String publicacionBuscada) {
