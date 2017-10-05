@@ -87,4 +87,15 @@ public class SistPublicaciones {
 		return this.buscarPublicaciones(AdmUsuarios.getInstancia().getUsuarioLogueado());
 	}
 	
+	public int hacerOferta(int nroPublicacion, float monto, int cantidad, String medioDePago) {
+		if (AdmUsuarios.getInstancia().getUsuarioLogueado() != null) {
+			int resultado =  buscarPublicacion(nroPublicacion).ofertar(monto, cantidad, AdmUsuarios.getInstancia().getUsuarioLogueado(), medioDePago);			
+			if (resultado == 0) {
+				//TODO Realizar venta
+			}
+			return resultado;
+		}
+		return -1;
+	}
+	
 }

@@ -22,10 +22,11 @@ public class CompraInmediata extends Publicacion {
 	}
 
 	@Override
-	public int ofertar(float monto, Usuario comprador, String medioDePago) {
+	public int ofertar(float monto, int cantidad, Usuario comprador, String medioDePago) {
 		//TODO Realziar venta.
-		if (this.stock > 0) {
-			if (--this.stock == 0) {
+		if (this.stock >= cantidad) {
+			this.stock = this.stock - cantidad;
+			if (this.stock == 0) {
 				this.estadoPublicacion = "Finalizada";
 			}
 		}

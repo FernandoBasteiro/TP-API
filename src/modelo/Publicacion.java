@@ -16,8 +16,11 @@ public abstract class Publicacion {
 	protected ArrayList<Venta> ventas;
 	protected int numPublicacion;
 	protected Usuario vendedor;
+	protected static int proxNumPublicacion = 1; // Solo para probar hasta que haya persistencia.
 	
-	
+	public static int getNumPub(){ //Solo para probar mientras no haya persistencia
+		return proxNumPublicacion++;
+	}
 	
 	public Publicacion(String nombreProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, Usuario vendedor) {
 		super();
@@ -29,6 +32,11 @@ public abstract class Publicacion {
 		this.estadoPublicacion = "Activa";
 		this.vendedor = vendedor;
 		this.ventas = new ArrayList<Venta>();
+		//this.numPublicacion = Persistir.
+		
+		this.numPublicacion = getNumPub();  // Solo para probar mientras no haya persistencia.
+		
+		System.out.println("Nombre: " + nombreProducto + " - NumeroP: " + numPublicacion); //A veces falla la creacion?
 	}
 	
 	public Publicacion(String nombreProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, int numPublicacion, LocalDateTime fechaPublicacion, Usuario vendedor) {
@@ -44,7 +52,7 @@ public abstract class Publicacion {
 		this.vendedor = vendedor;
 	}
 
-	public abstract int ofertar(float monto, Usuario comprador, String medioDePago);
+	public abstract int ofertar(float monto, int cantidad, Usuario comprador, String medioDePago);
 	
 	public abstract float getPrecioActual();
 	

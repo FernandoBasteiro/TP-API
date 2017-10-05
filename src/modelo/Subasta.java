@@ -11,7 +11,7 @@ public class Subasta extends Publicacion {
 	private ArrayList<Oferta> ofertas;
 
 	@Override
-	public int ofertar(float monto, Usuario comprador, String medioDePago) {
+	public int ofertar(float monto, int cantidad, Usuario comprador, String medioDePago) {
 		Oferta o = new Oferta(monto, comprador, medioDePago);
 		ofertas.add(o);
 		return 1;
