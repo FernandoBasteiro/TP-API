@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 
 import controlador.PublicacionView;
 import controlador.SistPublicaciones;
+import modelo.Oferta;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -91,9 +92,17 @@ public class VistaVerPublicacion extends JFrame {
 		contentPane.add(txtTipoPublicacion);
 		txtTipoPublicacion.setColumns(10);
 		
-		btnComprar = new JButton("Comprar"); //TODO El texto quizas deberia cambiar segun si es subasta o compra inmediata.
-		btnComprar.setBounds(10, 194, 285, 23);
-		contentPane.add(btnComprar);
+		if(publicacion.getTipoPublicacion() == "Subasta") {
+			btnComprar = new JButton("Ofertar"); 
+			btnComprar.setBounds(10, 194, 285, 23);
+			contentPane.add(btnComprar);
+		}
+		else {
+			btnComprar = new JButton("Comprar"); 
+			btnComprar.setBounds(10, 194, 285, 23);
+			contentPane.add(btnComprar);
+		}
+		
 		
 		comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Efectivo", "Transferencia Bancaria", "MercadoPago"}));
