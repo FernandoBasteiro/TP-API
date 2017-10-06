@@ -17,6 +17,7 @@ public class Usuario {
 	private Password password;
 	private LocalDateTime fechaCreacion;
 	private ArrayList<Publicacion> publicaciones;
+	private boolean activo;  // Estado del usuario
 	
 	public Usuario(String nombre, String domicilio, String mail,
 			String nombreDeUsuario, String passwordString) {
@@ -30,6 +31,8 @@ public class Usuario {
 		this.password = new Password(passwordString);
 		this.fechaCreacion = LocalDateTime.now();
 		this.publicaciones = null;
+		this.activo = true; // Estado activo en cuanto se crea.
+		
 		AdmPersistenciaUsuario.getInstancia().insertUsuario(this);
 	}
 	
