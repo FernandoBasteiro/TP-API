@@ -23,14 +23,31 @@ import java.awt.Color;
 public class VistaLogin extends JFrame {
 
 	private JPanel contentPane;
+	static private VistaLogin instancia;
 
-	/**
-	 * Create the frame.
-	 */
-	public VistaLogin() {
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					VistaLogin.getInstancia().setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	static public VistaLogin getInstancia() {
+		if (instancia == null) {
+			instancia = new VistaLogin();
+		}
+		return instancia;
+	}
+	
+	private VistaLogin() {
 		setResizable(false);
-		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 210, 150);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 210, 170);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -55,17 +72,17 @@ public class VistaLogin extends JFrame {
 		
 		JLabel labelMensaje = new JLabel("");
 		labelMensaje.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		labelMensaje.setBounds(10, 102, 186, 14);
+		labelMensaje.setBounds(10, 127, 186, 14);
 		contentPane.add(labelMensaje);
 		
 		TextField textNPassword = new TextField();
 		textNPassword.setEchoChar('*');
-		textNPassword.setBounds(106, 122, 88, 22);
+		textNPassword.setBounds(108, 147, 88, 22);
 		textNPassword.setVisible(false);
 		contentPane.add(textNPassword);
 		
 		JLabel lblNuevaContrasea = new JLabel("Nueva Contrase\u00F1a");
-		lblNuevaContrasea.setBounds(10, 127, 90, 14);
+		lblNuevaContrasea.setBounds(10, 152, 90, 14);
 		lblNuevaContrasea.setVisible(false);
 		contentPane.add(lblNuevaContrasea);
 		
@@ -94,9 +111,19 @@ public class VistaLogin extends JFrame {
 				
 			}
 		});
-		btnPwdReset.setBounds(10, 152, 184, 23);
+		btnPwdReset.setBounds(10, 175, 184, 23);
 		btnPwdReset.setVisible(false);
 		contentPane.add(btnPwdReset);
+		
+		
+		JButton btnCrearUsuario = new JButton("Crear Usuario");
+		btnCrearUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				VistaAltaUsuario.getInstancia().setVisible(true);
+			}
+		});
+		btnCrearUsuario.setBounds(10, 93, 186, 23);
+		contentPane.add(btnCrearUsuario);
 		
 		JButton btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
@@ -105,18 +132,19 @@ public class VistaLogin extends JFrame {
 					int resLogin = AdmUsuarios.getInstancia().login(textUsuario.getText(), textPassword.getText());
 					switch (resLogin) {
 						case 0:
-							labelMensaje.setText("Usuario logueado correctamente."); //TODO Traducir mensaje
-							//TODO Pasar a la siguiente ventana!
+							VistaMenuPrincipal.getInstancia().setVisible(true);
+							VistaLogin.getInstancia().setVisible(false);
 							break;
 						case 1:
 							labelMensaje.setText("Contraseña expirada. Cambie la contaseña.");
-							setBounds(100, 100, 210, 210);
+							setBounds(100, 100, 210, 235);
 							textNPassword.setVisible(true);
 							lblNuevaContrasea.setVisible(true);
 							textNPassword.requestFocus();
 							textUsuario.setEnabled(false);
 							textPassword.setEnabled(false);
 							btnPwdReset.setVisible(true);
+							btnCrearUsuario.setVisible(false);
 							break;
 						case 2:
 							labelMensaje.setText("Contraseña incorrecta.");
@@ -137,6 +165,7 @@ public class VistaLogin extends JFrame {
 		});
 		btnLogin.setBounds(10, 68, 186, 23);
 		contentPane.add(btnLogin);
+	
 		
 		
 		

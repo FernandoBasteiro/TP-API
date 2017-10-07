@@ -3,6 +3,7 @@ package modelo;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import controlador.CalificacionView;
 import controlador.MovCtaCteView;
 import controlador.UsuarioView;
 import persistencia.AdmPersistenciaUsuario;
@@ -18,6 +19,10 @@ public class Usuario {
 	private LocalDateTime fechaCreacion;
 	private ArrayList<Publicacion> publicaciones;
 	private boolean activo;  // Estado del usuario
+	private ArrayList<Calificacion> calificacionesVendedor;
+	private ArrayList<Calificacion> calificacionesComprador;
+	private ArrayList<Mensaje> mensajes;
+	
 	
 	public Usuario(String nombre, String domicilio, String mail,
 			String nombreDeUsuario, String passwordString) {
@@ -32,12 +37,15 @@ public class Usuario {
 		this.fechaCreacion = LocalDateTime.now();
 		this.publicaciones = null;
 		this.activo = true; // Estado activo en cuanto se crea.
+		this.calificacionesVendedor = null;
+		this.calificacionesComprador = null;
+		this.mensajes = null;
 		
 		AdmPersistenciaUsuario.getInstancia().insertUsuario(this);
 	}
 	
 	public Usuario(String nombre, String domicilio, String mail,
-			String nombreDeUsuario, String passwordString, LocalDateTime fechaCreacion, ArrayList<Publicacion> publicaciones) {
+			String nombreDeUsuario, Password password, LocalDateTime fechaCreacion, ArrayList<Calificacion> calificacionesVendedor, ArrayList<Calificacion> calificacionesComprador, ArrayList<Mensaje> mensajes) {
 		super();
 		this.nombre = nombre;
 		this.domicilio = domicilio;
@@ -45,9 +53,8 @@ public class Usuario {
 		this.nombreDeUsuario = nombreDeUsuario;
 		this.ultimaModificacion = LocalDateTime.now();
 		this.ctacte = new CtaCte();
-		this.password = new Password(passwordString);
+		this.password = password;
 		this.fechaCreacion = fechaCreacion;
-		this.publicaciones = publicaciones;
 	}
 	
 	public boolean sosUsuario (String nombreDeUsuario) {
@@ -100,6 +107,7 @@ public class Usuario {
 	}
 	
 	public ArrayList<Publicacion> getPublicaciones () {
+		//TODO Cargar publicaciones de la DB!
 		return this.publicaciones;
 	}
 	
@@ -110,4 +118,76 @@ public class Usuario {
 		publicaciones.add(p);
 		return 0;
 	}
+	
+	/* Esta funcion mostraria los mensajes no leidos solamente:
+	public ArrayList<MensajeView> getMensajesNoLeidos {
+		ArrayList<MensajeView> mensajes = new ArrayList<MensajeView>();
+		for (Mensaje m : this.mensajes) {
+			if (m.noLeido()) {
+				mensajes.add(m.getView());
+			}
+		}
+	}
+	*/
+	
+	/* Esta funcion mostraria TODOS los mensajes del usuario:
+	public ArrayList<MensajeView> getMensajes {
+		---Primero el administrador de persistencia deberia cargar todos los mensajes del usuario en memoria--
+		ArrayList<MensajeView> mensajes = new ArrayList<MensajeView>();
+		for (Mensaje m : this.mensajes) {
+			mensajes.add(m.getView());
+		}
+	}
+	*/
+	
+	public int calificacionesPendientes(){
+		int cantidad = 0;
+		for (Calificacion c : this.calificacionesComprador) {
+			if (c.pendiente()) {
+				cantidad++;
+			}
+		}
+		for (Calificacion c : this.calificacionesVendedor) {
+			if (c.pendiente()) {
+				cantidad++;
+			}
+		}
+		return cantidad;
+	}
+	
+	public ArrayList<CalificacionView> getCalificacionesPendientesCompradorView() {
+		ArrayList<CalificacionView> cv = new ArrayList<CalificacionView>();
+		for (Calificacion c : this.calificacionesComprador) {
+			if (c.pendiente()) {
+				cv.add(c.getView());
+			}
+		}
+		return cv;
+	}
+	
+	public ArrayList<CalificacionView> getCalificacionesPendientesVendedorView() {
+		ArrayList<CalificacionView> cv = new ArrayList<CalificacionView>();
+		for (Calificacion c : this.calificacionesVendedor) {
+			if (c.pendiente()) {
+				cv.add(c.getView());
+			}
+		}
+		return cv;
+	}
+	
+	private Calificacion buscarCalificacion(int nroCalificacion) {
+		for (Calificacion c : this.calificacionesVendedor) {
+			if (c.sosCalificacion(nroCalificacion)) {
+				return c;
+			}
+		}
+		return null;
+	}
+	
+	public int setCalificacion(int nroCalificacion, int valorCalificacion, String comentarioCalificacion) {
+		Calificacion c = buscarCalificacion(nroCalificacion);
+		int error = c.setCalificacion(valorCalificacion, comentarioCalificacion);
+		return error;
+	}
+	
 }

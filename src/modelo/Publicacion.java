@@ -72,5 +72,8 @@ public abstract class Publicacion {
 		return false;
 	}
 	
+	public String getNombre(){
+		return nombreProducto;
+	}
 	
 }

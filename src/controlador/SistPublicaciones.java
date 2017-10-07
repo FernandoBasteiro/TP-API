@@ -97,4 +97,7 @@ public class SistPublicaciones {
 		return -1;
 	}
 	
+	public String getNombrePublicacion(Publicacion p) {
+		return p.getNombre();
+	}
 }

@@ -26,13 +26,21 @@ public class VistaAltaUsuario extends JFrame {
 	private JTextField textMail;
 	private JTextField textNombreDeUsuario;
 	private JTextField textPassword;
+	static private VistaAltaUsuario instancia;
 
 	
 
 	/**
 	 * Create the frame.
 	 */
-	public VistaAltaUsuario() {
+	static public VistaAltaUsuario getInstancia() {
+		if (instancia == null) {
+			instancia = new VistaAltaUsuario();
+		}
+		return instancia;
+	}
+	
+	private VistaAltaUsuario() {
 		setType(Type.UTILITY);
 		setResizable(false);
 		setTitle("Crear Usuario");
@@ -104,17 +112,12 @@ public class VistaAltaUsuario extends JFrame {
 				int error = AdmUsuarios.getInstancia().crearUsuario(nombre, domicilio, mail, nombreDeUsuario, passwordString);
 				switch (error) {
 					case 0:
-						labelResultado.setText("Usuario creado correctamente.");
-						textNombre.setEnabled(false);
-						textDomicilio.setEnabled(false);
-						textMail.setEnabled(false);
-						textNombreDeUsuario.setEnabled(false);
-						textPassword.setEnabled(false);
-						btnCrearUsuario.setEnabled(false);
+						VistaAltaUsuario.getInstancia().setVisible(false);
 						break;
 					case 1:
 						labelResultado.setText("El nombre de usuario ya existe.");
 						textNombreDeUsuario.selectAll();
+						break;
 				}
 			}
 		});

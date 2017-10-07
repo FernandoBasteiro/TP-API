@@ -41,9 +41,22 @@ public class VistaVerPublicacion extends JFrame {
 	private JLabel lblCantidad;
 	private JTextField txtCantidad;
 	
+	static private VistaVerPublicacion instancia;
+	
+	static public VistaVerPublicacion getInstancia(PublicacionView publicacion) {
+		if (instancia == null) {
+			instancia = new VistaVerPublicacion();
+		}
+		instancia.cargarDatos(publicacion);
+		return instancia;
+	}
+	
+	static public void setInstancia(VistaVerPublicacion i) {
+		instancia = i;
+	}
 	
 
-	public VistaVerPublicacion(PublicacionView publicacion) {
+	private VistaVerPublicacion() {
 		setResizable(false);
 		setBounds(100, 100, 310, 251);
 		contentPane = new JPanel();
@@ -139,8 +152,6 @@ public class VistaVerPublicacion extends JFrame {
 		txtCantidad.setBounds(145, 133, 150, 20);
 		contentPane.add(txtCantidad);
 		txtCantidad.setColumns(10);
-		
-		cargarDatos(publicacion);
 	}
 	
 	public void cargarDatos(PublicacionView publicacion){
@@ -158,11 +169,18 @@ public class VistaVerPublicacion extends JFrame {
 			txtStock.setVisible(false);
 			lblCantidad.setVisible(false);
 			txtCantidad.setVisible(false);
+			txtOferta.setText("");
+			txtCantidad.setText("");
 			
 			txtFinSubasta.setText(publicacion.getFechaHasta().toString()); //TODO Formato de la fecha.
+			for (ActionListener al : btnComprar.getActionListeners()){
+				btnComprar.removeActionListener(al);
+			}
 			btnComprar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					SistPublicaciones.getInstancia().hacerOferta(publicacion.getNumPublicacion(), Float.valueOf(txtOferta.getText()), 1, comboBox.getSelectedItem().toString());
+					instancia.setVisible(false);
+					VistaVerPublicacion.setInstancia(null);
 				}
 			});
 		}
@@ -175,11 +193,18 @@ public class VistaVerPublicacion extends JFrame {
 			txtStock.setVisible(true);
 			lblCantidad.setVisible(true);
 			txtCantidad.setVisible(true);
+			txtOferta.setText("");
+			txtCantidad.setText("");
 			
 			txtStock.setText(String.valueOf(publicacion.getStock()));
+			for (ActionListener al : btnComprar.getActionListeners()){
+				btnComprar.removeActionListener(al);
+			}
 			btnComprar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					SistPublicaciones.getInstancia().hacerOferta(publicacion.getNumPublicacion(), 0, Integer.valueOf(txtCantidad.getText()), comboBox.getSelectedItem().toString());
+					instancia.setVisible(false);
+					VistaVerPublicacion.setInstancia(null);
 				}
 			});
 		}	
