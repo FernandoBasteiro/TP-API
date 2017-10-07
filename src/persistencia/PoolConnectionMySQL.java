@@ -3,9 +3,7 @@ package persistencia;
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Properties;
 import java.util.Vector;
 
@@ -38,7 +36,7 @@ public class PoolConnectionMySQL
 		try
 		{
 			Class.forName("com.mysql.jdbc.Driver");
-			String dbConnectString = jdbc + servidor; 
+			String dbConnectString = jdbc + servidor;
 			Connection con = DriverManager.getConnection (dbConnectString, usuario, password);
             
             return con;
