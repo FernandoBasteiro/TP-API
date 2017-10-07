@@ -29,6 +29,10 @@ public class Password {
 		this.passwordString = passwordString;
 	}
 
+	public String getPasswordString() {
+		return passwordString;
+	}
+
 	
 	
 }

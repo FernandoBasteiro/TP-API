@@ -87,8 +87,17 @@ public class SistPublicaciones {
 	}
 	
 	public int hacerOferta(int nroPublicacion, float monto, int cantidad, String medioDePago) {
+		//COMENTARIOS PARA FER: Verifica si la instancia es una subasta o una compra inmediata y en base a eso se llama a los metodos especificos de cada clase
 		if (AdmUsuarios.getInstancia().getUsuarioLogueado() != null) {
-			int resultado =  buscarPublicacion(nroPublicacion).ofertar(monto, cantidad, AdmUsuarios.getInstancia().getUsuarioLogueado(), medioDePago);			
+			Publicacion pub = buscarPublicacion(nroPublicacion);
+			int resultado = -1;
+			if(pub instanceof Subasta) {
+				resultado = ((Subasta) pub).ofertar(monto, AdmUsuarios.getInstancia().getUsuarioLogueado(), medioDePago);
+			}
+			else {
+				resultado =  ((CompraInmediata) pub).comprar(cantidad, AdmUsuarios.getInstancia().getUsuarioLogueado(), medioDePago);
+			}
+						
 			if (resultado == 0) {
 				//TODO Realizar venta
 			}

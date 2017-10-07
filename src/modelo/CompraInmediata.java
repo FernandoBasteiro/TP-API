@@ -21,9 +21,8 @@ public class CompraInmediata extends Publicacion {
 		this.stock = stock;
 	}
 
-	@Override
-	public int ofertar(float monto, int cantidad, Usuario comprador, String medioDePago) {
-		//TODO Realziar venta.
+	public int comprar(int cantidad, Usuario comprador, String medioDePago) { 
+		//TODO Realizar venta.
 		if (this.stock >= cantidad) {
 			this.stock = this.stock - cantidad;
 			if (this.stock == 0) {

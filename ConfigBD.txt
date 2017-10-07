@@ -1,5 +1,5 @@
 jdbc=jdbc:sqlserver://
-servidor=tpai.ddns.net
-usuario=tpaidb_user
-password=Sarasa123#
+servidor=CPX-2BJB34ZLCPP
+usuario=sa
+password=Accenture01
 conexiones=3

@@ -51,8 +51,9 @@ public abstract class Publicacion {
 		this.numPublicacion = numPublicacion;
 		this.vendedor = vendedor;
 	}
-
-	public abstract int ofertar(float monto, int cantidad, Usuario comprador, String medioDePago);
+	
+	//TODO MENSAJE PARA FER - Lo estamos sacando de la clase padre abstracta para implementarlo directamente en los hijos 
+	//public abstract int ofertar(float monto, int cantidad, Usuario comprador, String medioDePago); 
 	
 	public abstract float getPrecioActual();
 	

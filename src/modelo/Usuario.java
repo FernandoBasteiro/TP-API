@@ -107,4 +107,26 @@ public class Usuario {
 		publicaciones.add(p);
 		return 0;
 	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public String getDomicilio() {
+		return domicilio;
+	}
+
+	public String getMail() {
+		return mail;
+	}
+
+	public Password getPassword() {
+		return password;
+	}
+
+	public LocalDateTime getUltimaModificacion() {
+		return ultimaModificacion;
+	}
+	
+	
 }
