@@ -5,8 +5,10 @@ import java.util.ArrayList;
 
 import controlador.CalificacionView;
 import controlador.MovCtaCteView;
+import controlador.UsuarioLogueadoView;
 import controlador.UsuarioView;
 import persistencia.AdmPersistenciaUsuario;
+import persistencia.AdmPersistenciaUsuarioMySQL;
 
 public class Usuario {
 	private String nombre;
@@ -18,6 +20,47 @@ public class Usuario {
 	private Password password;
 	private LocalDateTime fechaCreacion;
 	private ArrayList<Publicacion> publicaciones;
+	
+	public String getNombre() {
+		return nombre;
+	}
+
+	public String getDomicilio() {
+		return domicilio;
+	}
+
+	public String getMail() {
+		return mail;
+	}
+
+	public CtaCte getCtacte() {
+		return ctacte;
+	}
+
+	public Password getPassword() {
+		return password;
+	}
+
+	public LocalDateTime getFechaCreacion() {
+		return fechaCreacion;
+	}
+
+	public ArrayList<Calificacion> getCalificacionesVendedor() {
+		return calificacionesVendedor;
+	}
+
+	public ArrayList<Calificacion> getCalificacionesComprador() {
+		return calificacionesComprador;
+	}
+
+	public void setNombreDeUsuario(String nombreDeUsuario) {
+		this.nombreDeUsuario = nombreDeUsuario;
+	}
+
+	public void setPublicaciones(ArrayList<Publicacion> publicaciones) {
+		this.publicaciones = publicaciones;
+	}
+
 	private boolean activo;  // Estado del usuario
 	private ArrayList<Calificacion> calificacionesVendedor;
 	private ArrayList<Calificacion> calificacionesComprador;
@@ -41,11 +84,13 @@ public class Usuario {
 		this.calificacionesComprador = null;
 		this.mensajes = null;
 		
-		AdmPersistenciaUsuario.getInstancia().insertUsuario(this);
+		AdmPersistenciaUsuarioMySQL.getInstancia().insertUsuario(this);
 	}
 	
 	public Usuario(String nombre, String domicilio, String mail,
-			String nombreDeUsuario, Password password, LocalDateTime fechaCreacion, ArrayList<Calificacion> calificacionesVendedor, ArrayList<Calificacion> calificacionesComprador, ArrayList<Mensaje> mensajes) {
+			String nombreDeUsuario, Password password, CtaCte ctacte,
+			LocalDateTime fechaCreacion, ArrayList<Calificacion> calificacionesVendedor, 
+			ArrayList<Calificacion> calificacionesComprador) {
 		super();
 		this.nombre = nombre;
 		this.domicilio = domicilio;
@@ -78,7 +123,7 @@ public class Usuario {
 	}
 	
 	static public Usuario buscarUsuarioDB(String nombreDeUsuario) {
-		return AdmPersistenciaUsuario.getInstancia().buscarUsuario(nombreDeUsuario);
+		return AdmPersistenciaUsuarioMySQL.getInstancia().buscarUsuario(nombreDeUsuario);
 	}
 	
 	public int cargarMovimiento(Venta venta, float monto, String concepto) {
@@ -142,14 +187,18 @@ public class Usuario {
 	
 	public int calificacionesPendientes(){
 		int cantidad = 0;
-		for (Calificacion c : this.calificacionesComprador) {
-			if (c.pendiente()) {
-				cantidad++;
+		if (calificacionesVendedor != null) {
+			for (Calificacion c : this.calificacionesVendedor) {
+				if (c.pendiente()) {
+					cantidad++;
+				}
 			}
 		}
-		for (Calificacion c : this.calificacionesVendedor) {
-			if (c.pendiente()) {
-				cantidad++;
+		if (calificacionesComprador != null) {
+			for (Calificacion c : this.calificacionesComprador) {
+				if (c.pendiente()) {
+					cantidad++;
+				}
 			}
 		}
 		return cantidad;
@@ -190,4 +239,11 @@ public class Usuario {
 		return error;
 	}
 	
+	static public int updateUsuarioDB(Usuario u) {
+		return AdmPersistenciaUsuarioMySQL.getInstancia().updateUsuario(u);
+	}
+	
+	public UsuarioLogueadoView getUsuarioLogueadoView() {
+		return (new UsuarioLogueadoView(this.nombre, this.getCtacte().getSaldoTotal(), this.calificacionesPendientes()));
+	}
 }

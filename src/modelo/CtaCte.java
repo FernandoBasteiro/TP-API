@@ -10,7 +10,12 @@ public class CtaCte {
 	
 	public CtaCte() {
 		this.saldoTotal = 0;
-		movimientos = new ArrayList<MovCtaCte>();
+		movimientos = null;
+	}
+	
+	public CtaCte(float saldo) {
+		this.saldoTotal = saldo;
+		movimientos = null;
 	}
 	
 	public int generarMovimiento(Venta venta, float monto, String concepto) {
@@ -25,6 +30,7 @@ public class CtaCte {
 	}
 
 	public ArrayList<MovCtaCteView> getMovsCtaCteView() {
+		// TODO Cargar desde DB.
 		ArrayList<MovCtaCteView> movsView = new ArrayList<MovCtaCteView>();
 		for (int i = 0; i < movimientos.size(); i++) {
 			movsView.add(movimientos.get(i).getMovCtaCteView());

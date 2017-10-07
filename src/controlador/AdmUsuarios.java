@@ -2,6 +2,7 @@ package controlador;
 
 import java.util.ArrayList;
 
+import persistencia.AdmPersistenciaUsuario;
 import modelo.Publicacion;
 import modelo.Usuario;
 import modelo.Venta;
@@ -60,7 +61,7 @@ public class AdmUsuarios {
 	public int cambiarPassword (String passwordString) {
 		if (usuarioLogueado != null) {
 			usuarioLogueado.cambiarPassword(passwordString);
-			return 0; //Cambio correcto.
+			return Usuario.updateUsuarioDB(usuarioLogueado); //Cambio correcto.
 		}
 		return 1; //Fallo el cambio.
 	}
@@ -70,7 +71,7 @@ public class AdmUsuarios {
 		if (usuarioAux != null) {
 			if (usuarioAux.passwordCorrecta(passwordString)) {
 				usuarioAux.cambiarPassword(nPasswordString);
-				return 0; //Cambio correcto.
+				return Usuario.updateUsuarioDB(usuarioAux); //Cambio correcto.
 			}
 		}
 		return 1; //Fallo el cambio.
@@ -111,7 +112,7 @@ public class AdmUsuarios {
 			usuarioLogueado.setNombre(nombre);
 			usuarioLogueado.setMail(mail);
 			usuarioLogueado.setDomicilio(domicilio);
-			//TODO Persistir cambios!
+			Usuario.updateUsuarioDB(usuarioLogueado);
 			return 0;
 		}
 		return 1;
@@ -128,5 +129,12 @@ public class AdmUsuarios {
 	
 	public ArrayList<Publicacion> getPublicacionesUsuario(Usuario u) {
 		return u.getPublicaciones();
+	}
+	
+	public UsuarioLogueadoView getVistaUsuarioLogueado() {
+		if (usuarioLogueado != null) {
+			return usuarioLogueado.getUsuarioLogueadoView();
+		}
+		return null;
 	}
 }

@@ -94,7 +94,8 @@ public class VistaLogin extends JFrame {
 					if (resPwdReset == 0) {
 						int resLogin = AdmUsuarios.getInstancia().login(textUsuario.getText(), textNPassword.getText());
 						if (resLogin == 0) {
-							labelMensaje.setText("Usuario logueado correctamente."); //TODO Traducir mensaje
+							VistaMenuPrincipal.getInstancia().setVisible(true);
+							VistaLogin.getInstancia().setVisible(false);
 						}
 						else {
 							labelMensaje.setText("Contraseña cambiada. Fallo el login."); //TODO Traducir mensaje	
