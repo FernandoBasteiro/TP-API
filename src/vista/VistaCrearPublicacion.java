@@ -33,9 +33,21 @@ public class VistaCrearPublicacion extends JFrame {
 	private JTextField txtPrecioPublicacion;
 	private JTextField txtDuracionSubasta;
 	private JTextField txtImagen;
+	static private VistaCrearPublicacion instancia;
+	
+	static public VistaCrearPublicacion getInstancia(){
+		if (instancia == null) {
+			instancia = new VistaCrearPublicacion();
+		}
+		return instancia;
+	}
+	
+	static public void setInstancia(VistaCrearPublicacion i){
+		instancia = i;
+	}
 
 
-	public VistaCrearPublicacion() {
+	private VistaCrearPublicacion() {
 		setResizable(false);
 		setTitle("Crear nueva publicacion");
 		setBounds(100, 100, 508, 326);
@@ -157,6 +169,11 @@ public class VistaCrearPublicacion extends JFrame {
 				}
 				else {
 					resultado = SistPublicaciones.getInstancia().crearCompraInmediata(txtNombreProducto.getText(), txtDescripcion.getText(), imagenes, Float.parseFloat(txtPrecioPublicacion.getText()), Integer.parseInt(spinnerStock.getValue().toString()));
+				}
+				switch (resultado) {
+				case 0:
+					VistaCrearPublicacion.getInstancia().setVisible(false);
+					VistaCrearPublicacion.setInstancia(null);
 				}
 			}
 		});

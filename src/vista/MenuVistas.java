@@ -26,22 +26,6 @@ public class MenuVistas extends JFrame {
 	private JTextField txtBuscar;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MenuVistas frame = new MenuVistas();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 */
 	public MenuVistas() {
@@ -55,8 +39,7 @@ public class MenuVistas extends JFrame {
 		JButton btnCrearUsuario = new JButton("Crear Usuario");
 		btnCrearUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VistaAltaUsuario vau = new VistaAltaUsuario();
-				vau.setVisible(true);
+				VistaAltaUsuario.getInstancia().setVisible(true);
 			}
 		});
 		btnCrearUsuario.setBounds(10, 11, 125, 23);
@@ -74,8 +57,7 @@ public class MenuVistas extends JFrame {
 		JButton btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VistaLogin vl = new VistaLogin();
-				vl.setVisible(true);
+				VistaLogin.getInstancia().setVisible(true);
 			}
 		});
 		btnLogin.setBounds(10, 79, 125, 23);
@@ -84,8 +66,7 @@ public class MenuVistas extends JFrame {
 		JButton btnCrearPublicacion = new JButton("Crear Publicacion");
 		btnCrearPublicacion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VistaCrearPublicacion vcp = new VistaCrearPublicacion();
-				vcp.setVisible(true);
+				VistaCrearPublicacion.getInstancia().setVisible(true);
 			}
 		});
 		btnCrearPublicacion.setBounds(10, 113, 125, 23);
@@ -94,7 +75,7 @@ public class MenuVistas extends JFrame {
 		JButton btnVerMisPublicaciones = new JButton("Ver Mis Publicaciones");
 		btnVerMisPublicaciones.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VistaVerPublicaciones.getInstancia(SistPublicaciones.getInstancia().verMisPublicaciones()).setVisible(true);
+				VistaVerPublicaciones.getInstancia("").setVisible(true);
 			}
 		});
 		btnVerMisPublicaciones.setBounds(10, 147, 125, 23);
@@ -112,7 +93,7 @@ public class MenuVistas extends JFrame {
 		JButton btnBuscar = new JButton("Buscar");
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VistaVerPublicaciones.getInstancia(SistPublicaciones.getInstancia().buscarPublicaciones(txtBuscar.getText())).setVisible(true);
+				VistaVerPublicaciones.getInstancia(txtBuscar.getText()).setVisible(true);
 			}
 		});
 		btnBuscar.setBounds(335, 11, 89, 23);
