@@ -52,4 +52,14 @@ public class CompraInmediata extends Publicacion {
 		return civ;
 	}
 	
+	public int devolverStock(int cantidad) {
+		if (this.stock != -1) {
+			this.stock = this.stock + cantidad;
+			if (this.stock > 0) {
+				this.estadoPublicacion = "Activa";
+			}
+		}
+		return 0;
+	}
+	
 }

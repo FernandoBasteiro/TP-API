@@ -109,4 +109,9 @@ public class SistPublicaciones {
 	public String getNombrePublicacion(Publicacion p) {
 		return p.getNombre();
 	}
+	
+	public int devolverStock(CompraInmediata c, int cantidad) {
+		c.devolverStock(cantidad);
+		return 0;
+	}
 }

@@ -86,7 +86,9 @@ public abstract class Venta {
 	
 	public int rechazarPago() {
 		this.estadoPago = "Rechazado";
-		//TODO Si es CompraInmediata -> Devolver el Stock.
+		if (publicacion instanceof CompraInmediata) {
+			SistPublicaciones.getInstancia().devolverStock((CompraInmediata) publicacion, cantidad);
+		}
 		//TODO Persisitir
 		return 0;
 	}

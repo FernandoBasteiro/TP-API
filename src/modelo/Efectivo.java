@@ -17,10 +17,11 @@ public class Efectivo extends Venta{
 		super(p, c, cantidad, montoUnitario);
 		
 		//Con capacidad de descubierto en ctacte:
+		
 		AdmUsuarios.getInstancia().cargarMovCtaCte(c, -(montoUnitario * cantidad), "Compra de " + p.getNombre(), this);
 		confirmarPago();
 		
-		/* Si no se puede quedar en descubierto en la ctacte:
+		/* Si no se puede quedar en descubierto en la ctacte: 
 		if (c.getSaldoCtaCte() >= montoUnitario * cantidad) {
 			AdmUsuarios.getInstancia().cargarMovCtaCte(c, -(montoUnitario * cantidad), "Compra de " + p.getNombre(), this);
 			confirmarPago();
