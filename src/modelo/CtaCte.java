@@ -20,6 +20,9 @@ public class CtaCte {
 	
 	public int generarMovimiento(Venta venta, float monto, String concepto) {
 		MovCtaCte movimiento = new MovCtaCte(venta, monto, concepto);
+		if (this.movimientos == null) {
+			movimientos = new ArrayList<MovCtaCte>();
+		}
 		this.movimientos.add(movimiento);
 		saldoTotal = saldoTotal + monto;
 		return 0;

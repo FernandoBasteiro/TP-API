@@ -39,6 +39,10 @@ public abstract class Publicacion {
 		System.out.println("Nombre: " + nombreProducto + " - NumeroP: " + numPublicacion); //A veces falla la creacion?
 	}
 	
+	public Usuario getVendedor() {
+		return vendedor;
+	}
+
 	public Publicacion(String nombreProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, int numPublicacion, LocalDateTime fechaPublicacion, Usuario vendedor) {
 		super();
 		this.nombreProducto = nombreProducto;

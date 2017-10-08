@@ -86,15 +86,24 @@ public class SistPublicaciones {
 		return this.buscarPublicaciones(AdmUsuarios.getInstancia().getUsuarioLogueado());
 	}
 	
-	public int hacerOferta(int nroPublicacion, float monto, int cantidad, String medioDePago) {
+	//TODO hacerOferta quizas habria que dividirlo en 3 distintos segun el medio de Pago elegido.
+	public int hacerOferta(int nroPublicacion, float monto, int cantidad, String medioDePago, String nroTarjeta, String CBU) {
 		if (AdmUsuarios.getInstancia().getUsuarioLogueado() != null) {
 			int resultado =  buscarPublicacion(nroPublicacion).ofertar(monto, cantidad, AdmUsuarios.getInstancia().getUsuarioLogueado(), medioDePago);			
 			if (resultado == 0) {
-				//TODO Realizar venta
+				if (medioDePago.equals("Efectivo")) {
+					return SistemaVentas.getInstancia().generarVentaEfectivo(nroPublicacion, cantidad, monto);
+				}
+				else if (medioDePago.equals("Transferencia Bancaria")) {
+					return SistemaVentas.getInstancia().generarVentaTransfBancaria(nroPublicacion, cantidad, monto, CBU);
+				}
+				else if (medioDePago.equals("MercadoPago")) {
+					return SistemaVentas.getInstancia().generarVentaTransfBancaria(nroPublicacion, cantidad, monto, nroTarjeta);
+				}
+				return -2; //
 			}
-			return resultado;
 		}
-		return -1;
+		return -1; // 
 	}
 	
 	public String getNombrePublicacion(Publicacion p) {

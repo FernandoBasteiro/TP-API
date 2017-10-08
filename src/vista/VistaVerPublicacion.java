@@ -42,6 +42,10 @@ public class VistaVerPublicacion extends JFrame {
 	private JTextField txtCantidad;
 	
 	static private VistaVerPublicacion instancia;
+	private JLabel lblCbu;
+	private JTextField txtCBU;
+	private JLabel lblNumeroDeTarjeta;
+	private JTextField txtNroTarjeta;
 	
 	static public VistaVerPublicacion getInstancia(PublicacionView publicacion) {
 		if (instancia == null) {
@@ -58,7 +62,7 @@ public class VistaVerPublicacion extends JFrame {
 
 	private VistaVerPublicacion() {
 		setResizable(false);
-		setBounds(100, 100, 310, 251);
+		setBounds(100, 100, 310, 280);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -105,13 +109,8 @@ public class VistaVerPublicacion extends JFrame {
 		txtTipoPublicacion.setColumns(10);
 		
 		btnComprar = new JButton("Comprar"); //TODO El texto quizas deberia cambiar segun si es subasta o compra inmediata.
-		btnComprar.setBounds(10, 194, 285, 23);
+		btnComprar.setBounds(10, 217, 285, 23);
 		contentPane.add(btnComprar);
-		
-		comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Efectivo", "Transferencia Bancaria", "MercadoPago"}));
-		comboBox.setBounds(10, 163, 285, 20);
-		contentPane.add(comboBox);
 		
 		//Objetos de la subasta:
 		lblFinDeSubasta = new JLabel("Fin de Subasta");
@@ -152,6 +151,55 @@ public class VistaVerPublicacion extends JFrame {
 		txtCantidad.setBounds(145, 133, 150, 20);
 		contentPane.add(txtCantidad);
 		txtCantidad.setColumns(10);
+		
+		lblCbu = new JLabel("CBU:");
+		lblCbu.setBounds(10, 192, 125, 14);
+		lblCbu.setVisible(false);
+		contentPane.add(lblCbu);
+		
+		txtCBU = new JTextField();
+		txtCBU.setBounds(145, 189, 150, 20);
+		txtCBU.setVisible(false);
+		contentPane.add(txtCBU);
+		txtCBU.setColumns(10);
+		
+		lblNumeroDeTarjeta = new JLabel("Numero de Tarjeta:");
+		lblNumeroDeTarjeta.setBounds(10, 194, 125, 14);
+		lblNumeroDeTarjeta.setVisible(false);
+		contentPane.add(lblNumeroDeTarjeta);
+		
+		txtNroTarjeta = new JTextField();
+		txtNroTarjeta.setBounds(145, 189, 150, 20);
+		txtNroTarjeta.setVisible(false);
+		contentPane.add(txtNroTarjeta);
+		txtNroTarjeta.setColumns(10);
+		
+		comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Efectivo", "Transferencia Bancaria", "MercadoPago"}));
+		comboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (comboBox.getSelectedItem().equals("MercadoPago")){
+					lblCbu.setVisible(false);
+					txtCBU.setVisible(false);
+					lblNumeroDeTarjeta.setVisible(true);
+					txtNroTarjeta.setVisible(true);
+				}
+				else if(comboBox.getSelectedItem().equals("Transferencia Bancaria")) {
+					lblCbu.setVisible(true);
+					txtCBU.setVisible(true);
+					lblNumeroDeTarjeta.setVisible(false);
+					txtNroTarjeta.setVisible(false);
+				}
+				else {
+					lblCbu.setVisible(false);
+					txtCBU.setVisible(false);
+					lblNumeroDeTarjeta.setVisible(false);
+					txtNroTarjeta.setVisible(false);
+				}
+			}
+		});
+		comboBox.setBounds(10, 161, 285, 20);
+		contentPane.add(comboBox);
 	}
 	
 	public void cargarDatos(PublicacionView publicacion){
@@ -178,7 +226,15 @@ public class VistaVerPublicacion extends JFrame {
 			}
 			btnComprar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					SistPublicaciones.getInstancia().hacerOferta(publicacion.getNumPublicacion(), Float.valueOf(txtOferta.getText()), 1, comboBox.getSelectedItem().toString());
+					String CBU = null;
+					String nroTarjeta = null;
+					if (comboBox.getSelectedItem().toString().equals("MercadoPago")) {
+						nroTarjeta = txtNroTarjeta.getText();
+					}
+					if (comboBox.getSelectedItem().toString().equals("Transferencia Bancaria")) {
+						CBU = txtCBU.getText();
+					}
+					int resultado = SistPublicaciones.getInstancia().hacerOferta(publicacion.getNumPublicacion(), Float.valueOf(txtOferta.getText()), 1, comboBox.getSelectedItem().toString(), nroTarjeta, CBU);
 					instancia.setVisible(false);
 					VistaVerPublicacion.setInstancia(null);
 				}
@@ -202,7 +258,15 @@ public class VistaVerPublicacion extends JFrame {
 			}
 			btnComprar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					SistPublicaciones.getInstancia().hacerOferta(publicacion.getNumPublicacion(), 0, Integer.valueOf(txtCantidad.getText()), comboBox.getSelectedItem().toString());
+					String CBU = null;
+					String nroTarjeta = null;
+					if (comboBox.getSelectedItem().toString().equals("MercadoPago")) {
+						nroTarjeta = txtNroTarjeta.getText();
+					}
+					if (comboBox.getSelectedItem().toString().equals("Transferencia Bancaria")) {
+						CBU = txtCBU.getText();
+					}
+					int resultado = SistPublicaciones.getInstancia().hacerOferta(publicacion.getNumPublicacion(), publicacion.getPrecioActual(), Integer.valueOf(txtCantidad.getText()), comboBox.getSelectedItem().toString(), nroTarjeta, CBU);
 					instancia.setVisible(false);
 					VistaVerPublicacion.setInstancia(null);
 				}

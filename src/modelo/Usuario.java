@@ -128,6 +128,7 @@ public class Usuario {
 	
 	public int cargarMovimiento(Venta venta, float monto, String concepto) {
 		ctacte.generarMovimiento(venta, monto, concepto);
+		updateUsuarioDB(this);
 		return 0;
 	}
 	
@@ -185,6 +186,7 @@ public class Usuario {
 	}
 	*/
 	
+	//TODO Todo lo de calficaciones esta mal planteado. Hay que armar todo desde cero.
 	public int calificacionesPendientes(){
 		int cantidad = 0;
 		if (calificacionesVendedor != null) {
@@ -245,5 +247,9 @@ public class Usuario {
 	
 	public UsuarioLogueadoView getUsuarioLogueadoView() {
 		return (new UsuarioLogueadoView(this.nombre, this.getCtacte().getSaldoTotal(), this.calificacionesPendientes()));
+	}
+	
+	public float getSaldoCtaCte() {
+		return ctacte.getSaldoTotal();
 	}
 }

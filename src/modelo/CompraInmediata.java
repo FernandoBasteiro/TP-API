@@ -23,26 +23,23 @@ public class CompraInmediata extends Publicacion {
 
 	@Override
 	public int ofertar(float monto, int cantidad, Usuario comprador, String medioDePago) {
-		//TODO Realziar venta.
+		
 		if (this.stock >= cantidad) {
-			
 			this.stock = this.stock - cantidad;
-			
 			if (this.stock == 0) {
-				
 				this.estadoPublicacion = "Finalizada";
 			}
-			
+			return 0;
+		}
+		else if (this.stock == -1) {
+			return 0;
+		}
 		else {
-			
 			// Mensaje de error en caso de solicitar mayor cantidad disponible. 
 			// En la vista poner lista o validacion (Mensaje Temporal)
 			System.out.println("Cantidad Solicitada es mayor al stock disponible"); 
-				
+			return 1;	
 		}
-		
-		}
-		return 0;
 	}
 
 	@Override
