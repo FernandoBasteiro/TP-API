@@ -97,7 +97,7 @@ public class Usuario {
 		this.mail = mail;
 		this.nombreDeUsuario = nombreDeUsuario;
 		this.ultimaModificacion = LocalDateTime.now();
-		this.ctacte = new CtaCte();
+		this.ctacte = ctacte;
 		this.password = password;
 		this.fechaCreacion = fechaCreacion;
 	}

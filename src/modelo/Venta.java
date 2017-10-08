@@ -14,7 +14,7 @@ public abstract class Venta {
 	protected float montoComision;
 	protected String estadoPago;
 	protected LocalDateTime fechaDeCompra;
-	static private float porcentajeComision;
+	static private float porcentajeComision = 5;
 	
 	public Venta(Publicacion p, Usuario c, int cantidad, float montoUnitario) {
 		this.publicacion = p;
