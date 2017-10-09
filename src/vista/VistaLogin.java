@@ -45,7 +45,7 @@ public class VistaLogin extends JFrame {
 	private VistaLogin() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 210, 170);
+		setBounds(100, 100, 210, 184);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);

@@ -79,9 +79,11 @@ public class AdmPersistenciaUsuarioMySQL_NoUsar {
 			s.setString(2, u.getNombre());
 			s.setString(3, u.getDomicilio());
 			s.setString(4, u.getMail());
-			s.setTimestamp(5, Timestamp.valueOf(u.getFechaCreacion()));
+			s.setDate(5, java.sql.Date.valueOf(u.getFechaCreacion().toString()));
+//			s.setDate(5, Timestamp.valueOf(u.getFechaCreacion()));
 			s.setString(6, u.getPassword().getPasswordString());
-			s.setTimestamp(7, Timestamp.valueOf(u.getPassword().getUltimaModificacion()));
+			s.setDate(5, java.sql.Date.valueOf(u.getPassword().getUltimaModificacion().toString()));
+//			s.setTimestamp(7, Timestamp.valueOf(u.getPassword().getUltimaModificacion()));
 			s.setFloat(8, u.getCtacte().getSaldoTotal());
 			s.setBoolean(9, u.estaActivo());
 			s.setBoolean(10, false);
@@ -102,9 +104,11 @@ public class AdmPersistenciaUsuarioMySQL_NoUsar {
 			s.setString(2, null);
 			s.setString(3, null);
 			s.setString(4, null);
-			s.setTimestamp(5, Timestamp.valueOf(u.getFechaCreacion()));
+			s.setDate(5, java.sql.Date.valueOf(u.getFechaCreacion().toString()));
+//			s.setTimestamp(5, Timestamp.valueOf(u.getFechaCreacion()));
 			s.setString(6, u.getPassword().getPasswordString());
-			s.setTimestamp(7, Timestamp.valueOf(u.getPassword().getUltimaModificacion()));
+			s.setDate(5, java.sql.Date.valueOf(u.getPassword().getUltimaModificacion().toString()));
+//			s.setTimestamp(7, Timestamp.valueOf(u.getPassword().getUltimaModificacion()));
 			s.setNull(8, java.sql.Types.FLOAT);
 			s.setBoolean(9, u.estaActivo());
 			s.setBoolean(10, true);
@@ -137,7 +141,8 @@ public class AdmPersistenciaUsuarioMySQL_NoUsar {
 				s.setString(2, u.getDomicilio());
 				s.setString(3, u.getMail());
 				s.setString(4, u.getPassword().getPasswordString());
-				s.setTimestamp(5, Timestamp.valueOf(u.getPassword().getUltimaModificacion()));
+				s.setDate(5, java.sql.Date.valueOf(u.getPassword().getUltimaModificacion().toString()));
+//				s.setTimestamp(5, Timestamp.valueOf(u.getPassword().getUltimaModificacion()));
 				s.setFloat(6, u.getCtacte().getSaldoTotal());
 				s.setBoolean(7, u.estaActivo());
 				s.setString(8, u.getNombreDeUsuario());
@@ -155,7 +160,8 @@ public class AdmPersistenciaUsuarioMySQL_NoUsar {
 						"WHERE nombreDeUsuario = ?"
 						);
 				s.setString(1, u.getPassword().getPasswordString());
-				s.setTimestamp(2, Timestamp.valueOf(u.getPassword().getUltimaModificacion()));
+				s.setDate(5, java.sql.Date.valueOf(u.getPassword().getUltimaModificacion().toString()));
+//				s.setTimestamp(2, Timestamp.valueOf(u.getPassword().getUltimaModificacion()));
 				s.setBoolean(3, u.estaActivo());
 				s.setString(4, u.getNombreDeUsuario());
 				//System.out.println(s.toString());
