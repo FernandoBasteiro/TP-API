@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/Fernando/git/API3/mysql.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Fernando/git/API3/sqljdbc.jar"/>
+	<classpathentry kind="lib" path="mysql.jar"/>
+	<classpathentry kind="lib" path="sqljdbc.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
