@@ -2,8 +2,8 @@ package modelo;
 
 import java.util.ArrayList;
 
-import persistencia.AdmPersistenciaMovCtaCteMySQL;
 import controlador.MovCtaCteView;
+import persistencia.AdmPersistenciaMovCtaCte;
 
 public class CtaCte {
 	private float saldoTotal;
@@ -39,7 +39,7 @@ public class CtaCte {
 	}
 
 	public ArrayList<MovCtaCteView> getMovsCtaCteView(String nombreDeUsuario) {
-		this.movimientos = AdmPersistenciaMovCtaCteMySQL.getInstancia().buscarMovimientos(nombreDeUsuario);
+		this.movimientos = AdmPersistenciaMovCtaCte.getInstancia().buscarMovimientos(nombreDeUsuario);
 		// TODO Cargar desde DB.
 		ArrayList<MovCtaCteView> movsView = new ArrayList<MovCtaCteView>();
 		for (int i = 0; i < movimientos.size(); i++) {

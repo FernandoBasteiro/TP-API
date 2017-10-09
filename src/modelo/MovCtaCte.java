@@ -2,7 +2,7 @@ package modelo;
 
 import java.time.LocalDateTime;
 
-import persistencia.AdmPersistenciaMovCtaCteMySQL;
+import persistencia.AdmPersistenciaMovCtaCte;
 import controlador.MovCtaCteView;
 
 public class MovCtaCte {
@@ -17,7 +17,7 @@ public class MovCtaCte {
 		this.concepto = concepto;
 		this.venta = venta;
 		this.fechaMovimiento = LocalDateTime.now();
-		this.nroMovimiento = AdmPersistenciaMovCtaCteMySQL.getInstancia().insert(nombreDeUsuario, this);
+		this.nroMovimiento = AdmPersistenciaMovCtaCte.getInstancia().insert(nombreDeUsuario, this);
 	}
 	
 	public MovCtaCte(int nroMovimiento, Venta venta, float monto, String concepto, LocalDateTime fechaMovimiento) {

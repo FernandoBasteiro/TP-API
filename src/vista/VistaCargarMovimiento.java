@@ -9,6 +9,12 @@ import javax.swing.border.EmptyBorder;
 
 public class VistaCargarMovimiento extends JFrame {
 
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8542452477815654941L;
+	
 	private JPanel contentPane;
 
 	/**

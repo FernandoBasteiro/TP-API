@@ -13,6 +13,8 @@ import java.util.Vector;
 public class PoolConnection
 {
 	private Vector <Connection> connections = new Vector<Connection>();
+	protected String setDriver;
+	protected String classpath;
 	protected String jdbc;
 	protected String servidor;
 	protected String usuario;
@@ -38,7 +40,7 @@ public class PoolConnection
 		try
 		{
 			//Setear driver
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			Class.forName(classpath);
 			String dbConnectString = jdbc + servidor; 
 			Connection con = DriverManager.getConnection (dbConnectString, usuario, password);
             
@@ -72,10 +74,12 @@ public class PoolConnection
 	       f.close();
 	 
        // Leo los valores de configuracion
-	       jdbc = propiedades.getProperty("jdbc"); 
-	       servidor = propiedades.getProperty("servidor");
-	       usuario = propiedades.getProperty("usuario");
-	       password = propiedades.getProperty("password");
+	       setDriver=propiedades.getProperty("setdriver").toLowerCase();
+    	   classpath = propiedades.getProperty(setDriver+"classpath"); 
+	       jdbc = propiedades.getProperty(setDriver+"jdbc"); 
+	       servidor = propiedades.getProperty(setDriver+"servidor");
+	       usuario = propiedades.getProperty(setDriver+"usuario");
+	       password = propiedades.getProperty(setDriver+"password");
 	       cantCon = Integer.parseInt(propiedades.getProperty("conexiones"));
 	     } 
 	    catch (Exception e) 

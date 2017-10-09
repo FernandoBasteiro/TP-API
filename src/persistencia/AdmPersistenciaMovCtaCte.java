@@ -12,23 +12,23 @@ import controlador.SistemaVentas;
 import modelo.MovCtaCte;
 import modelo.Venta;
 
-public class AdmPersistenciaMovCtaCteMySQL {
-	static private AdmPersistenciaMovCtaCteMySQL instancia;
+public class AdmPersistenciaMovCtaCte {
+	static private AdmPersistenciaMovCtaCte instancia;
 	
-	private AdmPersistenciaMovCtaCteMySQL() {
+	private AdmPersistenciaMovCtaCte() {
 		
 	}
 	
-	public static AdmPersistenciaMovCtaCteMySQL getInstancia(){
+	public static AdmPersistenciaMovCtaCte getInstancia(){
 		if (instancia == null) {
-			instancia = new AdmPersistenciaMovCtaCteMySQL();
+			instancia = new AdmPersistenciaMovCtaCte();
 		}
 		return instancia;
 	}
 	
 	public int insert(String nombreDeUsuario, MovCtaCte m) {
 		try {
-			Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
+			Connection con = PoolConnection.getPoolConnection().getConnection();
 			String sql = "INSERT INTO movCtaCte (nombreDeUsuario, monto, concepto, nroVenta, fechaMovimiento)VALUES (?,?,?,?,?)";
 			PreparedStatement s = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			s.setString(1, nombreDeUsuario);
@@ -50,7 +50,7 @@ public class AdmPersistenciaMovCtaCteMySQL {
 	public ArrayList<MovCtaCte> buscarMovimientos(String nombreDeUsuario) {
 		ArrayList<MovCtaCte> movimientos = new ArrayList<MovCtaCte>();
 		try {
-			Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
+			Connection con = PoolConnection.getPoolConnection().getConnection();
 			String sql = "SELECT * FROM movCtaCte WHERE nombreDeUsuario = ?)";
 			PreparedStatement s = con.prepareStatement(sql);
 			s.setString(1, nombreDeUsuario);
