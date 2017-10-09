@@ -1,17 +1,35 @@
 package modelo;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+
+import persistencia.AdmPersistenciaOfertasMySQL;
+
 public class Oferta {
 	private float monto;
 	private Usuario comprador;
 	private String medioDePago;
+	private LocalDateTime fechaOferta;
 	
 	public Oferta(float monto, Usuario comprador, String medioDePago) {
 		super();
 		this.monto = monto;
 		this.comprador = comprador;
 		this.medioDePago = medioDePago;
+		this.fechaOferta = LocalDateTime.now();
 	}
 	
+	public Oferta(float monto, Usuario comprador, String medioDePago, LocalDateTime fechaOferta) {
+		this.monto = monto;
+		this.comprador = comprador;
+		this.medioDePago = medioDePago;
+		this.fechaOferta = fechaOferta;
+	}
+	
+	public LocalDateTime getFechaOferta() {
+		return fechaOferta;
+	}
+
 	public float getMonto() {
 		return monto;
 	}
@@ -22,6 +40,17 @@ public class Oferta {
 		return medioDePago;
 	}
 	
+	public int insertOferta(int nroPublicacion) {
+		return AdmPersistenciaOfertasMySQL.getInstancia().insertOferta(this, nroPublicacion);
+	}
+	
+	static public Oferta buscarMayorOferta(int nroPublicacion){
+		return AdmPersistenciaOfertasMySQL.getInstancia().getMayorOferta(nroPublicacion);
+	}
+	
+	static public ArrayList<Oferta> buscarOfertas(int nroPublicacion) {
+		return AdmPersistenciaOfertasMySQL.getInstancia().getOfertas(nroPublicacion);
+	}
 	
 
 }

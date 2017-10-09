@@ -13,6 +13,7 @@ public class Subasta extends Publicacion {
 	@Override
 	public int ofertar(float monto, int cantidad, Usuario comprador, String medioDePago) {
 		Oferta o = new Oferta(monto, comprador, medioDePago);
+		//TODO Persistir + Comprobar que la oferta sea superior a las anteriores.
 		ofertas.add(o);
 		return 1;
 	}
