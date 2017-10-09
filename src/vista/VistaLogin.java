@@ -132,6 +132,10 @@ public class VistaLogin extends JFrame {
 				if (!textUsuario.getText().isEmpty() & !textPassword.getText().isEmpty()) {
 					int resLogin = AdmUsuarios.getInstancia().login(textUsuario.getText(), textPassword.getText());
 					switch (resLogin) {
+						case -1:
+							VistaMenuAdmin.getInstancia().setVisible(true);
+							VistaLogin.getInstancia().setVisible(false);
+							break;
 						case 0:
 							VistaMenuPrincipal.getInstancia().setVisible(true);
 							VistaLogin.getInstancia().setVisible(false);
@@ -154,6 +158,16 @@ public class VistaLogin extends JFrame {
 							break;
 						case 3:
 							labelMensaje.setText("El usuario no existe.");
+							textUsuario.requestFocus();
+							textUsuario.selectAll();
+							break;
+						case 4:
+							labelMensaje.setText("El usuario esta inactivo.");
+							textUsuario.requestFocus();
+							textUsuario.selectAll();
+							break;
+						default:
+							labelMensaje.setText("Ocurrio un error desconocido.");
 							textUsuario.requestFocus();
 							textUsuario.selectAll();
 							break;

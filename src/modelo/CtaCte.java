@@ -2,6 +2,7 @@ package modelo;
 
 import java.util.ArrayList;
 
+import persistencia.AdmPersistenciaMovCtaCteMySQL;
 import controlador.MovCtaCteView;
 
 public class CtaCte {
@@ -18,21 +19,27 @@ public class CtaCte {
 		movimientos = null;
 	}
 	
-	public int generarMovimiento(Venta venta, float monto, String concepto) {
-		MovCtaCte movimiento = new MovCtaCte(venta, monto, concepto);
-		if (this.movimientos == null) {
-			movimientos = new ArrayList<MovCtaCte>();
+	public int generarMovimiento(String nombreDeUsuario, Venta venta, float monto, String concepto) {
+		MovCtaCte movimiento = new MovCtaCte(nombreDeUsuario, venta, monto, concepto);
+		if (movimiento.getNroMovimiento() != 0) {
+			if (this.movimientos == null) {
+				movimientos = new ArrayList<MovCtaCte>();
+			}
+			this.movimientos.add(movimiento);
+			saldoTotal = saldoTotal + monto;
+			return 0;
 		}
-		this.movimientos.add(movimiento);
-		saldoTotal = saldoTotal + monto;
-		return 0;
+		else {
+			return 1;
+		}	
 	}
 
 	public float getSaldoTotal() {
 		return saldoTotal;
 	}
 
-	public ArrayList<MovCtaCteView> getMovsCtaCteView() {
+	public ArrayList<MovCtaCteView> getMovsCtaCteView(String nombreDeUsuario) {
+		this.movimientos = AdmPersistenciaMovCtaCteMySQL.getInstancia().buscarMovimientos(nombreDeUsuario);
 		// TODO Cargar desde DB.
 		ArrayList<MovCtaCteView> movsView = new ArrayList<MovCtaCteView>();
 		for (int i = 0; i < movimientos.size(); i++) {

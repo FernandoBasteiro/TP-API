@@ -15,14 +15,14 @@ public abstract class Publicacion {
 	protected String estadoPublicacion;
 	protected ArrayList<Venta> ventas;
 	protected int numPublicacion;
-	protected Usuario vendedor;
+	protected UsuarioRegular vendedor;
 	protected static int proxNumPublicacion = 1; // Solo para probar hasta que haya persistencia.
 	
 	public static int getNumPub(){ //Solo para probar mientras no haya persistencia
 		return proxNumPublicacion++;
 	}
 	
-	public Publicacion(String nombreProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, Usuario vendedor) {
+	public Publicacion(String nombreProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, UsuarioRegular vendedor) {
 		super();
 		this.nombreProducto = nombreProducto;
 		this.descripcion = descripcion;
@@ -39,11 +39,11 @@ public abstract class Publicacion {
 		System.out.println("Nombre: " + nombreProducto + " - NumeroP: " + numPublicacion); //A veces falla la creacion?
 	}
 	
-	public Usuario getVendedor() {
+	public UsuarioRegular getVendedor() {
 		return vendedor;
 	}
 
-	public Publicacion(String nombreProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, int numPublicacion, LocalDateTime fechaPublicacion, Usuario vendedor) {
+	public Publicacion(String nombreProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, int numPublicacion, LocalDateTime fechaPublicacion, UsuarioRegular vendedor) {
 		super();
 		this.nombreProducto = nombreProducto;
 		this.descripcion = descripcion;

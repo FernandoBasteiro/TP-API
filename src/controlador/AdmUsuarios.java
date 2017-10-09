@@ -3,8 +3,10 @@ package controlador;
 import java.util.ArrayList;
 
 import persistencia.AdmPersistenciaUsuario;
+import modelo.Admin;
 import modelo.Publicacion;
 import modelo.Usuario;
+import modelo.UsuarioRegular;
 import modelo.Venta;
 
 public class AdmUsuarios {
@@ -27,17 +29,26 @@ public class AdmUsuarios {
 	public int login (String nombreDeUsuario, String passwordString) {
 		Usuario usuarioAux = buscarUsuario(nombreDeUsuario);
 		if (usuarioAux != null) {
-			if (usuarioAux.passwordCorrecta(passwordString)) {
-				if (! usuarioAux.passwordVencida()) {
-					usuarioLogueado = usuarioAux;
-					//TODO Set nueva fecha de ultima modificacion del usuario.
-					return 0; //Login correcto.
-				}
+			if (! usuarioAux.estaActivo()) {
+				return 4; //Usuario inactivo.
+			}
+			if (! usuarioAux.passwordCorrecta(passwordString)) {
+				return 2;  //Password incorrecta.
+			}
+			if (usuarioAux.passwordVencida()) {
 				return 1; //Password vencida. Solicitar cambio.
 			}
-			return 2; //Password incorrecta.
+			usuarioLogueado = usuarioAux;
+			//TODO Set nueva fecha de ultima modificacion del usuario.
+			if (usuarioAux instanceof UsuarioRegular) {	
+				//TODO Set nueva fecha de ultima modificacion del usuario.
+				return 0; //Login correcto.
+			}
+			else if (usuarioAux instanceof Admin) {
+				return -1; //Login correcto de un Admin!
+			}
 		}
-		return 3; //No existe el usuario.
+		return 3; //No existe el usuario o no es de una clase conocida.
 	}
 	
 	public Usuario buscarUsuario(String nombreDeUsuario) {
@@ -80,27 +91,41 @@ public class AdmUsuarios {
 	public int crearUsuario (String nombre, String domicilio, String mail,
 			String nombreDeUsuario, String passwordString){
 		if (buscarUsuario(nombreDeUsuario) == null) {
-			Usuario usuarioAux = new Usuario (nombre, domicilio, mail, nombreDeUsuario, passwordString);
+			UsuarioRegular usuarioAux = new UsuarioRegular (nombre, domicilio, mail, nombreDeUsuario, passwordString);
 			usuarios.add(usuarioAux);
 			return 0; //Usuario Creado
 		}
 		return 1; //Usuario ya existe.
 	}
 	
+	public int crearUsuario (String nombreDeUsuario, String passwordString){
+		if (buscarUsuario(nombreDeUsuario) == null) {
+			Admin usuarioAux = new Admin (nombreDeUsuario, passwordString);
+			usuarios.add(usuarioAux);
+			return 0; //Usuario Creado
+		}
+		return 1; //Usuario ya existe.
+	}
+	
+	/* Creo que esto no hace falta
 	public int cargarMovCtaCte(String nombreDeUsuario, float monto, String concepto, Venta venta) {
 		Usuario usuarioAux = buscarUsuario(nombreDeUsuario);
 		usuarioAux.cargarMovimiento(venta, monto, concepto);
 		return 0;
 	}
+	*/
 	
-	public int cargarMovCtaCte(Usuario u, float monto, String concepto, Venta venta) {
+	public int cargarMovCtaCte(UsuarioRegular u, float monto, String concepto, Venta venta) {
 		u.cargarMovimiento(venta, monto, concepto);
 		return 0;
 	}
 	
 	public ArrayList<MovCtaCteView> getMovsCtaCteView(){
 		if (usuarioLogueado != null) {
-			return usuarioLogueado.getMovimientos();
+			if (usuarioLogueado instanceof UsuarioRegular) {
+				UsuarioRegular u = (UsuarioRegular)usuarioLogueado;
+				return u.getMovimientos();
+			}
 		}
 		return null;
 	}
@@ -114,9 +139,10 @@ public class AdmUsuarios {
 	
 	public int modificarLoggedUser(String nombre, String mail, String domicilio) {
 		if (usuarioLogueado != null) {
-			usuarioLogueado.setNombre(nombre);
-			usuarioLogueado.setMail(mail);
-			usuarioLogueado.setDomicilio(domicilio);
+			UsuarioRegular u = (UsuarioRegular)usuarioLogueado;
+			u.setNombre(nombre);
+			u.setMail(mail);
+			u.setDomicilio(domicilio);
 			Usuario.updateUsuarioDB(usuarioLogueado);
 			return 0;
 		}
@@ -125,20 +151,22 @@ public class AdmUsuarios {
 	
 	public int agregarPublicacionAUsuario(Publicacion p) {
 		if (usuarioLogueado != null) {
-			usuarioLogueado.agregarPublicacion(p);
-			//TODO Persistir Cambios.
+			UsuarioRegular u = (UsuarioRegular)usuarioLogueado;
+			u.agregarPublicacion(p);
+			//TODO Persistir Cambios. (?)
 			return 0;
 		}
 		return 1;
 	}
 	
-	public ArrayList<Publicacion> getPublicacionesUsuario(Usuario u) {
+	public ArrayList<Publicacion> getPublicacionesUsuario(UsuarioRegular u) {
 		return u.getPublicaciones();
 	}
 	
 	public UsuarioLogueadoView getVistaUsuarioLogueado() {
 		if (usuarioLogueado != null) {
-			return usuarioLogueado.getUsuarioLogueadoView();
+			UsuarioRegular u = (UsuarioRegular)usuarioLogueado;
+			return u.getUsuarioLogueadoView();
 		}
 		return null;
 	}

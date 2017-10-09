@@ -6,13 +6,13 @@ import controlador.AdmUsuarios;
 import controlador.SistemaVentas;
 
 public class Efectivo extends Venta{
-	public Efectivo(int nroVenta, Publicacion p, Usuario c, int cantidad, float montoPagado,
+	public Efectivo(int nroVenta, Publicacion p, UsuarioRegular c, int cantidad, float montoPagado,
 			float montoComision, String estadoPago, LocalDateTime fechaDeCompra) {
 		//Constructor para Ventas cargadas desde la DB
 		super(nroVenta, p, c, cantidad, montoPagado, montoComision, estadoPago, fechaDeCompra);
 	}
 	
-	public Efectivo(Publicacion p, Usuario c, int cantidad, float montoUnitario) {
+	public Efectivo(Publicacion p, UsuarioRegular c, int cantidad, float montoUnitario) {
 		//Constructor para nuevas Ventas
 		super(p, c, cantidad, montoUnitario);
 		

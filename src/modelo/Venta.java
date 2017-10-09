@@ -9,14 +9,14 @@ public abstract class Venta {
 	protected int nroVenta;
 	protected int cantidad;
 	protected Publicacion publicacion;
-	protected Usuario comprador;
+	protected UsuarioRegular comprador;
 	protected float montoUnitario;
 	protected float montoComision;
 	protected String estadoPago;
 	protected LocalDateTime fechaDeCompra;
 	static private float porcentajeComision = 5;
 	
-	public Venta(Publicacion p, Usuario c, int cantidad, float montoUnitario) {
+	public Venta(Publicacion p, UsuarioRegular c, int cantidad, float montoUnitario) {
 		this.publicacion = p;
 		this.comprador = c;
 		this.cantidad = cantidad;
@@ -33,7 +33,7 @@ public abstract class Venta {
 		return nroVenta;
 	}
 
-	public Venta(int nroVenta, Publicacion p, Usuario c, int cantidad, float montoUnitario, float montoComision, String estadoPago, LocalDateTime fechaDeCompra) {
+	public Venta(int nroVenta, Publicacion p, UsuarioRegular c, int cantidad, float montoUnitario, float montoComision, String estadoPago, LocalDateTime fechaDeCompra) {
 		this.nroVenta = nroVenta;
 		this.publicacion = p;
 		this.comprador = c;

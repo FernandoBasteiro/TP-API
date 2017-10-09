@@ -10,13 +10,13 @@ import controlador.SubastaView;
 public class CompraInmediata extends Publicacion {
 	private int stock;
 
-	public CompraInmediata(String nombreDeProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, int stock, Usuario vendedor) {
+	public CompraInmediata(String nombreDeProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, int stock, UsuarioRegular vendedor) {
 		super(nombreDeProducto, descripcion, imagenes, precioPublicado, vendedor);
 		this.stock = stock;
 		// this.numPublicacion = persistir! -> Puede que en realidad lo tenga que hacer el controlador, para poder revisar los errores del persistir.
 	}
 	
-	public CompraInmediata(String nombreDeProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, int stock, int numPublicacion, LocalDateTime fechaPublicacion, Usuario vendedor) {
+	public CompraInmediata(String nombreDeProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, int stock, int numPublicacion, LocalDateTime fechaPublicacion, UsuarioRegular vendedor) {
 		super(nombreDeProducto, descripcion, imagenes, precioPublicado, numPublicacion, fechaPublicacion, vendedor);
 		this.stock = stock;
 	}

@@ -7,6 +7,7 @@ import modelo.CompraInmediata;
 import modelo.Publicacion;
 import modelo.Subasta;
 import modelo.Usuario;
+import modelo.UsuarioRegular;
 
 public class SistPublicaciones {
 	private ArrayList<Publicacion> publicaciones;
@@ -27,7 +28,8 @@ public class SistPublicaciones {
 	
 	public int crearSubasta(String nombreDeProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, LocalDateTime fechaHasta) {
 		if (AdmUsuarios.getInstancia().getUsuarioLogueado() != null) {
-			Subasta s = new Subasta(nombreDeProducto, descripcion, imagenes, precioPublicado, fechaHasta, AdmUsuarios.getInstancia().getUsuarioLogueado());
+			UsuarioRegular u = (UsuarioRegular)AdmUsuarios.getInstancia().getUsuarioLogueado();
+			Subasta s = new Subasta(nombreDeProducto, descripcion, imagenes, precioPublicado, fechaHasta, u);
 			publicaciones.add(s);
 			AdmUsuarios.getInstancia().agregarPublicacionAUsuario(s);
 			return 0;
@@ -37,7 +39,8 @@ public class SistPublicaciones {
 	
 	public int crearCompraInmediata(String nombreDeProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, int stock) {
 		if (AdmUsuarios.getInstancia().getUsuarioLogueado() != null) {
-			CompraInmediata ci = new CompraInmediata(nombreDeProducto, descripcion, imagenes, precioPublicado, stock, AdmUsuarios.getInstancia().getUsuarioLogueado());
+			UsuarioRegular u = (UsuarioRegular)AdmUsuarios.getInstancia().getUsuarioLogueado();
+			CompraInmediata ci = new CompraInmediata(nombreDeProducto, descripcion, imagenes, precioPublicado, stock, u);
 			publicaciones.add(ci);
 			AdmUsuarios.getInstancia().agregarPublicacionAUsuario(ci);
 			return 0;
@@ -59,7 +62,7 @@ public class SistPublicaciones {
 		return pv;
 	}
 	
-	public ArrayList<PublicacionView> buscarPublicaciones(Usuario u) {
+	public ArrayList<PublicacionView> buscarPublicaciones(UsuarioRegular u) {
 		if (u != null) {
 			if (AdmUsuarios.getInstancia().getPublicacionesUsuario(u) != null) {
 				ArrayList<PublicacionView> pv = new ArrayList<PublicacionView>();
@@ -83,7 +86,7 @@ public class SistPublicaciones {
 	}
 	
 	public ArrayList<PublicacionView> verMisPublicaciones() {
-		return this.buscarPublicaciones(AdmUsuarios.getInstancia().getUsuarioLogueado());
+		return this.buscarPublicaciones((UsuarioRegular)AdmUsuarios.getInstancia().getUsuarioLogueado());
 	}
 	
 	//TODO hacerOferta quizas habria que dividirlo en 3 distintos segun el medio de Pago elegido.

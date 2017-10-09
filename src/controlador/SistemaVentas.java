@@ -7,6 +7,7 @@ import modelo.MercadoPago;
 import modelo.Publicacion;
 import modelo.TransfBancaria;
 import modelo.Usuario;
+import modelo.UsuarioRegular;
 import modelo.Venta;
 
 public class SistemaVentas {
@@ -30,7 +31,7 @@ public class SistemaVentas {
 	
 	public int generarVentaEfectivo(int nroPublicacion, int cantidad, float monto) {
 		Publicacion p = SistPublicaciones.getInstancia().buscarPublicacion(nroPublicacion);
-		Usuario u = AdmUsuarios.getInstancia().getUsuarioLogueado();
+		UsuarioRegular u = (UsuarioRegular)AdmUsuarios.getInstancia().getUsuarioLogueado();
 		if (p == null) {
 			return 1;
 		}
@@ -50,7 +51,7 @@ public class SistemaVentas {
 
 	public int generarVentaMercadoPago(int nroPublicacion, int cantidad, float monto, String nroTarjeta) {
 		Publicacion p = SistPublicaciones.getInstancia().buscarPublicacion(nroPublicacion);
-		Usuario u = AdmUsuarios.getInstancia().getUsuarioLogueado();
+		UsuarioRegular u = (UsuarioRegular)AdmUsuarios.getInstancia().getUsuarioLogueado();
 		if (p == null) {
 			return 1;
 		}
@@ -70,7 +71,7 @@ public class SistemaVentas {
 	
 	public int generarVentaTransfBancaria(int nroPublicacion, int cantidad, float monto, String CBU) {
 		Publicacion p = SistPublicaciones.getInstancia().buscarPublicacion(nroPublicacion);
-		Usuario u = AdmUsuarios.getInstancia().getUsuarioLogueado();
+		UsuarioRegular u = (UsuarioRegular)AdmUsuarios.getInstancia().getUsuarioLogueado();
 		if (p == null) {
 			return 1;
 		}
@@ -86,5 +87,22 @@ public class SistemaVentas {
 			return 0;
 		}
 		
+	}
+	
+	public Venta buscarVenta(int nroVenta) {
+		for (int i = 0; i < ventas.size(); i++) {
+			if (ventas.get(i).getNroVenta() == nroVenta) {
+				return ventas.get(i);
+				//TODO Set nueva fecha de ultima modificacion de la venta (Cosa que nunca tuve en cuenta).
+			}
+		}
+		/* TODO Persistencia Ventas
+		Venta ventaAux = Venta.buscarVentaDB(nroVenta);
+		if (ventaAux != null) {
+			ventas.add(ventaAux);
+		}
+		return ventaAux; 
+		*/
+		return null;
 	}
 }
