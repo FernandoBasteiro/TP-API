@@ -7,7 +7,6 @@ import controlador.CalificacionView;
 import controlador.MovCtaCteView;
 import controlador.UsuarioLogueadoView;
 import controlador.UsuarioView;
-import persistencia.AdmPersistenciaUsuarioMySQL;
 
 public class UsuarioRegular extends Usuario {
 	private String nombre;

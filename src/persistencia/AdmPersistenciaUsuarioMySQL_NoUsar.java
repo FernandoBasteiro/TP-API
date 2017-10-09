@@ -16,15 +16,15 @@ import modelo.Password;
 import modelo.Usuario;
 import modelo.UsuarioRegular;
 
-public class AdmPersistenciaUsuarioMySQL {
-	static private AdmPersistenciaUsuarioMySQL instancia;
+public class AdmPersistenciaUsuarioMySQL_NoUsar {
+	static private AdmPersistenciaUsuarioMySQL_NoUsar instancia;
 	
-	private AdmPersistenciaUsuarioMySQL() {
+	private AdmPersistenciaUsuarioMySQL_NoUsar() {
 	}
 	
-	static public AdmPersistenciaUsuarioMySQL getInstancia(){
+	static public AdmPersistenciaUsuarioMySQL_NoUsar getInstancia(){
 		if (instancia == null) {
-			instancia = new AdmPersistenciaUsuarioMySQL();
+			instancia = new AdmPersistenciaUsuarioMySQL_NoUsar();
 		}
 		return instancia;
 	}

@@ -1,14 +1,9 @@
 package modelo;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 
-import controlador.CalificacionView;
-import controlador.MovCtaCteView;
-import controlador.UsuarioLogueadoView;
 import controlador.UsuarioView;
 import persistencia.AdmPersistenciaUsuario;
-import persistencia.AdmPersistenciaUsuarioMySQL;
 
 public abstract class Usuario {
 	protected String nombreDeUsuario;
@@ -77,10 +72,10 @@ public abstract class Usuario {
 	public abstract UsuarioView getUsuarioView();
 	
 	static public Usuario buscarUsuarioDB(String nombreDeUsuario) {
-		return AdmPersistenciaUsuarioMySQL.getInstancia().buscarUsuario(nombreDeUsuario);
+		return AdmPersistenciaUsuario.getInstancia().buscarUsuario(nombreDeUsuario);
 	}
 		
 	static public int updateUsuarioDB(Usuario u) {
-		return AdmPersistenciaUsuarioMySQL.getInstancia().updateUsuario(u);
+		return AdmPersistenciaUsuario.getInstancia().updateUsuario(u);
 	}
 }

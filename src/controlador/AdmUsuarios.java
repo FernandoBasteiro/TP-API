@@ -2,7 +2,7 @@ package controlador;
 
 import java.util.ArrayList;
 
-import persistencia.AdmPersistenciaUsuario;
+import persistencia.AdmPersistenciaUsuario_AnteriorNoUsar;
 import modelo.Admin;
 import modelo.Publicacion;
 import modelo.Usuario;
