@@ -81,7 +81,7 @@ public class UsuarioRegular extends Usuario {
 		this.calificacionesVendedor = null;
 		this.calificacionesComprador = null;
 		this.mensajes = null;
-		//AdmPersistenciaUsuarioMySQL.getInstancia().insertUsuarioRegular(this);
+		AdmPersistenciaUsuarioMySQL.getInstancia().insertUsuario(this);
 	}
 	
 	public UsuarioRegular(String nombre, String domicilio, String mail,

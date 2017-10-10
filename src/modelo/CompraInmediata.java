@@ -48,7 +48,7 @@ public class CompraInmediata extends Publicacion {
 	}
 	
 	public PublicacionView getPublicacionView() {
-		CompraInmediataView civ = new CompraInmediataView("Compra Inmediata", nombreProducto, descripcion, fechaPublicacion, imagenes, this.getPrecioActual(), estadoPublicacion, numPublicacion, stock); //TODO Sera aceptable esto?
+		CompraInmediataView civ = new CompraInmediataView("Compra Inmediata", nombreProducto, descripcion, fechaPublicacion, imagenes, this.getPrecioActual(), estadoPublicacion, nroPublicacion, stock); //TODO Sera aceptable esto?
 		return civ;
 	}
 	
