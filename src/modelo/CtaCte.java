@@ -40,7 +40,7 @@ public class CtaCte {
 
 	public ArrayList<MovCtaCteView> getMovsCtaCteView(String nombreDeUsuario) {
 		this.movimientos = AdmPersistenciaMovCtaCteMySQL.getInstancia().buscarMovimientos(nombreDeUsuario);
-		// TODO Cargar desde DB.
+		movimientos = MovCtaCte.buscarMovimientosDB(nombreDeUsuario);
 		ArrayList<MovCtaCteView> movsView = new ArrayList<MovCtaCteView>();
 		for (int i = 0; i < movimientos.size(); i++) {
 			movsView.add(movimientos.get(i).getMovCtaCteView());

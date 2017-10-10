@@ -30,6 +30,7 @@ public class CompraInmediata extends Publicacion {
 				this.estadoPublicacion = "Finalizada";
 			}
 			return 0;
+			//TODO Persistir
 		}
 		else if (this.stock == -1) {
 			return 0;
@@ -58,6 +59,7 @@ public class CompraInmediata extends Publicacion {
 			if (this.stock > 0) {
 				this.estadoPublicacion = "Activa";
 			}
+			//TODO Persistir
 		}
 		return 0;
 	}

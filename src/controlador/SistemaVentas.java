@@ -89,6 +89,15 @@ public class SistemaVentas {
 		
 	}
 	
+	private boolean ventaCargada(int nroVenta) {
+		for (int i = 0; i < ventas.size(); i++) {
+			if (ventas.get(i).getNroVenta() == nroVenta) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public Venta buscarVenta(int nroVenta) {
 		for (int i = 0; i < ventas.size(); i++) {
 			if (ventas.get(i).getNroVenta() == nroVenta) {
@@ -96,13 +105,34 @@ public class SistemaVentas {
 				//TODO Set nueva fecha de ultima modificacion de la venta (Cosa que nunca tuve en cuenta).
 			}
 		}
-		/* TODO Persistencia Ventas
 		Venta ventaAux = Venta.buscarVentaDB(nroVenta);
 		if (ventaAux != null) {
 			ventas.add(ventaAux);
 		}
 		return ventaAux; 
-		*/
-		return null;
+	}
+	
+	public ArrayList<Venta> buscarCompras(String nombreDeUsuario) {
+		ArrayList<Venta> compras = Venta.buscarComprasDB(nombreDeUsuario);
+		if (compras != null) {
+			for (Venta v : compras) {
+				if (! ventaCargada(v.getNroVenta())) {
+					ventas.add(v);
+				}
+			}
+		}
+		return compras;
+	}
+	
+	public ArrayList<Venta> buscarVentas(int nroPublicacion) {
+		ArrayList<Venta> ventas = Venta.buscarVentasDB(nroPublicacion);
+		if (ventas != null) {
+			for (Venta v : ventas) {
+				if (! ventaCargada(v.getNroVenta())) {
+					this.ventas.add(v);
+				}
+			}
+		}
+		return ventas;
 	}
 }

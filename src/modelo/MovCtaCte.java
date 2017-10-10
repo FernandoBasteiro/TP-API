@@ -1,6 +1,7 @@
 package modelo;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import persistencia.AdmPersistenciaMovCtaCteMySQL;
 import controlador.MovCtaCteView;
@@ -52,6 +53,8 @@ public class MovCtaCte {
 		return fechaMovimiento;
 	}
 	
-	
+	static public ArrayList<MovCtaCte> buscarMovimientosDB(String nombreDeUsuario) {
+		return AdmPersistenciaMovCtaCteMySQL.getInstancia().buscarMovimientos(nombreDeUsuario);
+	}
 	
 }

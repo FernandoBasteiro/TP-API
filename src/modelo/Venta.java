@@ -1,7 +1,9 @@
 package modelo;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
+import persistencia.AdmPersistenciaVentaMySQL;
 import controlador.AdmUsuarios;
 import controlador.SistPublicaciones;
 
@@ -9,14 +11,14 @@ public abstract class Venta {
 	protected int nroVenta;
 	protected int cantidad;
 	protected Publicacion publicacion;
-	protected UsuarioRegular comprador;
+	protected Usuario comprador;
 	protected float montoUnitario;
 	protected float montoComision;
 	protected String estadoPago;
 	protected LocalDateTime fechaDeCompra;
 	static private float porcentajeComision = 5;
 	
-	public Venta(Publicacion p, UsuarioRegular c, int cantidad, float montoUnitario) {
+	public Venta(Publicacion p, Usuario c, int cantidad, float montoUnitario) {
 		this.publicacion = p;
 		this.comprador = c;
 		this.cantidad = cantidad;
@@ -24,16 +26,15 @@ public abstract class Venta {
 		this.montoComision = montoUnitario * cantidad * (Venta.getPorcentajeComision() / 100);
 		this.estadoPago = "Pendiente";
 		this.fechaDeCompra = LocalDateTime.now();
-		//nroVenta = AdmPersistenciaVentas.insertVenta(this);
 		
-		System.out.println(p.getNombre() + " vendido");
+		//System.out.println(p.getNombre() + " vendido");
 	}
 	
 	public int getNroVenta() {
 		return nroVenta;
 	}
 
-	public Venta(int nroVenta, Publicacion p, UsuarioRegular c, int cantidad, float montoUnitario, float montoComision, String estadoPago, LocalDateTime fechaDeCompra) {
+	public Venta(int nroVenta, Publicacion p, Usuario c, int cantidad, float montoUnitario, float montoComision, String estadoPago, LocalDateTime fechaDeCompra) {
 		this.nroVenta = nroVenta;
 		this.publicacion = p;
 		this.comprador = c;
@@ -80,7 +81,7 @@ public abstract class Venta {
 		this.estadoPago = "Pagado";
 		AdmUsuarios.getInstancia().cargarMovCtaCte(publicacion.getVendedor(), (montoUnitario * cantidad) - montoComision, "Venta de " + publicacion.getNombre(), this);
 		//TODO Generar Calificacion para Comprador y Vendedor.
-		//TODO Persistir
+		AdmPersistenciaVentaMySQL.getInstancia().updateEstadoVenta(this);
 		return 0;
 	}
 	
@@ -89,7 +90,23 @@ public abstract class Venta {
 		if (publicacion instanceof CompraInmediata) {
 			SistPublicaciones.getInstancia().devolverStock((CompraInmediata) publicacion, cantidad);
 		}
-		//TODO Persisitir
+		AdmPersistenciaVentaMySQL.getInstancia().updateEstadoVenta(this);
 		return 0;
+	}
+
+	public int getCantidad() {
+		return cantidad;
+	}
+	
+	static public ArrayList<Venta> buscarComprasDB(String nombreDeUsuario) {
+		return AdmPersistenciaVentaMySQL.getInstancia().buscarCompras(nombreDeUsuario);
+	}
+	
+	static public ArrayList<Venta> buscarVentasDB(int nroPublicacion) {
+		return AdmPersistenciaVentaMySQL.getInstancia().buscarVentas(nroPublicacion);
+	}
+	
+	static public Venta buscarVentaDB(int nroVenta) {
+		return AdmPersistenciaVentaMySQL.getInstancia().buscarVenta(nroVenta);
 	}
 }

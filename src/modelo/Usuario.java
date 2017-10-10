@@ -76,6 +76,7 @@ public abstract class Usuario {
 	
 	public abstract UsuarioView getUsuarioView();
 	
+	
 	static public Usuario buscarUsuarioDB(String nombreDeUsuario) {
 		return AdmPersistenciaUsuarioMySQL.getInstancia().buscarUsuario(nombreDeUsuario);
 	}

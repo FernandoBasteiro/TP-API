@@ -153,7 +153,6 @@ public class AdmUsuarios {
 		if (usuarioLogueado != null) {
 			UsuarioRegular u = (UsuarioRegular)usuarioLogueado;
 			u.agregarPublicacion(p);
-			//TODO Persistir Cambios. (?)
 			return 0;
 		}
 		return 1;

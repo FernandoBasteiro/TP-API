@@ -172,4 +172,6 @@ public class AdmPersistenciaUsuarioMySQL {
 			return 1;
 		}
 	}
+	
+	
 }
