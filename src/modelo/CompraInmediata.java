@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import controlador.CompraInmediataView;
 import controlador.PublicacionView;
-import controlador.SubastaView;
 
 public class CompraInmediata extends Publicacion {
 	private int stock;

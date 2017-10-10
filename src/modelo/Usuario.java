@@ -1,13 +1,8 @@
 package modelo;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 
-import controlador.CalificacionView;
-import controlador.MovCtaCteView;
-import controlador.UsuarioLogueadoView;
 import controlador.UsuarioView;
-import persistencia.AdmPersistenciaUsuario;
 import persistencia.AdmPersistenciaUsuarioMySQL;
 
 public abstract class Usuario {

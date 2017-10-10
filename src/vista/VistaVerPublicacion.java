@@ -1,26 +1,27 @@
 package vista;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import controlador.PublicacionView;
 import controlador.SistPublicaciones;
 
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-
 public class VistaVerPublicacion extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8944599040814726836L;
+	
 	private JPanel contentPane;
 	private JTextField txtNombre;
 	private JTextField txtDescripcion;

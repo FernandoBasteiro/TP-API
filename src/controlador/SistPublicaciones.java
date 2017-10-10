@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import modelo.CompraInmediata;
 import modelo.Publicacion;
 import modelo.Subasta;
-import modelo.Usuario;
 import modelo.UsuarioRegular;
 
 public class SistPublicaciones {

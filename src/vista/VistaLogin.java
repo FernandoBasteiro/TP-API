@@ -1,27 +1,27 @@
 package vista;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-
+import java.awt.Font;
 import java.awt.TextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 import controlador.AdmUsuarios;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.Font;
-import java.awt.Color;
-
 public class VistaLogin extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7091613278470266613L;
+	
 	private JPanel contentPane;
 	static private VistaLogin instancia;
 
@@ -98,15 +98,15 @@ public class VistaLogin extends JFrame {
 							VistaLogin.getInstancia().setVisible(false);
 						}
 						else {
-							labelMensaje.setText("Contraseña cambiada. Fallo el login."); //TODO Traducir mensaje	
+							labelMensaje.setText("Contraseï¿½a cambiada. Fallo el login."); //TODO Traducir mensaje	
 						}
 					}
 					else {
-						labelMensaje.setText("La contraseña no pudo ser cambiada.");
+						labelMensaje.setText("La contraseï¿½a no pudo ser cambiada.");
 					}
 				}
 				else {
-					labelMensaje.setText("Introduzca una nueva contraseña.");
+					labelMensaje.setText("Introduzca una nueva contraseï¿½a.");
 					textNPassword.requestFocus();
 				}
 				
@@ -141,7 +141,7 @@ public class VistaLogin extends JFrame {
 							VistaLogin.getInstancia().setVisible(false);
 							break;
 						case 1:
-							labelMensaje.setText("Contraseña expirada. Cambie la contaseña.");
+							labelMensaje.setText("Contraseï¿½a expirada. Cambie la contaseï¿½a.");
 							setBounds(100, 100, 210, 235);
 							textNPassword.setVisible(true);
 							lblNuevaContrasea.setVisible(true);
@@ -152,7 +152,7 @@ public class VistaLogin extends JFrame {
 							btnCrearUsuario.setVisible(false);
 							break;
 						case 2:
-							labelMensaje.setText("Contraseña incorrecta.");
+							labelMensaje.setText("Contraseï¿½a incorrecta.");
 							textPassword.requestFocus();
 							textPassword.selectAll();
 							break;
@@ -174,7 +174,8 @@ public class VistaLogin extends JFrame {
 					}
 				}
 				else {
-					labelMensaje.setText("Todos los campos deben ser completados.");
+					//labelMensaje.setText("Todos los campos deben ser completados.");
+					JOptionPane.showMessageDialog(VistaLogin.this, "Todos los campos deben ser completados.");
 				}
 			}
 		});

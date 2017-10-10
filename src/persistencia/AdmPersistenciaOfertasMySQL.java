@@ -8,13 +8,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import controlador.AdmUsuarios;
-import modelo.Admin;
-import modelo.Calificacion;
-import modelo.CtaCte;
 import modelo.Oferta;
-import modelo.Password;
 import modelo.Usuario;
-import modelo.UsuarioRegular;
 
 public class AdmPersistenciaOfertasMySQL {
 	static private AdmPersistenciaOfertasMySQL instancia;
