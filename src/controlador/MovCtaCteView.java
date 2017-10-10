@@ -1,8 +1,12 @@
 package controlador;
 
+import modelo.Venta;
+
 public class MovCtaCteView {
+	private int numero;
 	private float monto;
 	private String concepto;
+	private Venta venta;
 	
 	public MovCtaCteView(float monto, String concepto) {
 		super();

@@ -5,56 +5,53 @@ import java.util.ArrayList;
 
 import controlador.CalificacionView;
 import controlador.MovCtaCteView;
+import controlador.UsuarioLogueadoView;
 import controlador.UsuarioView;
 import persistencia.AdmPersistenciaUsuario;
+import persistencia.AdmPersistenciaUsuarioMySQL;
 
-public class Usuario {
-	private String nombre;
-	private String domicilio;
-	private String mail;
-	private String nombreDeUsuario;
-	private LocalDateTime ultimaModificacion; //Este dato no se persiste. Es solo en memoria para evaluar si se debe mantener o si se puede liberar.
-	private CtaCte ctacte;
-	private Password password;
-	private LocalDateTime fechaCreacion;
-	private ArrayList<Publicacion> publicaciones;
-	private boolean activo;  // Estado del usuario
-	private ArrayList<Calificacion> calificacionesVendedor;
-	private ArrayList<Calificacion> calificacionesComprador;
-	private ArrayList<Mensaje> mensajes;
+public abstract class Usuario {
+	protected String nombreDeUsuario;
+	protected LocalDateTime ultimaModificacion; //Este dato no se persiste. Es solo en memoria para evaluar si se debe mantener o si se puede liberar.
+	protected Password password;
+	protected LocalDateTime fechaCreacion;
+	protected boolean activo;  // Estado del usuario
 	
-	
-	public Usuario(String nombre, String domicilio, String mail,
-			String nombreDeUsuario, String passwordString) {
-		super();
-		this.nombre = nombre;
-		this.domicilio = domicilio;
-		this.mail = mail;
-		this.nombreDeUsuario = nombreDeUsuario;
-		this.ultimaModificacion = LocalDateTime.now();
-		this.ctacte = new CtaCte();
-		this.password = new Password(passwordString);
-		this.fechaCreacion = LocalDateTime.now();
-		this.publicaciones = null;
-		this.activo = true; // Estado activo en cuanto se crea.
-		this.calificacionesVendedor = null;
-		this.calificacionesComprador = null;
-		this.mensajes = null;
-		
-		AdmPersistenciaUsuario.getInstancia().insertUsuario(this);
+
+	public boolean estaActivo() {
+		return activo;
+	}
+
+	public void setActivo(boolean activo) {
+		this.activo = activo;
 	}
 	
-	public Usuario(String nombre, String domicilio, String mail,
-			String nombreDeUsuario, Password password, LocalDateTime fechaCreacion, ArrayList<Calificacion> calificacionesVendedor, ArrayList<Calificacion> calificacionesComprador, ArrayList<Mensaje> mensajes) {
+	public Password getPassword() {
+		return password;
+	}
+
+	public LocalDateTime getFechaCreacion() {
+		return fechaCreacion;
+	}
+
+	public Usuario(String nombreDeUsuario, String passwordString) {
+		//Constructor de un usuario nuevo
 		super();
-		this.nombre = nombre;
-		this.domicilio = domicilio;
-		this.mail = mail;
 		this.nombreDeUsuario = nombreDeUsuario;
 		this.ultimaModificacion = LocalDateTime.now();
-		this.ctacte = new CtaCte();
+		this.password = new Password(passwordString);
+		this.fechaCreacion = LocalDateTime.now();
+		this.activo = true; // Estado activo en cuanto se crea.
+	}
+	
+	public Usuario(String nombreDeUsuario, Password password, 
+			LocalDateTime fechaCreacion, boolean activo) {
+		//Constructor para usuarios de la DB.
+		this.nombreDeUsuario = nombreDeUsuario;
+		this.ultimaModificacion = LocalDateTime.now();
 		this.password = password;
 		this.fechaCreacion = fechaCreacion;
+		this.activo = activo;
 	}
 	
 	public boolean sosUsuario (String nombreDeUsuario) {
@@ -77,117 +74,14 @@ public class Usuario {
 		return nombreDeUsuario;
 	}
 	
+	public abstract UsuarioView getUsuarioView();
+	
+	
 	static public Usuario buscarUsuarioDB(String nombreDeUsuario) {
-		return AdmPersistenciaUsuario.getInstancia().buscarUsuario(nombreDeUsuario);
+		return AdmPersistenciaUsuarioMySQL.getInstancia().buscarUsuario(nombreDeUsuario);
 	}
-	
-	public int cargarMovimiento(Venta venta, float monto, String concepto) {
-		ctacte.generarMovimiento(venta, monto, concepto);
-		return 0;
+		
+	static public int updateUsuarioDB(Usuario u) {
+		return AdmPersistenciaUsuarioMySQL.getInstancia().updateUsuario(u);
 	}
-	
-	public ArrayList<MovCtaCteView> getMovimientos(){
-		return ctacte.getMovsCtaCteView();
-	}
-	
-	public UsuarioView getUsuarioView(){
-		return (new UsuarioView(this.nombre, this.domicilio, this.mail, this.nombreDeUsuario));
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public void setDomicilio(String domicilio) {
-		this.domicilio = domicilio;
-	}
-
-	public void setMail(String mail) {
-		this.mail = mail;
-	}
-	
-	public ArrayList<Publicacion> getPublicaciones () {
-		//TODO Cargar publicaciones de la DB!
-		return this.publicaciones;
-	}
-	
-	public int agregarPublicacion(Publicacion p) {
-		if(this.publicaciones == null) {
-			publicaciones = new ArrayList<Publicacion>();
-		}
-		publicaciones.add(p);
-		return 0;
-	}
-	
-	/* Esta funcion mostraria los mensajes no leidos solamente:
-	public ArrayList<MensajeView> getMensajesNoLeidos {
-		ArrayList<MensajeView> mensajes = new ArrayList<MensajeView>();
-		for (Mensaje m : this.mensajes) {
-			if (m.noLeido()) {
-				mensajes.add(m.getView());
-			}
-		}
-	}
-	*/
-	
-	/* Esta funcion mostraria TODOS los mensajes del usuario:
-	public ArrayList<MensajeView> getMensajes {
-		---Primero el administrador de persistencia deberia cargar todos los mensajes del usuario en memoria--
-		ArrayList<MensajeView> mensajes = new ArrayList<MensajeView>();
-		for (Mensaje m : this.mensajes) {
-			mensajes.add(m.getView());
-		}
-	}
-	*/
-	
-	public int calificacionesPendientes(){
-		int cantidad = 0;
-		for (Calificacion c : this.calificacionesComprador) {
-			if (c.pendiente()) {
-				cantidad++;
-			}
-		}
-		for (Calificacion c : this.calificacionesVendedor) {
-			if (c.pendiente()) {
-				cantidad++;
-			}
-		}
-		return cantidad;
-	}
-	
-	public ArrayList<CalificacionView> getCalificacionesPendientesCompradorView() {
-		ArrayList<CalificacionView> cv = new ArrayList<CalificacionView>();
-		for (Calificacion c : this.calificacionesComprador) {
-			if (c.pendiente()) {
-				cv.add(c.getView());
-			}
-		}
-		return cv;
-	}
-	
-	public ArrayList<CalificacionView> getCalificacionesPendientesVendedorView() {
-		ArrayList<CalificacionView> cv = new ArrayList<CalificacionView>();
-		for (Calificacion c : this.calificacionesVendedor) {
-			if (c.pendiente()) {
-				cv.add(c.getView());
-			}
-		}
-		return cv;
-	}
-	
-	private Calificacion buscarCalificacion(int nroCalificacion) {
-		for (Calificacion c : this.calificacionesVendedor) {
-			if (c.sosCalificacion(nroCalificacion)) {
-				return c;
-			}
-		}
-		return null;
-	}
-	
-	public int setCalificacion(int nroCalificacion, int valorCalificacion, String comentarioCalificacion) {
-		Calificacion c = buscarCalificacion(nroCalificacion);
-		int error = c.setCalificacion(valorCalificacion, comentarioCalificacion);
-		return error;
-	}
-	
 }

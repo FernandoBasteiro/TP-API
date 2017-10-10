@@ -7,6 +7,7 @@ import modelo.CompraInmediata;
 import modelo.Publicacion;
 import modelo.Subasta;
 import modelo.Usuario;
+import modelo.UsuarioRegular;
 
 public class SistPublicaciones {
 	private ArrayList<Publicacion> publicaciones;
@@ -27,7 +28,8 @@ public class SistPublicaciones {
 	
 	public int crearSubasta(String nombreDeProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, LocalDateTime fechaHasta) {
 		if (AdmUsuarios.getInstancia().getUsuarioLogueado() != null) {
-			Subasta s = new Subasta(nombreDeProducto, descripcion, imagenes, precioPublicado, fechaHasta, AdmUsuarios.getInstancia().getUsuarioLogueado());
+			UsuarioRegular u = (UsuarioRegular)AdmUsuarios.getInstancia().getUsuarioLogueado();
+			Subasta s = new Subasta(nombreDeProducto, descripcion, imagenes, precioPublicado, fechaHasta, u);
 			publicaciones.add(s);
 			AdmUsuarios.getInstancia().agregarPublicacionAUsuario(s);
 			return 0;
@@ -37,7 +39,8 @@ public class SistPublicaciones {
 	
 	public int crearCompraInmediata(String nombreDeProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, int stock) {
 		if (AdmUsuarios.getInstancia().getUsuarioLogueado() != null) {
-			CompraInmediata ci = new CompraInmediata(nombreDeProducto, descripcion, imagenes, precioPublicado, stock, AdmUsuarios.getInstancia().getUsuarioLogueado());
+			UsuarioRegular u = (UsuarioRegular)AdmUsuarios.getInstancia().getUsuarioLogueado();
+			CompraInmediata ci = new CompraInmediata(nombreDeProducto, descripcion, imagenes, precioPublicado, stock, u);
 			publicaciones.add(ci);
 			AdmUsuarios.getInstancia().agregarPublicacionAUsuario(ci);
 			return 0;
@@ -59,7 +62,7 @@ public class SistPublicaciones {
 		return pv;
 	}
 	
-	public ArrayList<PublicacionView> buscarPublicaciones(Usuario u) {
+	public ArrayList<PublicacionView> buscarPublicaciones(UsuarioRegular u) {
 		if (u != null) {
 			if (AdmUsuarios.getInstancia().getPublicacionesUsuario(u) != null) {
 				ArrayList<PublicacionView> pv = new ArrayList<PublicacionView>();
@@ -83,21 +86,35 @@ public class SistPublicaciones {
 	}
 	
 	public ArrayList<PublicacionView> verMisPublicaciones() {
-		return this.buscarPublicaciones(AdmUsuarios.getInstancia().getUsuarioLogueado());
+		return this.buscarPublicaciones((UsuarioRegular)AdmUsuarios.getInstancia().getUsuarioLogueado());
 	}
 	
-	public int hacerOferta(int nroPublicacion, float monto, int cantidad, String medioDePago) {
+	//TODO hacerOferta quizas habria que dividirlo en 3 distintos segun el medio de Pago elegido.
+	public int hacerOferta(int nroPublicacion, float monto, int cantidad, String medioDePago, String nroTarjeta, String CBU) {
 		if (AdmUsuarios.getInstancia().getUsuarioLogueado() != null) {
 			int resultado =  buscarPublicacion(nroPublicacion).ofertar(monto, cantidad, AdmUsuarios.getInstancia().getUsuarioLogueado(), medioDePago);			
 			if (resultado == 0) {
-				//TODO Realizar venta
+				if (medioDePago.equals("Efectivo")) {
+					return SistemaVentas.getInstancia().generarVentaEfectivo(nroPublicacion, cantidad, monto);
+				}
+				else if (medioDePago.equals("Transferencia Bancaria")) {
+					return SistemaVentas.getInstancia().generarVentaTransfBancaria(nroPublicacion, cantidad, monto, CBU);
+				}
+				else if (medioDePago.equals("MercadoPago")) {
+					return SistemaVentas.getInstancia().generarVentaTransfBancaria(nroPublicacion, cantidad, monto, nroTarjeta);
+				}
+				return -2; //
 			}
-			return resultado;
 		}
-		return -1;
+		return -1; // 
 	}
 	
 	public String getNombrePublicacion(Publicacion p) {
 		return p.getNombre();
+	}
+	
+	public int devolverStock(CompraInmediata c, int cantidad) {
+		c.devolverStock(cantidad);
+		return 0;
 	}
 }

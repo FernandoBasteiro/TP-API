@@ -13,11 +13,12 @@ public class Subasta extends Publicacion {
 	@Override
 	public int ofertar(float monto, int cantidad, Usuario comprador, String medioDePago) {
 		Oferta o = new Oferta(monto, comprador, medioDePago);
+		//TODO Persistir + Comprobar que la oferta sea superior a las anteriores.
 		ofertas.add(o);
 		return 1;
 	}
 
-	public Subasta(String nombreDeProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, LocalDateTime fechaHasta, Usuario vendedor) {
+	public Subasta(String nombreDeProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, LocalDateTime fechaHasta, UsuarioRegular vendedor) {
 		super(nombreDeProducto, descripcion, imagenes, precioPublicado, vendedor);
 		this.fechaHasta = fechaHasta;
 		this.ofertas = new ArrayList<Oferta>();
@@ -25,7 +26,7 @@ public class Subasta extends Publicacion {
 		ofertas.add(ofertaVacia);
 	}
 	
-	public Subasta(String nombreDeProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, LocalDateTime fechaHasta, int numPublicacion, LocalDateTime fechaPublicacion, Oferta ultimaOferta, Usuario vendedor) {
+	public Subasta(String nombreDeProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, LocalDateTime fechaHasta, int numPublicacion, LocalDateTime fechaPublicacion, Oferta ultimaOferta, UsuarioRegular vendedor) {
 		super(nombreDeProducto, descripcion, imagenes, precioPublicado, numPublicacion, fechaPublicacion, vendedor);
 		this.fechaHasta = fechaHasta;
 		this.ofertas = new ArrayList<Oferta>();
@@ -45,7 +46,7 @@ public class Subasta extends Publicacion {
 
 	@Override
 	public PublicacionView getPublicacionView() {
-		SubastaView sv = new SubastaView("Subasta", nombreProducto, descripcion, fechaPublicacion, imagenes, this.getPrecioActual(), estadoPublicacion, numPublicacion, fechaHasta);  //TODO Sera aceptable esto?
+		SubastaView sv = new SubastaView("Subasta", nombreProducto, descripcion, fechaPublicacion, imagenes, this.getPrecioActual(), estadoPublicacion, nroPublicacion, fechaHasta);  //TODO Sera aceptable esto?
 		return sv;
 	}
 	

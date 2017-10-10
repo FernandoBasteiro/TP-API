@@ -11,16 +11,23 @@ import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 
+import controlador.AdmUsuarios;
 import controlador.SistPublicaciones;
+import controlador.UsuarioLogueadoView;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class VistaMenuPrincipal extends JFrame {
 
 	private JPanel contentPane;
 	static private VistaMenuPrincipal instancia;
 	private JTextField textBuscarProducto;
+	private JLabel lblUsuarioLogueado;
+	private JLabel lblCalificacionesPendientes;
+	private JLabel lblEstadoCuentaCorriente;
 
 	static public VistaMenuPrincipal getInstancia() {
 		if (instancia == null) {
@@ -30,6 +37,12 @@ public class VistaMenuPrincipal extends JFrame {
 	}
 	
 	private VistaMenuPrincipal() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowActivated(WindowEvent arg0) {
+				cargarDatosUsuario();
+			}
+		});
 		setTitle("MercadoCautivo");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -39,19 +52,19 @@ public class VistaMenuPrincipal extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblUsuarioLogueado = new JLabel("Usuario Logueado");
+		lblUsuarioLogueado = new JLabel("");
 		lblUsuarioLogueado.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblUsuarioLogueado.setBounds(371, 11, 150, 14);
+		lblUsuarioLogueado.setBounds(294, 11, 227, 14);
 		contentPane.add(lblUsuarioLogueado);
 		
-		JLabel lblCalificacionesPendientes = new JLabel("Calificaciones Pendientes (0)");
+		lblCalificacionesPendientes = new JLabel("");
 		lblCalificacionesPendientes.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblCalificacionesPendientes.setBounds(371, 36, 150, 14);
+		lblCalificacionesPendientes.setBounds(294, 36, 227, 14);
 		contentPane.add(lblCalificacionesPendientes);
 		
-		JLabel lblEstadoCuentaCorriente = new JLabel("Estado Cuenta Corriente: 0");
+		lblEstadoCuentaCorriente = new JLabel("");
 		lblEstadoCuentaCorriente.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblEstadoCuentaCorriente.setBounds(371, 61, 150, 14);
+		lblEstadoCuentaCorriente.setBounds(294, 61, 227, 14);
 		contentPane.add(lblEstadoCuentaCorriente);
 		
 		JButton btnVerMisPublicaciones = new JButton("Ver Mis Publicaciones");
@@ -99,6 +112,13 @@ public class VistaMenuPrincipal extends JFrame {
 		});
 		btnBuscar.setBounds(195, 84, 89, 23);
 		contentPane.add(btnBuscar);
+	}
+	
+	private void cargarDatosUsuario(){
+		UsuarioLogueadoView vul = AdmUsuarios.getInstancia().getVistaUsuarioLogueado();
+		lblUsuarioLogueado.setText(vul.getNombre());
+		lblCalificacionesPendientes.setText("Calificaciones Pendientes (" + String.valueOf(vul.getCalificacionesPendientes()) + ")");
+		lblEstadoCuentaCorriente.setText("Estado Cuenta Corriente: " + String.valueOf(vul.getEstadoCtaCte()));
 	}
 
 }

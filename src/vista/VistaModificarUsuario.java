@@ -98,7 +98,7 @@ public class VistaModificarUsuario extends JFrame {
 				if (! textNombre.getText().isEmpty() & ! textDomicilio.getText().isEmpty() & ! textMail.getText().isEmpty()) {
 					int resPassRst = -1;
 					int resModificar = AdmUsuarios.getInstancia().modificarLoggedUser(textNombre.getText(), textMail.getText(), textDomicilio.getText());
-					//TODO Trabajar errores.
+					
 					if (! textPassword.getText().isEmpty()) {
 						resPassRst = AdmUsuarios.getInstancia().cambiarPassword(textPassword.getText());
 					}

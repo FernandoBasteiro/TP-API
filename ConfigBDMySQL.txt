@@ -1,0 +1,5 @@
+jdbc=jdbc:mysql://
+servidor=www.basteiro.com.ar/bastei40_API
+usuario=bastei40_API
+password=Sarasa17
+conexiones=3
