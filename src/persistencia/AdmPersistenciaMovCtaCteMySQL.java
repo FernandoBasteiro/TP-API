@@ -40,6 +40,8 @@ public class AdmPersistenciaMovCtaCteMySQL {
 			
 			ResultSet rs = s.getGeneratedKeys();
 			rs.next();
+			
+			PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
 			return rs.getInt(1);
 		} catch (Exception e) {
 			System.out.println("Error Query: " + e.getMessage());
@@ -66,6 +68,7 @@ public class AdmPersistenciaMovCtaCteMySQL {
 				m = new MovCtaCte(nroMovimiento, v, monto, concepto, fechaMovimiento);
 				movimientos.add(m);
 			}
+			PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
 			return movimientos;
 
 		} catch (Exception e) {

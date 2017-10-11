@@ -64,6 +64,7 @@ public class AdmPersistenciaUsuarioMySQL {
 					u = new UsuarioRegular(nombre, domicilio, mail, nombreDeUsuario, p, c, fechaCreacion, cv, cc, activo);
 				}
 			}
+			PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
 			return u;
 		} catch (Exception e) {
 			System.out.println("Error Query: " + e.getMessage());
@@ -141,7 +142,7 @@ public class AdmPersistenciaUsuarioMySQL {
 				s.setFloat(6, u.getCtacte().getSaldoTotal());
 				s.setBoolean(7, u.estaActivo());
 				s.setString(8, u.getNombreDeUsuario());
-				System.out.println(s.toString());
+				//System.out.println(s.toString());
 				s.execute();
 				PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
 				return 0;

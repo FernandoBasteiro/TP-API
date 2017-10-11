@@ -101,7 +101,7 @@ public class SistPublicaciones {
 					return SistemaVentas.getInstancia().generarVentaTransfBancaria(nroPublicacion, cantidad, monto, CBU);
 				}
 				else if (medioDePago.equals("MercadoPago")) {
-					return SistemaVentas.getInstancia().generarVentaTransfBancaria(nroPublicacion, cantidad, monto, nroTarjeta);
+					return SistemaVentas.getInstancia().generarVentaMercadoPago(nroPublicacion, cantidad, monto, nroTarjeta);
 				}
 				return -2; //
 			}

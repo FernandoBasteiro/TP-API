@@ -18,20 +18,7 @@ public class Efectivo extends Venta{
 		super(p, c, cantidad, montoUnitario);
 		this.nroVenta = AdmPersistenciaVentaMySQL.getInstancia().insertarVenta(this);
 		
-		//Con capacidad de descubierto en ctacte:
-		
 		AdmUsuarios.getInstancia().cargarMovCtaCte(c, -(montoUnitario * cantidad), "Compra de " + p.getNombre(), this);
 		confirmarPago();
-		
-		/* Si no se puede quedar en descubierto en la ctacte: 
-		if (c.getSaldoCtaCte() >= montoUnitario * cantidad) {
-			AdmUsuarios.getInstancia().cargarMovCtaCte(c, -(montoUnitario * cantidad), "Compra de " + p.getNombre(), this);
-			confirmarPago();
-		}
-		else {
-			rechazarPago();
-		}
-		*/
-		System.out.println(this.estadoPago);
 	}
 }

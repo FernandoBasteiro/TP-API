@@ -34,6 +34,7 @@ public class AdmPersistenciaParametrosGrales {
 			if (rs.next()){
 				valor = rs.getString("valor1");
 			}
+			PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
 			return valor;
 		} catch (Exception e) {
 			System.out.println("Error Query: " + e.getMessage());

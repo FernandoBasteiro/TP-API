@@ -23,7 +23,7 @@ public class AdmPersistenciaVentaMySQL {
 	static private AdmPersistenciaVentaMySQL instancia;
 	
 	static public AdmPersistenciaVentaMySQL getInstancia(){
-		if (instancia != null) {
+		if (instancia == null) {
 			instancia = new AdmPersistenciaVentaMySQL();
 		}
 		return instancia;
@@ -66,6 +66,7 @@ public class AdmPersistenciaVentaMySQL {
 				}
 				ventas.add(v);
 			}
+			PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
 			return ventas;
 		} catch (Exception e) {
 			System.out.println("Error Query: " + e.getMessage());
@@ -107,6 +108,7 @@ public class AdmPersistenciaVentaMySQL {
 				}
 				ventas.add(v);
 			}
+			PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
 			return ventas;
 		} catch (Exception e) {
 			System.out.println("Error Query: " + e.getMessage());
@@ -146,6 +148,7 @@ public class AdmPersistenciaVentaMySQL {
 					v = new TransfBancaria(nroVenta, p, u, cantidad, montoUnitario, montoComision, estadoPago, fechaDeCompra, CBU);
 				}
 			}
+			PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
 			return v;
 		} catch (Exception e) {
 			System.out.println("Error Query: " + e.getMessage());
@@ -156,11 +159,11 @@ public class AdmPersistenciaVentaMySQL {
 	public int insertarVenta(Efectivo v) {
 		try {
 			Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
-			String sql = "INSERT INTO movCtaCte (medioDePago, cantidad, nroPublicacion, nombreDeUsuarioComprador, montoUnitario, montoComision, estadoPago, fechaDeCompra) VALUES (?,?,?,?,?,?,?,?)";
+			String sql = "INSERT INTO ventas (medioDePago, cantidad, nroPublicacion, nombreDeUsuarioComprador, montoUnitario, montoComision, estadoPago, fechaDeCompra) VALUES (?,?,?,?,?,?,?,?)";
 			PreparedStatement s = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			s.setString(1, "Efectivo");
 			s.setInt(2, v.getCantidad());
-			s.setInt(3, v.getPublicacion().getNumPub());
+			s.setInt(3, v.getPublicacion().getNroPublicacion());
 			s.setString(4, v.getComprador().getNombreDeUsuario());
 			s.setFloat(5, v.getMontoUnitario());
 			s.setFloat(6, v.getMontoComision());
@@ -170,6 +173,7 @@ public class AdmPersistenciaVentaMySQL {
 			
 			ResultSet rs = s.getGeneratedKeys();
 			rs.next();
+			PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
 			return rs.getInt(1);
 		} catch (Exception e) {
 			System.out.println("Error Query: " + e.getMessage());
@@ -180,11 +184,11 @@ public class AdmPersistenciaVentaMySQL {
 	public int insertarVenta(MercadoPago v) {
 		try {
 			Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
-			String sql = "INSERT INTO movCtaCte (medioDePago, cantidad, nroPublicacion, nombreDeUsuarioComprador, montoUnitario, montoComision, estadoPago, fechaDeCompra, nroTarjeta) VALUES (?,?,?,?,?,?,?,?,?)";
+			String sql = "INSERT INTO ventas (medioDePago, cantidad, nroPublicacion, nombreDeUsuarioComprador, montoUnitario, montoComision, estadoPago, fechaDeCompra, nroTarjeta) VALUES (?,?,?,?,?,?,?,?,?)";
 			PreparedStatement s = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			s.setString(1, "MercadoPago");
 			s.setInt(2, v.getCantidad());
-			s.setInt(3, v.getPublicacion().getNumPub());
+			s.setInt(3, v.getPublicacion().getNroPublicacion());
 			s.setString(4, v.getComprador().getNombreDeUsuario());
 			s.setFloat(5, v.getMontoUnitario());
 			s.setFloat(6, v.getMontoComision());
@@ -195,6 +199,7 @@ public class AdmPersistenciaVentaMySQL {
 			
 			ResultSet rs = s.getGeneratedKeys();
 			rs.next();
+			PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
 			return rs.getInt(1);
 		} catch (Exception e) {
 			System.out.println("Error Query: " + e.getMessage());
@@ -205,11 +210,11 @@ public class AdmPersistenciaVentaMySQL {
 	public int insertarVenta(TransfBancaria v) {
 		try {
 			Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
-			String sql = "INSERT INTO movCtaCte (medioDePago, cantidad, nroPublicacion, nombreDeUsuarioComprador, montoUnitario, montoComision, estadoPago, fechaDeCompra, CBU) VALUES (?,?,?,?,?,?,?,?,?)";
+			String sql = "INSERT INTO ventas (medioDePago, cantidad, nroPublicacion, nombreDeUsuarioComprador, montoUnitario, montoComision, estadoPago, fechaDeCompra, CBU) VALUES (?,?,?,?,?,?,?,?,?)";
 			PreparedStatement s = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			s.setString(1, "MercadoPago");
+			s.setString(1, "TransfBancaria");
 			s.setInt(2, v.getCantidad());
-			s.setInt(3, v.getPublicacion().getNumPub());
+			s.setInt(3, v.getPublicacion().getNroPublicacion());
 			s.setString(4, v.getComprador().getNombreDeUsuario());
 			s.setFloat(5, v.getMontoUnitario());
 			s.setFloat(6, v.getMontoComision());
@@ -220,6 +225,7 @@ public class AdmPersistenciaVentaMySQL {
 			
 			ResultSet rs = s.getGeneratedKeys();
 			rs.next();
+			PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
 			return rs.getInt(1);
 		} catch (Exception e) {
 			System.out.println("Error Query: " + e.getMessage());
@@ -230,7 +236,7 @@ public class AdmPersistenciaVentaMySQL {
 	public int updateEstadoVenta(Venta v) {
 		try {
 			Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
-			PreparedStatement s = con.prepareStatement("UPDATE usuarios SET estadoPago = ? WHERE nroVenta = ?");
+			PreparedStatement s = con.prepareStatement("UPDATE ventas SET estadoPago = ? WHERE nroVenta = ?");
 			s.setString(1, v.getEstadoPago());
 			s.setInt(2, v.getNroVenta());
 			s.execute();
