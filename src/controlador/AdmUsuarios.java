@@ -2,8 +2,10 @@ package controlador;
 
 import java.util.ArrayList;
 
+import persistencia.AdmPersistenciaParametrosGrales;
 import persistencia.AdmPersistenciaUsuario;
 import modelo.Admin;
+import modelo.Password;
 import modelo.Publicacion;
 import modelo.Usuario;
 import modelo.UsuarioRegular;
@@ -169,4 +171,9 @@ public class AdmUsuarios {
 		}
 		return null;
 	}
+	
+	public void cargarExpiracionPass() {
+		Password.setCaducidad(Integer.valueOf(AdmPersistenciaParametrosGrales.getInstancia().getParametro("PASSWORD", "VENC")));
+	}
+
 }

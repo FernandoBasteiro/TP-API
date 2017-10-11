@@ -9,6 +9,7 @@ import modelo.TransfBancaria;
 import modelo.Usuario;
 import modelo.UsuarioRegular;
 import modelo.Venta;
+import persistencia.AdmPersistenciaParametrosGrales;
 
 public class SistemaVentas {
 	private ArrayList<Venta> ventas;
@@ -134,5 +135,9 @@ public class SistemaVentas {
 			}
 		}
 		return ventas;
+	}
+	
+	public void cargarPorcentajeComision() {
+		Venta.setPorcentajeComision(Float.valueOf(AdmPersistenciaParametrosGrales.getInstancia().getParametro("VENTA", "COMISION")));
 	}
 }

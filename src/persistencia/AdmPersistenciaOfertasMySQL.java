@@ -47,6 +47,7 @@ public class AdmPersistenciaOfertasMySQL {
 					o = new Oferta(monto, u, medioDePago, fechaOferta);
 				}
 			}
+			PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
 			return o;
 		} catch (Exception e) {
 			System.out.println("Error Query: " + e.getMessage());
@@ -72,6 +73,7 @@ public class AdmPersistenciaOfertasMySQL {
 					ofertas.add(o);
 				}
 			}
+			PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
 			return ofertas;
 		} catch (Exception e) {
 			System.out.println("Error Query: " + e.getMessage());

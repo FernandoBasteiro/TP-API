@@ -3,7 +3,7 @@ package modelo;
 import java.time.LocalDateTime;
 
 public class Password {
-	static private int caducidad = 90; //TODO Este valor tiene que venir de la DB.
+	static private int caducidad;
 	private LocalDateTime ultimaModificacion;
 	private String passwordString;
 	

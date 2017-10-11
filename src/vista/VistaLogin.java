@@ -25,18 +25,6 @@ public class VistaLogin extends JFrame {
 	private JPanel contentPane;
 	static private VistaLogin instancia;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VistaLogin.getInstancia().setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	static public VistaLogin getInstancia() {
 		if (instancia == null) {
 			instancia = new VistaLogin();

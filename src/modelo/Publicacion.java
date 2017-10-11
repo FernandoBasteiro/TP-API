@@ -17,6 +17,10 @@ public abstract class Publicacion {
 	protected UsuarioRegular vendedor;
 	protected static int proxNumPublicacion = 1; // Solo para probar hasta que haya persistencia.
 	
+	public int getNroPublicacion() {
+		return nroPublicacion;
+	}
+
 	public static int getNumPub(){ //Solo para probar mientras no haya persistencia
 		return proxNumPublicacion++;
 	}
