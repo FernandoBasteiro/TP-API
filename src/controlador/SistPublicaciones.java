@@ -7,6 +7,7 @@ import modelo.CompraInmediata;
 import modelo.Publicacion;
 import modelo.Subasta;
 import modelo.UsuarioRegular;
+import persistencia.AdmPersistenciaPublicacionMySQL;
 
 public class SistPublicaciones {
 	private ArrayList<Publicacion> publicaciones;
@@ -63,13 +64,29 @@ public class SistPublicaciones {
 	
 	public ArrayList<PublicacionView> buscarPublicaciones(UsuarioRegular u) {
 		if (u != null) {
+			ArrayList<PublicacionView> pv=null;
 			if (AdmUsuarios.getInstancia().getPublicacionesUsuario(u) != null) {
-				ArrayList<PublicacionView> pv = new ArrayList<PublicacionView>();
+				pv = new ArrayList<PublicacionView>();
 				for (int i = 0; i < AdmUsuarios.getInstancia().getPublicacionesUsuario(u).size(); i++) {
 					pv.add(AdmUsuarios.getInstancia().getPublicacionesUsuario(u).get(i).getPublicacionView());
 				}
-				return pv;
+				ArrayList<PublicacionView> pvPersistido = AdmPersistenciaPublicacionMySQL.getInstancia().buscarPublicacionesUsuario(u.getNombreDeUsuario());
+				for (PublicacionView publicacionPersistida : pvPersistido) {
+					boolean agregar=true;
+					for (PublicacionView publicacionEnMemoria : pv) {
+						if(publicacionPersistida.getNumPublicacion()==publicacionEnMemoria.getNumPublicacion()) {
+							agregar=false;
+							break;
+						}
+						if (agregar)
+							pv.add(publicacionPersistida);
+					}
+				}
 			}
+			else {
+				pv = AdmPersistenciaPublicacionMySQL.getInstancia().buscarPublicacionesUsuario(u.getNombreDeUsuario());
+			}
+			return pv;
 		}
 		return null;
 	}
