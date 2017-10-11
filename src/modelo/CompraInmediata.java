@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import controlador.CompraInmediataView;
 import controlador.PublicacionView;
+import persistencia.AdmPersistenciaPublicacionMySQL;
 
 public class CompraInmediata extends Publicacion {
 	private int stock;
@@ -13,6 +14,7 @@ public class CompraInmediata extends Publicacion {
 		super(nombreDeProducto, descripcion, imagenes, precioPublicado, vendedor);
 		this.stock = stock;
 		// this.numPublicacion = persistir! -> Puede que en realidad lo tenga que hacer el controlador, para poder revisar los errores del persistir.
+		AdmPersistenciaPublicacionMySQL.getInstancia().insertPublicacion(this);
 	}
 	
 	public CompraInmediata(String nombreDeProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, int stock, int numPublicacion, LocalDateTime fechaPublicacion, UsuarioRegular vendedor) {
