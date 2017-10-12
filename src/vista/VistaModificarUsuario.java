@@ -1,26 +1,25 @@
 package vista;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-
 import java.awt.TextField;
-import java.awt.Button;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 import controlador.AdmUsuarios;
 import controlador.UsuarioView;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
 public class VistaModificarUsuario extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -228100595448307234L;
+	
 	private JPanel contentPane;
 
 	/**
@@ -107,16 +106,16 @@ public class VistaModificarUsuario extends JFrame {
 						lblMensaje.setText("Info modificada.");
 					}
 					else if(resModificar == 0 & resPassRst > 0) {
-						lblMensaje.setText("Info modificada. Contraseña no.");
+						lblMensaje.setText("Info modificada. Contraseï¿½a no.");
 					}
 					else if(resModificar > 0 & resPassRst == 0) {
-						lblMensaje.setText("Info no modificada. Contraseña si.");
+						lblMensaje.setText("Info no modificada. Contraseï¿½a si.");
 					}
 					else if(resModificar > 0 & resPassRst == -1) {
 						lblMensaje.setText("No pudo modificarse la info.");
 					}
 					else if(resModificar > 0 & resPassRst > 0) {
-						lblMensaje.setText("No pudo modificarse la info ni la contraseña.");
+						lblMensaje.setText("No pudo modificarse la info ni la contraseï¿½a.");
 					}
 					
 				}

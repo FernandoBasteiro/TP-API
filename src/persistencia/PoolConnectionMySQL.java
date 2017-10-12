@@ -3,9 +3,13 @@ package persistencia;
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
 import java.util.Vector;
+
+import javax.swing.JOptionPane;
 
 
 public class PoolConnectionMySQL
@@ -115,4 +119,28 @@ public class PoolConnectionMySQL
 	{
 		connections.add(c);
 	}
+	
+	public void testConnection()
+	{
+		try {
+			int numUsuarios=0;
+			Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
+			
+			Statement s = con.createStatement();
+			String sentencia = "select 1 valor from dual";
+			s.executeQuery(sentencia);
+			ResultSet rs = s.getResultSet();
+			
+			while (rs.next())
+			{
+				numUsuarios = Integer.parseInt(rs.getString("valor"));
+			}
+			if (numUsuarios==1)
+				System.out.println("Prueba exitosa");
+			PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
+		} catch (Exception e) {
+			System.out.println("Error Query: " + e.getMessage());
+		}
+	}
+	
 }

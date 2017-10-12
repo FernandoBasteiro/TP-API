@@ -6,16 +6,16 @@ import java.sql.Statement;
 
 import modelo.Usuario;
 
-public class AdmPersistenciaUsuario {
-	static private AdmPersistenciaUsuario instancia;
+public class AdmPersistenciaUsuarioSQLS {
+	static private AdmPersistenciaUsuarioSQLS instancia;
 	
-	private AdmPersistenciaUsuario () {
+	private AdmPersistenciaUsuarioSQLS () {
 		
 	}
 	
-	public static AdmPersistenciaUsuario getInstancia() {
+	public static AdmPersistenciaUsuarioSQLS getInstancia() {
 		if (instancia == null) {
-			instancia = new AdmPersistenciaUsuario();
+			instancia = new AdmPersistenciaUsuarioSQLS();
 		}
 		return instancia;
 	}

@@ -2,9 +2,8 @@ package modelo;
 
 import java.time.LocalDateTime;
 
-import persistencia.AdmPersistenciaVentaMySQL;
 import controlador.AdmUsuarios;
-import controlador.SistemaVentas;
+import persistencia.AdmPersistenciaVentaMySQL;
 
 public class Efectivo extends Venta{
 	public Efectivo(int nroVenta, Publicacion p, Usuario c, int cantidad, float montoUnitario,

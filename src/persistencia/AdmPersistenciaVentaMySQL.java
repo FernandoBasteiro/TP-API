@@ -12,11 +12,9 @@ import controlador.AdmUsuarios;
 import controlador.SistPublicaciones;
 import modelo.Efectivo;
 import modelo.MercadoPago;
-import modelo.Oferta;
 import modelo.Publicacion;
 import modelo.TransfBancaria;
 import modelo.Usuario;
-import modelo.UsuarioRegular;
 import modelo.Venta;
 
 public class AdmPersistenciaVentaMySQL {
