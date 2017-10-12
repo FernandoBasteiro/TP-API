@@ -21,6 +21,10 @@ public abstract class Publicacion {
 		return proxNumPublicacion++;
 	}
 	
+	public int getNroPublicacion() {
+		return nroPublicacion;
+	}
+
 	public Publicacion(String nombreProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, UsuarioRegular vendedor) {
 		super();
 		this.nombreProducto = nombreProducto;

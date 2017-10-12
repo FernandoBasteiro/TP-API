@@ -64,32 +64,32 @@ public class SistPublicaciones {
 	
 	public ArrayList<PublicacionView> buscarPublicaciones(UsuarioRegular u) {
 		if (u != null) {
-			ArrayList<PublicacionView> pv=null;
-			if (AdmUsuarios.getInstancia().getPublicacionesUsuario(u) != null) {
-				pv = new ArrayList<PublicacionView>();
-				for (int i = 0; i < AdmUsuarios.getInstancia().getPublicacionesUsuario(u).size(); i++) {
-					pv.add(AdmUsuarios.getInstancia().getPublicacionesUsuario(u).get(i).getPublicacionView());
-				}
-				ArrayList<PublicacionView> pvPersistido = AdmPersistenciaPublicacionMySQL.getInstancia().buscarPublicacionesUsuario(u.getNombreDeUsuario());
-				for (PublicacionView publicacionPersistida : pvPersistido) {
-					boolean agregar=true;
-					for (PublicacionView publicacionEnMemoria : pv) {
-						if(publicacionPersistida.getNumPublicacion()==publicacionEnMemoria.getNumPublicacion()) {
-							agregar=false;
-							break;
-						}
-						if (agregar)
-							pv.add(publicacionPersistida);
-					}
-				}
+			ArrayList<PublicacionView> pv = null;
+			ArrayList<Publicacion> pubs = AdmPersistenciaPublicacionMySQL.getInstancia().buscarPublicacionesUsuario(u.getNombreDeUsuario());
+			if (pubs.size() > 0) {pv = new ArrayList<PublicacionView>();}
+			for (int i = 0; i < AdmUsuarios.getInstancia().getPublicacionesUsuario(u).size(); i++) {
+				pv.add(pubs.get(i).getPublicacionView());
 			}
-			else {
-				pv = AdmPersistenciaPublicacionMySQL.getInstancia().buscarPublicacionesUsuario(u.getNombreDeUsuario());
+			u.setPublicaciones(pubs);
+			for (Publicacion p : publicaciones) {
+				if (! publicacionCargada(p.getNroPublicacion())) {
+					this.publicaciones.add(p);
+				}
 			}
 			return pv;
 		}
 		return null;
 	}
+	
+	public boolean publicacionCargada(int nroPublicacion) {
+		for (int i = 0; i < publicaciones.size(); i++) {
+			if (publicaciones.get(i).getNroPublicacion() == nroPublicacion) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	
 	public Publicacion buscarPublicacion(int numeroPublicacion) {
 		for (int i = 0; i < publicaciones.size(); i++) {

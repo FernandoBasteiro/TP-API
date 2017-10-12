@@ -36,7 +36,7 @@ public class AdmPersistenciaPublicacionMySQL {
 		return null;
 	}
 	
-	public ArrayList<PublicacionView> buscarPublicacionesUsuario(String nombreDeUsuario) {
+	public ArrayList<Publicacion> buscarPublicacionesUsuario(String nombreDeUsuario) {
 		ArrayList<PublicacionView> publicaciones=new ArrayList<PublicacionView>();
 		Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
 		// Inserto los datos de la publicacion
