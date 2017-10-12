@@ -66,6 +66,20 @@ public class AdmUsuarios {
 		return usuarioAux;
 	}
 	
+	public UsuarioRegular buscarUsuarioRegular(String nombreDeUsuario) {
+		for (int i = 0; i < usuarios.size(); i++) {
+			if (nombreDeUsuario.equals(usuarios.get(i).getNombreDeUsuario())) {
+				return (UsuarioRegular)usuarios.get(i);
+				//TODO Set nueva fecha de ultima modificacion del usuario.
+			}
+		}
+		Usuario usuarioAux = Usuario.buscarUsuarioDB(nombreDeUsuario);
+		if (usuarioAux != null) {
+			usuarios.add(usuarioAux);
+		}
+		return (UsuarioRegular)usuarioAux;
+	}
+	
 	public Usuario getUsuarioLogueado() {
 		return usuarioLogueado;
 	}

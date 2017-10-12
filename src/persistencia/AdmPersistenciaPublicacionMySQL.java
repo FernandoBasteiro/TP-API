@@ -7,12 +7,15 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+import modelo.CompraInmediata;
+import modelo.Oferta;
+import modelo.Publicacion;
+import modelo.Subasta;
+import modelo.Usuario;
+import controlador.AdmUsuarios;
 import controlador.CompraInmediataView;
 import controlador.PublicacionView;
 import controlador.SubastaView;
-import modelo.CompraInmediata;
-import modelo.Publicacion;
-import modelo.Subasta;
 
 public class AdmPersistenciaPublicacionMySQL {
 	static private AdmPersistenciaPublicacionMySQL instancia;
@@ -46,51 +49,35 @@ public class AdmPersistenciaPublicacionMySQL {
 			ResultSet rs=ps.executeQuery();
 			
 			while(rs.next()) {
+				ArrayList<String> imagenes = new ArrayList<String>();
+				PreparedStatement psImagenes = con.prepareStatement("select imagenURL from imagenesPublicaciones where nroPublicacion=?");
+				psImagenes.setInt(1, rs.getInt("nroPublicacion"));
+				ResultSet rsImagenes=psImagenes.executeQuery();
+				while(rsImagenes.next()) {
+					imagenes.add(rsImagenes.getString("imagenURL"));
+				}
+				
 				if(rs.getString("tipoPublicacion").equals("Compra Inmediata")) {
-					PublicacionView ci= new CompraInmediataView(rs.getString("tipoPublicacion"),
-															rs.getString("nombreDeProducto"),
-															rs.getString("descripcion"),
-															rs.getTimestamp("fechaPublicacion").toLocalDateTime(),
-															new ArrayList<String>(),
-															rs.getFloat("precioPublicado"),
-															rs.getString("estadoPublicacion"),
-															rs.getInt("nroPublicacion"),
-															rs.getInt("stock"));
-					try {
-						PreparedStatement psImagenes = con.prepareStatement("select imagenURL from imagenesPublicaciones where nroPublicacion=?");
-						psImagenes.setInt(1, rs.getInt("nroPublicacion"));
-						ResultSet rsImagenes=psImagenes.executeQuery();
-						while(rsImagenes.next()) {
-							if(rsImagenes.getString("imagenURL")!="")
-								ci.getImagenes().add(rsImagenes.getString("imagenURL"));
-						}
-					} catch (Exception e) {
-						System.out.println("Error Query: " + e.getMessage());
-						return null;
-					}
+					CompraInmediata ci = new CompraInmediata(rs.getString("nombreDeProducto"),
+							rs.getString("descripcion"),
+							imagenes,
+							rs.getFloat("precioPublicado"),
+							rs.getInt("stock"),
+							rs.getInt("nroPublicacion"),
+							rs.getTimestamp("fechaPublicacion").toLocalDateTime(),
+							AdmUsuarios.getInstancia().buscarUsuarioRegular(nombreDeUsuario));
 					publicaciones.add(ci);
 				} else if (rs.getString("tipoPublicacion").equals("Subasta")) {
-					PublicacionView s= new SubastaView(rs.getString("tipoPublicacion"),
-													rs.getString("nombreDeProducto"),
-													rs.getString("descripcion"),
-													rs.getTimestamp("fechaPublicacion").toLocalDateTime(),
-											new ArrayList<String>(),
-											rs.getFloat("precioPublicado"),
-											rs.getString("estadoPublicacion"),
-											rs.getInt("nroPublicacion"),
-											rs.getTimestamp("fechaHasta").toLocalDateTime());
-					try {
-						PreparedStatement psImagenes = con.prepareStatement("select imagenURL from imagenesPublicaciones where nroPublicacion=?");
-						psImagenes.setInt(1, rs.getInt("nroPublicacion"));
-						ResultSet rsImagenes=psImagenes.executeQuery();
-						while(rsImagenes.next()) {
-							if(rsImagenes.getString("imagenURL")!="")
-								s.getImagenes().add(rsImagenes.getString("imagenURL"));
-						}
-					} catch (Exception e) {
-						System.out.println("Error Query: " + e.getMessage());
-						return null;
-					}
+					Oferta oferta = AdmPersistenciaOfertasMySQL.getInstancia().getMayorOferta(rs.getInt("nroPublicacion"));
+					Subasta s = new Subasta(rs.getString("nombreDeProducto"),
+							rs.getString("descripcion"),
+							imagenes,
+							rs.getFloat("precioPublicado"),
+							rs.getTimestamp("fechaHasta").toLocalDateTime(),
+							rs.getInt("nroPublicacion"),
+							rs.getTimestamp("fechaPublicacion").toLocalDateTime(),
+							oferta,
+							AdmUsuarios.getInstancia().buscarUsuarioRegular(nombreDeUsuario));
 					publicaciones.add(s);
 				}
 			}

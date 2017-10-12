@@ -67,13 +67,18 @@ public class SistPublicaciones {
 			ArrayList<PublicacionView> pv = null;
 			ArrayList<Publicacion> pubs = AdmPersistenciaPublicacionMySQL.getInstancia().buscarPublicacionesUsuario(u.getNombreDeUsuario());
 			if (pubs.size() > 0) {pv = new ArrayList<PublicacionView>();}
-			for (int i = 0; i < AdmUsuarios.getInstancia().getPublicacionesUsuario(u).size(); i++) {
+			for (int i = 0; i < pubs.size(); i++) {
 				pv.add(pubs.get(i).getPublicacionView());
 			}
 			u.setPublicaciones(pubs);
-			for (Publicacion p : publicaciones) {
-				if (! publicacionCargada(p.getNroPublicacion())) {
-					this.publicaciones.add(p);
+			if (publicaciones.size() == 0) {
+				publicaciones = pubs;
+			}
+			else {
+				for (Publicacion p : publicaciones) {
+					if (! publicacionCargada(p.getNroPublicacion())) {
+						this.publicaciones.add(p);
+					}
 				}
 			}
 			return pv;
