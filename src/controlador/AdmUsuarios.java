@@ -3,7 +3,6 @@ package controlador;
 import java.util.ArrayList;
 
 import persistencia.AdmPersistenciaParametrosGrales;
-import persistencia.AdmPersistenciaUsuario;
 import modelo.Admin;
 import modelo.Password;
 import modelo.Publicacion;
