@@ -27,7 +27,7 @@ public class VistaMenuAdmin extends JFrame {
 	public VistaMenuAdmin() {
 		setTitle("Admin View");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 171, 157);
+		setBounds(100, 100, 203, 184);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -39,7 +39,7 @@ public class VistaMenuAdmin extends JFrame {
 				VistaAltaUsuario.getInstancia().setVisible(true);
 			}
 		});
-		btnCrearUsuario.setBounds(10, 6, 150, 23);
+		btnCrearUsuario.setBounds(10, 6, 187, 23);
 		contentPane.add(btnCrearUsuario);
 		
 		
@@ -53,7 +53,7 @@ public class VistaMenuAdmin extends JFrame {
 				}	
 			
 		});
-		btnModificarUsuario.setBounds(10, 83, 150, 23);
+		btnModificarUsuario.setBounds(10, 83, 187, 23);
 		contentPane.add(btnModificarUsuario);
 		
 		
@@ -64,7 +64,15 @@ public class VistaMenuAdmin extends JFrame {
 				VistaAltaAdmin.getInstancia().setVisible(true);
 			}
 		});
-		btnCrearAdmin.setBounds(10, 42, 150, 29);
+		btnCrearAdmin.setBounds(10, 41, 187, 29);
 		contentPane.add(btnCrearAdmin);
+		
+		JButton btnModificarParametros = new JButton("Modificar Parametros");
+		btnModificarParametros.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnModificarParametros.setBounds(10, 118, 187, 23);
+		contentPane.add(btnModificarParametros);
 	}
 }

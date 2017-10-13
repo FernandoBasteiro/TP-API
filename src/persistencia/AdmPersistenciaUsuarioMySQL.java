@@ -99,17 +99,13 @@ public class AdmPersistenciaUsuarioMySQL {
 	public int insertUsuario(Admin u) {
 		try {
 			Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
-			PreparedStatement s = con.prepareStatement("INSERT INTO usuarios VALUES (?,?,?,?,?,?,?,?,?,?)");
+			PreparedStatement s = con.prepareStatement("INSERT INTO usuarios (nombreDeUsuario,fechaCreacion,passwordString,passwordModif,activo,administrador) VALUES (?,?,?,?,?,?)");
 			s.setString(1, u.getNombreDeUsuario());
-			s.setString(2, null);
-			s.setString(3, null);
-			s.setString(4, null);
-			s.setTimestamp(5, Timestamp.valueOf(u.getFechaCreacion()));
-			s.setString(6, u.getPassword().getPasswordString());
-			s.setTimestamp(7, Timestamp.valueOf(u.getPassword().getUltimaModificacion()));
-			s.setNull(8, java.sql.Types.FLOAT);
-			s.setBoolean(9, u.estaActivo());
-			s.setBoolean(10, true);
+			s.setTimestamp(2, Timestamp.valueOf(u.getFechaCreacion()));
+			s.setString(3, u.getPassword().getPasswordString());
+			s.setTimestamp(4, Timestamp.valueOf(u.getPassword().getUltimaModificacion()));
+			s.setBoolean(5, u.estaActivo());
+			s.setBoolean(6, true);
 			//System.out.println(s.toString());
 			s.execute();
 			PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
