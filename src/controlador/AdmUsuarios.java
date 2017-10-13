@@ -1,5 +1,6 @@
 package controlador;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import persistencia.AdmPersistenciaParametrosGrales;
@@ -41,10 +42,17 @@ public class AdmUsuarios {
 			}
 			usuarioLogueado = usuarioAux;
 			//TODO Set nueva fecha de ultima modificacion del usuario.
+			// Comment Ale: Siempre y cuando el usuario haya realizado alguna modificacion, no estamos persistiendo
+			// logues positivos
+			
 			if (usuarioAux instanceof UsuarioRegular) {	
 				//TODO Set nueva fecha de ultima modificacion del usuario.
 				return 0; //Login correcto.
 			}
+			
+			//Porque estamos dando como Login incorrecto si se loguea un usuario Admin?
+			
+			
 			else if (usuarioAux instanceof Admin) {
 				return -1; //Login correcto de un Admin!
 			}
@@ -113,22 +121,18 @@ public class AdmUsuarios {
 		return 1; //Usuario ya existe.
 	}
 	
-	public int crearUsuario (String nombreDeUsuario, String passwordString){
+	
+	public int crearAdmin (String nombreDeUsuario, String passwordString){
 		if (buscarUsuario(nombreDeUsuario) == null) {
-			Admin usuarioAux = new Admin (nombreDeUsuario, passwordString);
-			usuarios.add(usuarioAux);
+			Admin adminAux = new Admin (nombreDeUsuario, passwordString);
+			usuarios.add(adminAux);
 			return 0; //Usuario Creado
 		}
 		return 1; //Usuario ya existe.
 	}
 	
-	/* Creo que esto no hace falta
-	public int cargarMovCtaCte(String nombreDeUsuario, float monto, String concepto, Venta venta) {
-		Usuario usuarioAux = buscarUsuario(nombreDeUsuario);
-		usuarioAux.cargarMovimiento(venta, monto, concepto);
-		return 0;
-	}
-	*/
+	
+
 	
 	public int cargarMovCtaCte(UsuarioRegular u, float monto, String concepto, Venta venta) {
 		u.cargarMovimiento(venta, monto, concepto);

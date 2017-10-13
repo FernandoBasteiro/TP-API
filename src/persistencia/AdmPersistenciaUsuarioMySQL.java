@@ -93,6 +93,9 @@ public class AdmPersistenciaUsuarioMySQL {
 			return -1;
 		}
 	}
+	
+	// Debemos de evaluar que datos podemos tomar como nulls.
+	
 	public int insertUsuario(Admin u) {
 		try {
 			Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
