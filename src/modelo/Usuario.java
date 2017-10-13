@@ -3,6 +3,7 @@ package modelo;
 import java.time.LocalDateTime;
 
 import controlador.UsuarioView;
+import persistencia.AdmPersistenciaParametrosGrales;
 import persistencia.AdmPersistenciaUsuarioMySQL;
 
 public abstract class Usuario {
@@ -79,4 +80,14 @@ public abstract class Usuario {
 	static public int updateUsuarioDB(Usuario u) {
 		return AdmPersistenciaUsuarioMySQL.getInstancia().updateUsuario(u);
 	}
+
+	public static String setCaducidadPass() {
+		return Password.setCaducidad();
+	}
+
+	public static int setCaducidadPass(String caducidad) {
+		return Password.setCaducidad(caducidad);
+	}
+	
+	
 }

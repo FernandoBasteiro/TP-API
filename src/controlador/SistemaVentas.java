@@ -136,7 +136,11 @@ public class SistemaVentas {
 		return ventas;
 	}
 	
-	public void cargarPorcentajeComision() {
-		Venta.setPorcentajeComision(Float.valueOf(AdmPersistenciaParametrosGrales.getInstancia().getParametro("VENTA", "COMISION")));
+	public int guardarPorcentajeComision(String comision) {
+		return Venta.setPorcentajeComision(comision);
+	}
+	
+	public String cargarPorcentajeComision() {
+		return Venta.setPorcentajeComision();
 	}
 }
