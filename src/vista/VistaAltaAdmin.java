@@ -12,6 +12,8 @@ import javax.swing.border.EmptyBorder;
 
 import controlador.AdmUsuarios;
 
+
+
 public class VistaAltaAdmin extends JFrame {
 
 	/**
