@@ -7,15 +7,11 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+import controlador.AdmUsuarios;
 import modelo.CompraInmediata;
 import modelo.Oferta;
 import modelo.Publicacion;
 import modelo.Subasta;
-import modelo.Usuario;
-import controlador.AdmUsuarios;
-import controlador.CompraInmediataView;
-import controlador.PublicacionView;
-import controlador.SubastaView;
 
 public class AdmPersistenciaPublicacionMySQL {
 	static private AdmPersistenciaPublicacionMySQL instancia;
@@ -32,11 +28,107 @@ public class AdmPersistenciaPublicacionMySQL {
 	}
 	
 	public ArrayList<Publicacion> buscarPublicacionesProducto(String nombreDeProducto) {
-		return null;
+		ArrayList<Publicacion> publicaciones=new ArrayList<Publicacion>();
+		Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
+		// Inserto los datos de la publicacion
+		try {
+			PreparedStatement ps = con.prepareStatement("select nroPublicacion,tipoPublicacion,nombreDeProducto,descripcion,fechaPublicacion,precioPublicado,estadoPublicacion,nombreDeUsuarioVendedor,stock,fechaHasta,ultimaOferta from publicaciones where nombreDeProducto=?");
+			ps.setString(1, nombreDeProducto);
+			ResultSet rs=ps.executeQuery();
+			
+			while(rs.next()) {
+				ArrayList<String> imagenes = new ArrayList<String>();
+				PreparedStatement psImagenes = con.prepareStatement("select imagenURL from imagenesPublicaciones where nroPublicacion=?");
+				psImagenes.setInt(1, rs.getInt("nroPublicacion"));
+				ResultSet rsImagenes=psImagenes.executeQuery();
+				while(rsImagenes.next()) {
+					imagenes.add(rsImagenes.getString("imagenURL"));
+				}
+				
+				if(rs.getString("tipoPublicacion").equals("Compra Inmediata")) {
+					CompraInmediata ci = new CompraInmediata(rs.getString("nombreDeProducto"),
+							rs.getString("descripcion"),
+							imagenes,
+							rs.getFloat("precioPublicado"),
+							rs.getInt("stock"),
+							rs.getInt("nroPublicacion"),
+							rs.getTimestamp("fechaPublicacion").toLocalDateTime(),
+							AdmUsuarios.getInstancia().buscarUsuarioRegular(rs.getString("nombreDeUsuarioVendedor")));
+					publicaciones.add(ci);
+				} else if (rs.getString("tipoPublicacion").equals("Subasta")) {
+					Oferta oferta = AdmPersistenciaOfertasMySQL.getInstancia().getMayorOferta(rs.getInt("nroPublicacion"));
+					Subasta s = new Subasta(rs.getString("nombreDeProducto"),
+							rs.getString("descripcion"),
+							imagenes,
+							rs.getFloat("precioPublicado"),
+							rs.getTimestamp("fechaHasta").toLocalDateTime(),
+							rs.getInt("nroPublicacion"),
+							rs.getTimestamp("fechaPublicacion").toLocalDateTime(),
+							oferta,
+							AdmUsuarios.getInstancia().buscarUsuarioRegular(rs.getString("nombreDeUsuarioVendedor")));
+					publicaciones.add(s);
+				}
+			}
+//			System.out.println("ID generado: " + rs.getInt(1));
+			
+		} catch (Exception e) {
+			System.out.println("Error Query: " + e.getMessage());
+			return null;
+		}
+		PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
+		return publicaciones;
 	}
 	
 	public Publicacion buscarPublicacion(int nroPublicacion) {
-		return null;
+		Publicacion publicacion=null;
+		Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
+		// Inserto los datos de la publicacion
+		try {
+			PreparedStatement ps = con.prepareStatement("select nroPublicacion,tipoPublicacion,nombreDeProducto,descripcion,fechaPublicacion,precioPublicado,estadoPublicacion,nombreDeUsuarioVendedor,stock,fechaHasta,ultimaOferta from publicaciones where nroPublicacion=?");
+			ps.setInt(1, nroPublicacion);
+			ResultSet rs=ps.executeQuery();
+			
+			if(rs.next()) {
+				ArrayList<String> imagenes = new ArrayList<String>();
+				PreparedStatement psImagenes = con.prepareStatement("select imagenURL from imagenesPublicaciones where nroPublicacion=?");
+				psImagenes.setInt(1, rs.getInt("nroPublicacion"));
+				ResultSet rsImagenes=psImagenes.executeQuery();
+				while(rsImagenes.next()) {
+					imagenes.add(rsImagenes.getString("imagenURL"));
+				}
+				
+				if(rs.getString("tipoPublicacion").equals("Compra Inmediata")) {
+					CompraInmediata ci = new CompraInmediata(rs.getString("nombreDeProducto"),
+							rs.getString("descripcion"),
+							imagenes,
+							rs.getFloat("precioPublicado"),
+							rs.getInt("stock"),
+							rs.getInt("nroPublicacion"),
+							rs.getTimestamp("fechaPublicacion").toLocalDateTime(),
+							AdmUsuarios.getInstancia().buscarUsuarioRegular(rs.getString("nombreDeUsuarioVendedor")));
+					publicacion=ci;
+				} else if (rs.getString("tipoPublicacion").equals("Subasta")) {
+					Oferta oferta = AdmPersistenciaOfertasMySQL.getInstancia().getMayorOferta(rs.getInt("nroPublicacion"));
+					Subasta s = new Subasta(rs.getString("nombreDeProducto"),
+							rs.getString("descripcion"),
+							imagenes,
+							rs.getFloat("precioPublicado"),
+							rs.getTimestamp("fechaHasta").toLocalDateTime(),
+							rs.getInt("nroPublicacion"),
+							rs.getTimestamp("fechaPublicacion").toLocalDateTime(),
+							oferta,
+							AdmUsuarios.getInstancia().buscarUsuarioRegular(rs.getString("nombreDeUsuarioVendedor")));
+					publicacion=s;
+				}
+			}
+//			System.out.println("ID generado: " + rs.getInt(1));
+			
+		} catch (Exception e) {
+			System.out.println("Error Query: " + e.getMessage());
+			return null;
+		}
+		PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
+		return publicacion;
 	}
 	
 	public ArrayList<Publicacion> buscarPublicacionesUsuario(String nombreDeUsuario) {
