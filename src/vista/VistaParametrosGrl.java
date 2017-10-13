@@ -56,7 +56,7 @@ public class VistaParametrosGrl extends JFrame {
 	 * Create the frame.
 	 */
 	private VistaParametrosGrl() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 334, 182);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -71,8 +71,7 @@ public class VistaParametrosGrl extends JFrame {
 		txtVencPass.setBounds(198, 6, 130, 26);
 		contentPane.add(txtVencPass);
 		txtVencPass.setColumns(10);
-		txtVencPass.setText("UsarPsersistencia");
-		// SistemaVentas.getInstancia().cargarPorcentajeComision();
+		txtVencPass.setText(AdmUsuarios.getInstancia().cargarExpiracionPass());
 		
 		JLabel lblComision = new JLabel("COMISION");
 		lblComision.setBounds(6, 44, 180, 26);
@@ -82,8 +81,7 @@ public class VistaParametrosGrl extends JFrame {
 		txtComision.setColumns(10);
 		txtComision.setBounds(198, 44, 130, 26);
 		contentPane.add(txtComision);
-		txtComision.setText("UsarPsersistencia");
-		//AdmUsuarios.getInstancia().cargarExpiracionPass();
+		txtComision.setText(SistemaVentas.getInstancia().cargarPorcentajeComision());
 		
 		JLabel lblMensaje = new JLabel(" ");
 		lblMensaje.setBounds(6, 82, 322, 26);
@@ -92,7 +90,12 @@ public class VistaParametrosGrl extends JFrame {
 		JButton btnModificar = new JButton("Modificar");
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				int error1 = AdmUsuarios.getInstancia().guardarExpiracionPass(txtVencPass.getText());
+				int error2 = SistemaVentas.getInstancia().guardarPorcentajeComision(txtComision.getText());
+				if (error1+error2==0)
+					lblMensaje.setText("Modificacion correcta.");
+				else
+					lblMensaje.setText("Error al modifica.");
 			}
 		});
 		btnModificar.setBounds(6, 120, 117, 29);
