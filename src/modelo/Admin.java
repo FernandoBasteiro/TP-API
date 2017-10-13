@@ -2,10 +2,13 @@ package modelo;
 
 import java.time.LocalDateTime;
 
+
 import persistencia.AdmPersistenciaUsuarioMySQL;
 import controlador.UsuarioView;
 
 public class Admin extends Usuario {
+	
+	private String nombre;
 
 	public Admin(String nombreDeUsuario, Password password,
 			LocalDateTime fechaCreacion, boolean activo) {
@@ -20,4 +23,16 @@ public class Admin extends Usuario {
 	public UsuarioView getUsuarioView() {
 		return (new UsuarioView(this.nombreDeUsuario, this.activo));
 	}
+
+
+	public String getNombre() {
+		return nombreDeUsuario;
+	}
+	
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+
+
 }

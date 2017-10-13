@@ -4,6 +4,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VistaMenuAdmin extends JFrame {
 
@@ -25,19 +27,44 @@ public class VistaMenuAdmin extends JFrame {
 	public VistaMenuAdmin() {
 		setTitle("Admin View");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 186, 121);
+		setBounds(100, 100, 171, 157);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JButton btnCrearUsuario = new JButton("Crear Usuario");
-		btnCrearUsuario.setBounds(10, 11, 150, 23);
+		btnCrearUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VistaAltaUsuario.getInstancia().setVisible(true);
+			}
+		});
+		btnCrearUsuario.setBounds(10, 6, 150, 23);
 		contentPane.add(btnCrearUsuario);
 		
+		
+		
 		JButton btnModificarUsuario = new JButton("Modificar Usuario");
-		btnModificarUsuario.setBounds(10, 45, 150, 23);
+		btnModificarUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+					VistaModificarUsuario vmu = new VistaModificarUsuario();
+					vmu.setVisible(true);
+				}	
+			
+		});
+		btnModificarUsuario.setBounds(10, 83, 150, 23);
 		contentPane.add(btnModificarUsuario);
+		
+		
+		JButton btnCrearAdmin = new JButton("Crear Admin");
+		btnCrearAdmin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				VistaAltaAdmin.getInstancia().setVisible(true);
+			}
+		});
+		btnCrearAdmin.setBounds(10, 42, 150, 29);
+		contentPane.add(btnCrearAdmin);
 	}
-
 }
