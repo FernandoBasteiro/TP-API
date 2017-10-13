@@ -41,4 +41,21 @@ public class AdmPersistenciaParametrosGrales {
 			return null;
 		}
 	}
+	
+	public int setParametro(String tabla, String clave, String parametro) {
+		try {
+			Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
+			PreparedStatement s = con.prepareStatement("UPDATE parametros SET valor1 = ? WHERE tabla = ? AND clave = ?");
+			
+			s.setString(1, parametro);
+			s.setString(2, tabla);
+			s.setString(3, clave);
+			s.execute();
+			PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
+			return 0;
+		} catch (Exception e) {
+			System.out.println("Error Query: " + e.getMessage());
+			return 1;
+		}
+	}
 }

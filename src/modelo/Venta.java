@@ -3,6 +3,7 @@ package modelo;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import persistencia.AdmPersistenciaParametrosGrales;
 import persistencia.AdmPersistenciaVentaMySQL;
 import controlador.AdmUsuarios;
 import controlador.SistPublicaciones;
@@ -49,8 +50,16 @@ public abstract class Venta {
 		return porcentajeComision;
 	}
 
-	public static void setPorcentajeComision(float porcentajeComision) {
-		Venta.porcentajeComision = porcentajeComision;
+	public static int setPorcentajeComision(String porcentajeComision) {
+		if (AdmPersistenciaParametrosGrales.getInstancia().setParametro("", "", porcentajeComision) == 0) {
+			Venta.porcentajeComision = Float.valueOf(porcentajeComision);
+			return 0;
+		}
+		return 1;
+	}
+
+	public static void setPorcentajeComision() {
+		Venta.porcentajeComision = Float.valueOf(AdmPersistenciaParametrosGrales.getInstancia().getParametro("VENTA", "COMISION"));
 	}
 
 	public Publicacion getPublicacion() {

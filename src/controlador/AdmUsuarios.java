@@ -189,8 +189,12 @@ public class AdmUsuarios {
 		return null;
 	}
 	
-	public void cargarExpiracionPass() {
-		Password.setCaducidad(Integer.valueOf(AdmPersistenciaParametrosGrales.getInstancia().getParametro("PASSWORD", "VENC")));
+	public String cargarExpiracionPass() {
+		return Usuario.setCaducidadPass();
+	}
+	
+	public int guardarExpiracionPass(String caducidad) {
+		return Usuario.setCaducidadPass(caducidad);
 	}
 
 }
