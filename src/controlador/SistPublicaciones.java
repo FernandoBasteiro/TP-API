@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import modelo.CompraInmediata;
 import modelo.Publicacion;
 import modelo.Subasta;
-import modelo.Usuario;
 import modelo.UsuarioRegular;
+import persistencia.AdmPersistenciaPublicacionMySQL;
 
 public class SistPublicaciones {
 	private ArrayList<Publicacion> publicaciones;
@@ -64,16 +64,37 @@ public class SistPublicaciones {
 	
 	public ArrayList<PublicacionView> buscarPublicaciones(UsuarioRegular u) {
 		if (u != null) {
-			if (AdmUsuarios.getInstancia().getPublicacionesUsuario(u) != null) {
-				ArrayList<PublicacionView> pv = new ArrayList<PublicacionView>();
-				for (int i = 0; i < AdmUsuarios.getInstancia().getPublicacionesUsuario(u).size(); i++) {
-					pv.add(AdmUsuarios.getInstancia().getPublicacionesUsuario(u).get(i).getPublicacionView());
-				}
-				return pv;
+			ArrayList<PublicacionView> pv = null;
+			ArrayList<Publicacion> pubs = AdmPersistenciaPublicacionMySQL.getInstancia().buscarPublicacionesUsuario(u.getNombreDeUsuario());
+			if (pubs.size() > 0) {pv = new ArrayList<PublicacionView>();}
+			for (int i = 0; i < pubs.size(); i++) {
+				pv.add(pubs.get(i).getPublicacionView());
 			}
+			u.setPublicaciones(pubs);
+			if (publicaciones.size() == 0) {
+				publicaciones = pubs;
+			}
+			else {
+				for (Publicacion p : publicaciones) {
+					if (! publicacionCargada(p.getNroPublicacion())) {
+						this.publicaciones.add(p);
+					}
+				}
+			}
+			return pv;
 		}
 		return null;
 	}
+	
+	public boolean publicacionCargada(int nroPublicacion) {
+		for (int i = 0; i < publicaciones.size(); i++) {
+			if (publicaciones.get(i).getNroPublicacion() == nroPublicacion) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	
 	public Publicacion buscarPublicacion(int numeroPublicacion) {
 		for (int i = 0; i < publicaciones.size(); i++) {

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import controlador.PublicacionView;
 import controlador.SubastaView;
+import persistencia.AdmPersistenciaOfertasMySQL;
+import persistencia.AdmPersistenciaPublicacionMySQL;
 
 public class Subasta extends Publicacion {
 	private LocalDateTime fechaHasta;
@@ -13,7 +15,8 @@ public class Subasta extends Publicacion {
 	@Override
 	public int ofertar(float monto, int cantidad, Usuario comprador, String medioDePago) {
 		Oferta o = new Oferta(monto, comprador, medioDePago);
-		//TODO Persistir + Comprobar que la oferta sea superior a las anteriores.
+		AdmPersistenciaOfertasMySQL.getInstancia().insertOferta(o, this.nroPublicacion);
+		//TODO Comprobar que la oferta sea superior a las anteriores.
 		ofertas.add(o);
 		return 1;
 	}
@@ -24,6 +27,8 @@ public class Subasta extends Publicacion {
 		this.ofertas = new ArrayList<Oferta>();
 		Oferta ofertaVacia = new Oferta(precioPublicado, null, null);
 		ofertas.add(ofertaVacia);
+		this.nroPublicacion=AdmPersistenciaPublicacionMySQL.getInstancia().insertPublicacion(this);
+		AdmPersistenciaOfertasMySQL.getInstancia().insertOferta(ofertaVacia, this.nroPublicacion);
 	}
 	
 	public Subasta(String nombreDeProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, LocalDateTime fechaHasta, int numPublicacion, LocalDateTime fechaPublicacion, Oferta ultimaOferta, UsuarioRegular vendedor) {
@@ -46,7 +51,7 @@ public class Subasta extends Publicacion {
 
 	@Override
 	public PublicacionView getPublicacionView() {
-		SubastaView sv = new SubastaView("Subasta", nombreProducto, descripcion, fechaPublicacion, imagenes, this.getPrecioActual(), estadoPublicacion, nroPublicacion, fechaHasta);  //TODO Sera aceptable esto?
+		PublicacionView sv = new SubastaView("Subasta", nombreProducto, descripcion, fechaPublicacion, this.imagenes, this.getPrecioActual(), estadoPublicacion, nroPublicacion, fechaHasta);  //TODO Sera aceptable esto?
 		return sv;
 	}
 	

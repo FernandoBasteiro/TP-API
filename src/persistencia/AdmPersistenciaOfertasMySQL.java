@@ -8,13 +8,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import controlador.AdmUsuarios;
-import modelo.Admin;
-import modelo.Calificacion;
-import modelo.CtaCte;
 import modelo.Oferta;
-import modelo.Password;
 import modelo.Usuario;
-import modelo.UsuarioRegular;
 
 public class AdmPersistenciaOfertasMySQL {
 	static private AdmPersistenciaOfertasMySQL instancia;
@@ -42,10 +37,9 @@ public class AdmPersistenciaOfertasMySQL {
 				String medioDePago = rs.getString("medioDePago");
 				LocalDateTime fechaOferta = rs.getTimestamp("fechaOferta").toLocalDateTime();
 				String nombreDeUsuario = rs.getString("nombreDeUsuario");
-				Usuario u = AdmUsuarios.getInstancia().buscarUsuario(nombreDeUsuario);
-				if (u != null) {
-					o = new Oferta(monto, u, medioDePago, fechaOferta);
-				}
+				Usuario u = null;
+				if (nombreDeUsuario != null) {u = AdmUsuarios.getInstancia().buscarUsuario(nombreDeUsuario);}
+				o = new Oferta(monto, u, medioDePago, fechaOferta);
 			}
 			PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
 			return o;
@@ -84,7 +78,7 @@ public class AdmPersistenciaOfertasMySQL {
 	public int insertOferta(Oferta o, int nroPublicacion) {
 		try {
 			Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
-			PreparedStatement s = con.prepareStatement("INSERT INTO usuarios (monto, medioDePago, fechaOferta, nroPublicacion, nombreDeUsuario) VALUES (?,?,?,?,?)");
+			PreparedStatement s = con.prepareStatement("INSERT INTO ofertas (monto, medioDePago, fechaOferta, nroPublicacion, nombreDeUsuario) VALUES (?,?,?,?,?)");
 			s.setFloat(1, o.getMonto());
 			s.setString(2, o.getMedioDePago());
 			s.setTimestamp(3, Timestamp.valueOf(o.getFechaOferta()));
