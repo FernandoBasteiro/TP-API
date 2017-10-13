@@ -70,6 +70,7 @@ public class VistaMenuAdmin extends JFrame {
 		JButton btnModificarParametros = new JButton("Modificar Parametros");
 		btnModificarParametros.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				VistaParametrosGrl.getInstancia().setVisible(true);
 			}
 		});
 		btnModificarParametros.setBounds(10, 118, 187, 23);

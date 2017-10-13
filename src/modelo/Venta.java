@@ -51,15 +51,17 @@ public abstract class Venta {
 	}
 
 	public static int setPorcentajeComision(String porcentajeComision) {
-		if (AdmPersistenciaParametrosGrales.getInstancia().setParametro("", "", porcentajeComision) == 0) {
+		if (AdmPersistenciaParametrosGrales.getInstancia().setParametro("VENTA", "COMISION", porcentajeComision) == 0) {
 			Venta.porcentajeComision = Float.valueOf(porcentajeComision);
 			return 0;
 		}
 		return 1;
 	}
 
-	public static void setPorcentajeComision() {
-		Venta.porcentajeComision = Float.valueOf(AdmPersistenciaParametrosGrales.getInstancia().getParametro("VENTA", "COMISION"));
+	public static String setPorcentajeComision() {
+		String comision = AdmPersistenciaParametrosGrales.getInstancia().getParametro("VENTA", "COMISION");
+		Venta.porcentajeComision = Float.valueOf(comision);
+		return comision;
 	}
 
 	public Publicacion getPublicacion() {

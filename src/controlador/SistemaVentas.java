@@ -140,7 +140,7 @@ public class SistemaVentas {
 		return Venta.setPorcentajeComision(comision);
 	}
 	
-	public void cargarPorcentajeComision() {
-		Venta.setPorcentajeComision();
+	public String cargarPorcentajeComision() {
+		return Venta.setPorcentajeComision();
 	}
 }
