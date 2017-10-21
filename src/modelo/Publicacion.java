@@ -26,6 +26,10 @@ public abstract class Publicacion {
 	}
 */
 	
+	public String getEstadoPublicacion() {
+		return estadoPublicacion;
+	}
+
 	public Publicacion(String nombreProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, UsuarioRegular vendedor) {
 		super();
 		this.nombreProducto = nombreProducto;
@@ -62,7 +66,7 @@ public abstract class Publicacion {
 	public abstract PublicacionView getPublicacionView();
 	
 	public boolean sosBuscado(String buscado) {
-		if (nombreProducto.contains(buscado)) {
+		if (nombreProducto.toUpperCase().contains(buscado.toUpperCase())) {
 			return true;
 		}
 		return false;

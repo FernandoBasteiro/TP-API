@@ -24,6 +24,10 @@ public class CompraInmediata extends Publicacion {
 		this.stock = stock;
 	}
 
+	public int getStock() {
+		return stock;
+	}
+
 	@Override
 	public int ofertar(float monto, int cantidad, Usuario comprador, String medioDePago) {
 		
@@ -32,8 +36,8 @@ public class CompraInmediata extends Publicacion {
 			if (this.stock == 0) {
 				this.estadoPublicacion = "Finalizada";
 			}
+			int error = AdmPersistenciaPublicacionMySQL.getInstancia().updateStockPublicacion(this); //TODO Si falla habria que volver todo atras.
 			return 0;
-			//TODO Persistir
 		}
 		else if (this.stock == -1) {
 			return 0;
@@ -62,7 +66,7 @@ public class CompraInmediata extends Publicacion {
 			if (this.stock > 0) {
 				this.estadoPublicacion = "Activa";
 			}
-			//TODO Persistir
+			int error = AdmPersistenciaPublicacionMySQL.getInstancia().updateStockPublicacion(this); //TODO Si falla habria que volver todo atras.
 		}
 		return 0;
 	}
@@ -73,7 +77,7 @@ public class CompraInmediata extends Publicacion {
 				if (--this.stock == 0){
 					this.estadoPublicacion = "Finalizada";
 				}
-				//TODO Persistir CompraInmediata
+				int error = AdmPersistenciaPublicacionMySQL.getInstancia().updateStockPublicacion(this); //TODO Si falla habria que volver todo atras.
 			}
 			Subasta s = new Subasta(this.nombreProducto, this.descripcion, this.imagenes, precioMinimo, fechaHasta, this.vendedor);
 			return s;

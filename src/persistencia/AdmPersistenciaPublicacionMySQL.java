@@ -32,8 +32,9 @@ public class AdmPersistenciaPublicacionMySQL {
 		Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
 		// Inserto los datos de la publicacion
 		try {
-			PreparedStatement ps = con.prepareStatement("select nroPublicacion,tipoPublicacion,nombreDeProducto,descripcion,fechaPublicacion,precioPublicado,estadoPublicacion,nombreDeUsuarioVendedor,stock,fechaHasta,ultimaOferta from publicaciones where nombreDeProducto=?");
-			ps.setString(1, nombreDeProducto);
+			String sql = "SELECT nroPublicacion,tipoPublicacion,nombreDeProducto,descripcion,fechaPublicacion,precioPublicado,estadoPublicacion,nombreDeUsuarioVendedor,stock,fechaHasta,ultimaOferta from publicaciones WHERE nombreDeProducto LIKE ?";
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, '%' + nombreDeProducto + '%');
 			ResultSet rs=ps.executeQuery();
 			
 			while(rs.next()) {
@@ -183,8 +184,35 @@ public class AdmPersistenciaPublicacionMySQL {
 		return publicaciones;
 	}
 	
-	public int updatePublicacion(int nroPublicacion) {
-		return 0;
+	public int updateEstadoPublicacion(Publicacion p) {
+		try {
+			Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
+			PreparedStatement s = con.prepareStatement("UPDATE publicaciones SET estadoPublicacion = ? WHERE nroPublicacion = ?");
+			s.setString(1, p.getEstadoPublicacion());
+			s.setInt(2, p.getNroPublicacion());
+			s.execute();
+			PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
+			return 0;
+		} catch (Exception e) {
+			System.out.println("Error Query: " + e.getMessage());
+			return 1;
+		}
+	}
+	
+	public int updateStockPublicacion(CompraInmediata ci) {
+		try {
+			Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
+			PreparedStatement s = con.prepareStatement("UPDATE publicaciones SET estadoPublicacion = ? AND stock = ? WHERE nroPublicacion = ?");
+			s.setString(1, ci.getEstadoPublicacion());
+			s.setInt(1, ci.getStock());
+			s.setInt(3, ci.getNroPublicacion());
+			s.execute();
+			PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
+			return 0;
+		} catch (Exception e) {
+			System.out.println("Error Query: " + e.getMessage());
+			return 1;
+		}
 	}
 	
 	public int insertPublicacion(Subasta s) {
@@ -221,7 +249,6 @@ public class AdmPersistenciaPublicacionMySQL {
 				ps.setString(2, imagenTexto);
 				ps.executeUpdate();
 			}
-			
 		} catch (Exception e) {
 			System.out.println("Error Query: " + e.getMessage());
 			this.deletePublicacion(con, nroPublicacion);
@@ -258,12 +285,10 @@ public class AdmPersistenciaPublicacionMySQL {
 		//inserto los datos de la lista de imagenes
 		try {
 			for (String imagenTexto : ci.getPublicacionView().getImagenes()) {
-				if(imagenTexto.length()>0) {
-					PreparedStatement ps = con.prepareStatement("INSERT INTO imagenesPublicaciones (nroPublicacion,imagenURL) VALUES (?,?)");
-					ps.setInt(1, nroPublicacion);
-					ps.setString(2, imagenTexto);
-					ps.executeUpdate();
-				}
+				PreparedStatement ps = con.prepareStatement("INSERT INTO imagenesPublicaciones (nroPublicacion,imagenURL) VALUES (?,?)");
+				ps.setInt(1, nroPublicacion);
+				ps.setString(2, imagenTexto);
+				ps.executeUpdate();
 			}
 			
 		} catch (Exception e) {
