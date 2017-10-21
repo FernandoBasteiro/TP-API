@@ -1,6 +1,5 @@
 package vista;
 
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
@@ -60,7 +59,7 @@ public class VistaLogin extends JFrame {
 		
 		JLabel labelMensaje = new JLabel("");
 		labelMensaje.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		labelMensaje.setBounds(10, 127, 186, 14);
+		labelMensaje.setBounds(10, 119, 186, 22);
 		contentPane.add(labelMensaje);
 		
 		TextField textNPassword = new TextField();
@@ -82,7 +81,8 @@ public class VistaLogin extends JFrame {
 					if (resPwdReset == 0) {
 						int resLogin = AdmUsuarios.getInstancia().login(textUsuario.getText(), textNPassword.getText());
 						if (resLogin == 0) {
-							VistaMenuPrincipal.getInstancia().setVisible(true);
+//							VistaMenuPrincipal.getInstancia().setVisible(true);
+							MenuVistas.getInstancia().setVisible(true);
 							VistaLogin.getInstancia().setVisible(false);
 						}
 						else {
@@ -125,7 +125,8 @@ public class VistaLogin extends JFrame {
 							VistaLogin.getInstancia().setVisible(false);
 							break;
 						case 0:
-							VistaMenuPrincipal.getInstancia().setVisible(true);
+//							VistaMenuPrincipal.getInstancia().setVisible(true);
+							MenuVistas.getInstancia().setVisible(true);
 							VistaLogin.getInstancia().setVisible(false);
 							break;
 						case 1:

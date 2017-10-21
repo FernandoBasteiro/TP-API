@@ -15,6 +15,9 @@ import javax.swing.border.EmptyBorder;
 
 import controlador.PublicacionView;
 import controlador.SistPublicaciones;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
 
 public class VistaVerPublicaciones extends JFrame {
 
@@ -29,6 +32,7 @@ public class VistaVerPublicaciones extends JFrame {
 	private JList listPublicaciones;
 	static private String buscado;
 	private ArrayList<PublicacionView> publicaciones;
+	private JTextField textField;
 
 	//TODO La lista de publicaciones no se actualiza sola, por que el Array List no se actualiza. Hay que desarrollar alguna forma para que esta vista
 	// le pida al SistPublicaciones un nuevo ArrayList cada vez que se focusea esta ventana, permitiendo asi recargar la lista.
@@ -40,7 +44,7 @@ public class VistaVerPublicaciones extends JFrame {
 			}
 		});
 		setResizable(false);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 445, 326);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -51,8 +55,21 @@ public class VistaVerPublicaciones extends JFrame {
 		modelPublicaciones = new DefaultListModel<>();
 		listPublicaciones = new JList(modelPublicaciones);
 		listPublicaciones.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		listPublicaciones.setBounds(10, 11, 424, 249);
+		listPublicaciones.setBounds(6, 39, 433, 259);
 		contentPane.add(listPublicaciones);
+		
+		JLabel label = new JLabel("Buscar Publicacion:");
+		label.setBounds(6, 7, 129, 20);
+		contentPane.add(label);
+		
+		textField = new JTextField();
+		textField.setColumns(10);
+		textField.setBounds(147, 7, 129, 20);
+		contentPane.add(textField);
+		
+		JButton button = new JButton("Buscar");
+		button.setBounds(299, 7, 89, 23);
+		contentPane.add(button);
 		
 		//cargarPublicaciones(buscado);
 	}
@@ -90,5 +107,4 @@ public class VistaVerPublicaciones extends JFrame {
 			modelPublicaciones.addElement("No se encontraron publicaciones");
 		}
 	}
-
 }
