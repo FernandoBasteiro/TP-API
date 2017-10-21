@@ -29,11 +29,23 @@ public class AdmPersistenciaMovCtaCteMySQL {
 	public int insert(String nombreDeUsuario, MovCtaCte m) {
 		try {
 			Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
+			String buscarConcepto = "SELECT * FROM movTipo WHERE descripcion = ?";
+			PreparedStatement c = con.prepareStatement(buscarConcepto);
+			c.setString(1, m.getConcepto());
+			ResultSet concepto = c.executeQuery();
+			int codConcepto;
+			if (concepto.next()) {
+				codConcepto = concepto.getInt("concepto");
+			}
+			else {
+				codConcepto = 0;
+			}
+			
 			String sql = "INSERT INTO movCtaCte (nombreDeUsuario, monto, concepto, nroVenta, fechaMovimiento)VALUES (?,?,?,?,?)";
 			PreparedStatement s = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			s.setString(1, nombreDeUsuario);
 			s.setFloat(2, m.getMonto());
-			s.setString(3, m.getConcepto());
+			s.setInt(3, codConcepto);
 			s.setInt(4, m.getVenta().getNroVenta());
 			s.setTimestamp(5, Timestamp.valueOf(m.getFechaMovimiento()));
 			s.execute();
@@ -53,7 +65,7 @@ public class AdmPersistenciaMovCtaCteMySQL {
 		ArrayList<MovCtaCte> movimientos = new ArrayList<MovCtaCte>();
 		try {
 			Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
-			String sql = "SELECT * FROM movCtaCte WHERE nombreDeUsuario = ?)";
+			String sql = "SELECT nroMovimiento, monto, movTipo.descripcion concepto, nroVenta, fechaMovimiento FROM `movCtaCte` LEFT JOIN movTipo ON movCtaCte.concepto = movTipo.concepto WHERE nombreDeUsuario = ?)";
 			PreparedStatement s = con.prepareStatement(sql);
 			s.setString(1, nombreDeUsuario);
 			ResultSet rs = s.executeQuery();

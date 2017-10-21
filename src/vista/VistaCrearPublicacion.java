@@ -162,7 +162,7 @@ public class VistaCrearPublicacion extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				//TODO Si todos los campos estan completos y son correctos.
 				int resultado;
-				imagenes.add(txtImagen.getText()); //TODO Esto tiene que ser un loop que traiga las imagenes de la lista.
+				//imagenes.add(txtImagen.getText()); //TODO Esto tiene que ser un loop que traiga las imagenes de la lista.
 				
 				if (comboBoxTipodePublicacion.getSelectedItem().equals("Subasta")) {
 					resultado = SistPublicaciones.getInstancia().crearSubasta(txtNombreProducto.getText(), txtDescripcion.getText(), imagenes, Float.parseFloat(txtPrecioPublicacion.getText()), LocalDateTime.now().plusDays(Integer.parseInt(txtDuracionSubasta.getText())));

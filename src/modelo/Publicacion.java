@@ -15,15 +15,16 @@ public abstract class Publicacion {
 	protected ArrayList<Venta> ventas;
 	protected int nroPublicacion;
 	protected UsuarioRegular vendedor;
-	protected static int proxNumPublicacion = 1; // Solo para probar hasta que haya persistencia.
+	//protected static int proxNumPublicacion = 1; // Solo para probar hasta que haya persistencia.
 	
 	public int getNroPublicacion() {
 		return nroPublicacion;
 	}
 
-	public static int getNumPub(){ //Solo para probar mientras no haya persistencia
+/*	public static int getNumPub(){ //Solo para probar mientras no haya persistencia
 		return proxNumPublicacion++;
 	}
+*/
 	
 	public Publicacion(String nombreProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, UsuarioRegular vendedor) {
 		super();
@@ -35,11 +36,6 @@ public abstract class Publicacion {
 		this.estadoPublicacion = "Activa";
 		this.vendedor = vendedor;
 		this.ventas = new ArrayList<Venta>();
-		//this.numPublicacion = Persistir.
-		
-		this.nroPublicacion = getNumPub();  // Solo para probar mientras no haya persistencia.
-		
-		System.out.println("Nombre: " + nombreProducto + " - NumeroP: " + nroPublicacion); //A veces falla la creacion?
 	}
 	
 	public UsuarioRegular getVendedor() {

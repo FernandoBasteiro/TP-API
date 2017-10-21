@@ -2,6 +2,7 @@ package vista;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDateTime;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -47,6 +48,7 @@ public class VistaVerPublicacion extends JFrame {
 	private JTextField txtCBU;
 	private JLabel lblNumeroDeTarjeta;
 	private JTextField txtNroTarjeta;
+	private JButton btnConvertirASubasta;
 	
 	static public VistaVerPublicacion getInstancia(PublicacionView publicacion) {
 		if (instancia == null) {
@@ -63,7 +65,7 @@ public class VistaVerPublicacion extends JFrame {
 
 	private VistaVerPublicacion() {
 		setResizable(false);
-		setBounds(100, 100, 310, 280);
+		setBounds(100, 100, 310, 389);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -201,6 +203,10 @@ public class VistaVerPublicacion extends JFrame {
 		});
 		comboBox.setBounds(10, 161, 285, 20);
 		contentPane.add(comboBox);
+		
+		btnConvertirASubasta = new JButton("Convertir a Subasta");
+		btnConvertirASubasta.setBounds(10, 256, 285, 23);
+		contentPane.add(btnConvertirASubasta);
 	}
 	
 	public void cargarDatos(PublicacionView publicacion){
@@ -220,6 +226,7 @@ public class VistaVerPublicacion extends JFrame {
 			txtCantidad.setVisible(false);
 			txtOferta.setText("");
 			txtCantidad.setText("");
+			btnConvertirASubasta.setEnabled(false);
 			
 			txtFinSubasta.setText(publicacion.getFechaHasta().toString()); //TODO Formato de la fecha.
 			for (ActionListener al : btnComprar.getActionListeners()){
@@ -252,11 +259,24 @@ public class VistaVerPublicacion extends JFrame {
 			txtCantidad.setVisible(true);
 			txtOferta.setText("");
 			txtCantidad.setText("");
+			if (publicacion.getSoyDueno()) {
+				btnConvertirASubasta.setEnabled(true);
+			}
+			else {
+				btnConvertirASubasta.setEnabled(false);
+			}
 			
 			txtStock.setText(String.valueOf(publicacion.getStock()));
 			for (ActionListener al : btnComprar.getActionListeners()){
 				btnComprar.removeActionListener(al);
 			}
+			
+			btnConvertirASubasta.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					SistPublicaciones.getInstancia().transformarEnSubasta(publicacion.getNumPublicacion(), publicacion.getPrecioActual(), LocalDateTime.now().plusDays(10)); //TODO ESTO TIENE QUE ELEGIRLO EL USUARIO!!!!
+				}
+			});
+
 			btnComprar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					String CBU = null;
@@ -274,5 +294,4 @@ public class VistaVerPublicacion extends JFrame {
 			});
 		}	
 	}
-
 }

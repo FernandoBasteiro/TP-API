@@ -3,6 +3,7 @@ package modelo;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import controlador.AdmUsuarios;
 import controlador.CompraInmediataView;
 import controlador.PublicacionView;
 import persistencia.AdmPersistenciaPublicacionMySQL;
@@ -15,6 +16,7 @@ public class CompraInmediata extends Publicacion {
 		this.stock = stock;
 		// this.numPublicacion = persistir! -> Puede que en realidad lo tenga que hacer el controlador, para poder revisar los errores del persistir.
 		this.nroPublicacion=AdmPersistenciaPublicacionMySQL.getInstancia().insertPublicacion(this);
+		System.out.println("Nombre: " + nombreProducto + " - NumeroP: " + nroPublicacion);
 	}
 	
 	public CompraInmediata(String nombreDeProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, int stock, int numPublicacion, LocalDateTime fechaPublicacion, UsuarioRegular vendedor) {
@@ -50,7 +52,7 @@ public class CompraInmediata extends Publicacion {
 	}
 	
 	public PublicacionView getPublicacionView() {
-		PublicacionView civ = new CompraInmediataView("Compra Inmediata", nombreProducto, descripcion, fechaPublicacion, imagenes, this.getPrecioActual(), estadoPublicacion, nroPublicacion, stock); //TODO Sera aceptable esto?
+		PublicacionView civ = new CompraInmediataView("Compra Inmediata", nombreProducto, descripcion, fechaPublicacion, imagenes, this.getPrecioActual(), estadoPublicacion, nroPublicacion, stock, this.vendedor==AdmUsuarios.getInstancia().getUsuarioLogueado()); //TODO Sera aceptable esto?
 		return civ;
 	}
 	
@@ -65,4 +67,17 @@ public class CompraInmediata extends Publicacion {
 		return 0;
 	}
 	
+	public Subasta transformarEnSubasta(float precioMinimo, LocalDateTime fechaHasta){
+		if (this.stock > 0 || this.stock == -1) {
+			if (this.stock > 0) {
+				if (--this.stock == 0){
+					this.estadoPublicacion = "Finalizada";
+				}
+				//TODO Persistir CompraInmediata
+			}
+			Subasta s = new Subasta(this.nombreProducto, this.descripcion, this.imagenes, precioMinimo, fechaHasta, this.vendedor);
+			return s;
+		}
+		return null;
+	}
 }
