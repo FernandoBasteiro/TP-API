@@ -45,7 +45,7 @@ public class VistaAltaUsuario extends JFrame {
 		setResizable(false);
 		setTitle("Crear Usuario");
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 185, 223);
+		setBounds(100, 100, 352, 210);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -72,32 +72,32 @@ public class VistaAltaUsuario extends JFrame {
 		contentPane.add(lblContrasea);
 		
 		textNombre = new JTextField();
-		textNombre.setBounds(85, 8, 86, 20);
+		textNombre.setBounds(85, 8, 250, 20);
 		contentPane.add(textNombre);
 		textNombre.setColumns(10);
 		
 		textDomicilio = new JTextField();
-		textDomicilio.setBounds(85, 33, 86, 20);
+		textDomicilio.setBounds(85, 33, 250, 20);
 		contentPane.add(textDomicilio);
 		textDomicilio.setColumns(10);
 		
 		textMail = new JTextField();
-		textMail.setBounds(85, 58, 86, 20);
+		textMail.setBounds(85, 58, 250, 20);
 		contentPane.add(textMail);
 		textMail.setColumns(10);
 		
 		textNombreDeUsuario = new JTextField();
-		textNombreDeUsuario.setBounds(85, 83, 86, 20);
+		textNombreDeUsuario.setBounds(85, 83, 250, 20);
 		contentPane.add(textNombreDeUsuario);
 		textNombreDeUsuario.setColumns(10);
 		
 		textPassword = new JTextField();
-		textPassword.setBounds(85, 108, 86, 20);
+		textPassword.setBounds(85, 108, 250, 20);
 		contentPane.add(textPassword);
 		textPassword.setColumns(10);
 		
 		JLabel labelResultado = new JLabel("");
-		labelResultado.setBounds(10, 170, 161, 14);
+		labelResultado.setBounds(10, 170, 161, 18);
 		contentPane.add(labelResultado);
 		
 		JButton btnCrearUsuario = new JButton("Crear Usuario");

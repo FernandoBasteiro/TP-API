@@ -8,6 +8,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -19,64 +22,69 @@ public class MenuVistas extends JFrame {
 	 */
 	private static final long serialVersionUID = 9144541504916134590L;
 	
+	static private MenuVistas instancia;
 	private JPanel contentPane;
 	private JTextField txtBuscar;
 
+	static public MenuVistas getInstancia() {
+		if (instancia == null) {
+			instancia = new MenuVistas();
+		}
+		return instancia;
+	}
+	
 	/**
 	 * Create the frame.
 	 */
-	public MenuVistas() {
+	private MenuVistas() {
+		setTitle("Sistema de compras");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 671, 474);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton btnCrearUsuario = new JButton("Crear Usuario");
-		btnCrearUsuario.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VistaAltaUsuario.getInstancia().setVisible(true);
-			}
-		});
-		btnCrearUsuario.setBounds(10, 11, 125, 23);
-		contentPane.add(btnCrearUsuario);
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
 		
-		JButton btnModificarUsuario = new JButton("Modificar Usuario");
-		btnModificarUsuario.addActionListener(new ActionListener() {
+		JMenu mnUsuarios = new JMenu("Usuarios");
+		menuBar.add(mnUsuarios);
+		
+		JMenuItem mntmModificarInformacion = new JMenuItem("Modificar informacion");
+		mntmModificarInformacion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VistaModificarUsuario vmu = new VistaModificarUsuario();
 				vmu.setVisible(true);
 			}
-		});btnModificarUsuario.setBounds(10, 45, 125, 23);
-		contentPane.add(btnModificarUsuario);
-		
-		JButton btnLogin = new JButton("Login");
-		btnLogin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VistaLogin.getInstancia().setVisible(true);
-			}
 		});
-		btnLogin.setBounds(10, 79, 125, 23);
-		contentPane.add(btnLogin);
+		mnUsuarios.add(mntmModificarInformacion);
 		
-		JButton btnCrearPublicacion = new JButton("Crear Publicacion");
-		btnCrearPublicacion.addActionListener(new ActionListener() {
+		JMenu mnPublicaciones = new JMenu("Publicaciones");
+		menuBar.add(mnPublicaciones);
+		
+		JMenuItem mntmCreaPublicacion = new JMenuItem("Crear publicacion");
+		mntmCreaPublicacion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VistaCrearPublicacion.getInstancia().setVisible(true);
 			}
 		});
-		btnCrearPublicacion.setBounds(10, 113, 125, 23);
-		contentPane.add(btnCrearPublicacion);
+		mnPublicaciones.add(mntmCreaPublicacion);
 		
-		JButton btnVerMisPublicaciones = new JButton("Ver Mis Publicaciones");
-		btnVerMisPublicaciones.addActionListener(new ActionListener() {
+		JMenuItem mntmVerMisPublicaciones = new JMenuItem("Ver mis publicaciones");
+		mntmVerMisPublicaciones.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VistaVerPublicaciones.getInstancia("").setVisible(true);
 			}
 		});
-		btnVerMisPublicaciones.setBounds(10, 147, 125, 23);
-		contentPane.add(btnVerMisPublicaciones);
+		mnPublicaciones.add(mntmVerMisPublicaciones);
+		
+		JMenuItem mntmBuscarPublicaciones = new JMenuItem("Buscar publicaciones");
+		mntmBuscarPublicaciones.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		mnPublicaciones.add(mntmBuscarPublicaciones);
 		
 		JLabel lblBuscarPublicacion = new JLabel("Buscar Publicacion:");
 		lblBuscarPublicacion.setBounds(145, 15, 85, 14);
