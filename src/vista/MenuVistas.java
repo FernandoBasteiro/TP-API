@@ -98,7 +98,13 @@ public class MenuVistas extends JFrame {
 		JButton btnBuscar = new JButton("Buscar");
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VistaVerPublicaciones.getInstancia(txtBuscar.getText()).setVisible(true);
+				if (! txtBuscar.getText().isEmpty()) {
+					VistaVerPublicaciones.getInstancia(txtBuscar.getText()).setVisible(true);
+				}
+				else {
+					//TODO Mostrar error.
+				}
+				
 			}
 		});
 		btnBuscar.setBounds(335, 11, 89, 23);

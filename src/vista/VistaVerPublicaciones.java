@@ -6,18 +6,23 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
-import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.ListSelectionModel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 import controlador.PublicacionView;
 import controlador.SistPublicaciones;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VistaVerPublicaciones extends JFrame {
 
@@ -28,14 +33,13 @@ public class VistaVerPublicaciones extends JFrame {
 	
 	private JPanel contentPane;
 	static private VistaVerPublicaciones instancia;
-	private DefaultListModel<String> modelPublicaciones;
-	private JList listPublicaciones;
 	static private String buscado;
 	private ArrayList<PublicacionView> publicaciones;
 	private JTextField textField;
+	
+	private JTable tablaPublicaciones;
+	private DefaultTableModel tableModel;
 
-	//TODO La lista de publicaciones no se actualiza sola, por que el Array List no se actualiza. Hay que desarrollar alguna forma para que esta vista
-	// le pida al SistPublicaciones un nuevo ArrayList cada vez que se focusea esta ventana, permitiendo asi recargar la lista.
 	private VistaVerPublicaciones() {
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -49,15 +53,7 @@ public class VistaVerPublicaciones extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		//TODO Reducir el ArrayList y el ListModel a un solo objeto.
-		// El ListModel deberia ser algo custom que muestre el nombre, el tipo de publicacion y el precio, por ejemplo.
-		modelPublicaciones = new DefaultListModel<>();
-		listPublicaciones = new JList(modelPublicaciones);
-		listPublicaciones.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		listPublicaciones.setBounds(6, 39, 433, 259);
-		contentPane.add(listPublicaciones);
-		
+
 		JLabel label = new JLabel("Buscar Publicacion:");
 		label.setBounds(6, 7, 129, 20);
 		contentPane.add(label);
@@ -67,11 +63,49 @@ public class VistaVerPublicaciones extends JFrame {
 		textField.setBounds(147, 7, 129, 20);
 		contentPane.add(textField);
 		
+		String[] cols = {"Nombre", "Precio", "Tipo"};
+		tableModel = new DefaultTableModel(cols, 0){
+			public boolean isCellEditable(int row, int column) {
+			       return false;
+			    }
+		};
+		tablaPublicaciones = new JTable(tableModel);
+		tablaPublicaciones.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				JTable tabla = (JTable)e.getSource();
+				if (e.getClickCount() == 2) {
+					VistaVerPublicacion.getInstancia(publicaciones.get(tabla.getSelectedRow())).setVisible(true);;
+				}
+			}
+		});
+		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+		rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+		
+		tablaPublicaciones.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+		tablaPublicaciones.getColumnModel().getColumn(1).setCellRenderer(rightRenderer);
+		tablaPublicaciones.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+		
+		JScrollPane scrollPane = new JScrollPane(tablaPublicaciones);
+		scrollPane.setVisible(true);
+	    scrollPane.setBounds(6, 39, 433, 259);
+	    contentPane.add(scrollPane);
+		
 		JButton button = new JButton("Buscar");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (! textField.getText().isEmpty()) {
+					buscado = textField.getText();
+					cargarPublicaciones(buscado);
+				}
+				else {
+					//TODO Mostrar error.
+				}
+			}
+		});
 		button.setBounds(299, 7, 89, 23);
 		contentPane.add(button);
-		
-		//cargarPublicaciones(buscado);
 	}
 	
 	public static VistaVerPublicaciones getInstancia(String stringBuscado) {
@@ -89,22 +123,17 @@ public class VistaVerPublicaciones extends JFrame {
 		else {
 			publicaciones = SistPublicaciones.getInstancia().buscarPublicaciones(buscado);
 		}
-		modelPublicaciones.clear();
-		if (publicaciones != null) {
+		textField.setText(buscado);
+		tableModel.setRowCount(0);
+		if (publicaciones != null && publicaciones.size() > 0) {
 			for (int i = 0; i < publicaciones.size(); i++) {
-				modelPublicaciones.addElement(publicaciones.get(i).getNombreProducto());
+				Object[] rowData = {
+						publicaciones.get(i).getNombreProducto(),
+						String.format("%.2f", publicaciones.get(i).getPrecioActual()),
+						publicaciones.get(i).getTipoPublicacion()
+						};
+				tableModel.addRow(rowData);
 			}
-			listPublicaciones.addMouseListener(new MouseAdapter() {
-				public void mouseClicked(MouseEvent evt) {
-					JList list = (JList)evt.getSource();
-					if (evt.getClickCount() == 2) {
-						VistaVerPublicacion.getInstancia(publicaciones.get(list.locationToIndex(evt.getPoint()))).setVisible(true);;
-					}
-				}
-			});
-		}
-		else {
-			modelPublicaciones.addElement("No se encontraron publicaciones");
 		}
 	}
 }
