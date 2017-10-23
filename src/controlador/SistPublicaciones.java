@@ -51,13 +51,32 @@ public class SistPublicaciones {
 	public ArrayList<PublicacionView> buscarPublicaciones(String publicacionBuscada) {
 
 		//TODO Hacer el Select en la DB -> Traer todos los usuarios que esten vendiendo el producto buscado con sus respectivas publicaciones, etc.
-		
+		ArrayList<Publicacion> pubs = AdmPersistenciaPublicacionMySQL.getInstancia().buscarPublicacionesProducto(publicacionBuscada);
+		boolean agregarPub=true;
+		if(publicaciones.size()>0) {
+			for (Publicacion pubPersistida : pubs) {
+				agregarPub=true;
+				for (Publicacion pubMemoria : publicaciones) {
+					if(pubPersistida.getPublicacionView().getNumPublicacion()==pubMemoria.getPublicacionView().getNumPublicacion()) {
+						agregarPub=false;
+						break;
+					}
+				}
+				if(agregarPub)
+					publicaciones.add(pubPersistida);
+			}
+		}
+		else {
+			for (Publicacion pubPersistida : pubs) {
+				publicaciones.add(pubPersistida);
+			}
+		}
 		//TODO Esto ahora es Case sensitive. Arreglarlo para que ignore el case.
 		ArrayList<PublicacionView> pv = new ArrayList<PublicacionView>();
-		for (int i = 0; i < publicaciones.size(); i++) {
-			if (publicaciones.get(i).sosBuscado(publicacionBuscada)) {
-				pv.add(publicaciones.get(i).getPublicacionView());
-			}
+		for (int i = 0; i < pubs.size(); i++) {
+//			if (pubs.get(i).sosBuscado(publicacionBuscada)) {
+				pv.add(pubs.get(i).getPublicacionView());
+//			}
 		}
 		return pv;
 	}

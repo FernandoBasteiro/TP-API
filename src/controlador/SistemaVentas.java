@@ -8,7 +8,6 @@ import modelo.Publicacion;
 import modelo.TransfBancaria;
 import modelo.UsuarioRegular;
 import modelo.Venta;
-import persistencia.AdmPersistenciaParametrosGrales;
 
 public class SistemaVentas {
 	private ArrayList<Venta> ventas;
