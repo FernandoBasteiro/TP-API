@@ -15,9 +15,6 @@ import javax.swing.border.EmptyBorder;
 
 import controlador.PublicacionView;
 import controlador.SistPublicaciones;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JButton;
 
 public class VistaVerPublicaciones extends JFrame {
 

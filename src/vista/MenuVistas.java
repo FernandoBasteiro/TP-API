@@ -117,7 +117,7 @@ public class MenuVistas extends JFrame {
 		JButton btnBuscar = new JButton("Buscar");
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MenuVistas.this.actualizarTablaPublicaciones();
+				MenuVistas.this.actualizarTablaPublicaciones(MenuVistas.this.txtBuscar.getText());
 			}
 		});
 		btnBuscar.setBounds(266, 6, 89, 23);
@@ -155,6 +155,15 @@ public class MenuVistas extends JFrame {
 		lblEstadoCuentaCorriente.setHorizontalAlignment(SwingConstants.LEFT);
 		lblEstadoCuentaCorriente.setBounds(438, 436, 227, 20);
 		contentPane.add(lblEstadoCuentaCorriente);
+		
+		JButton btnTodo = new JButton("Buscar todo");
+		btnTodo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MenuVistas.this.actualizarTablaPublicaciones("%");
+			}
+		});
+		btnTodo.setBounds(367, 4, 117, 29);
+		contentPane.add(btnTodo);
 	}
 
 	private void cargarDatosUsuario(){
@@ -164,10 +173,10 @@ public class MenuVistas extends JFrame {
 		lblEstadoCuentaCorriente.setText("Estado Cuenta Corriente: " + String.valueOf(vul.getEstadoCtaCte()));
 	}
 
-	private void actualizarTablaPublicaciones(){
+	private void actualizarTablaPublicaciones(String buscado){
 		this.TablaBuscarPublic.remAll();
-		if(this.txtBuscar.getText().compareTo("")!=0) {
-			ArrayList<PublicacionView> pubPersistidas= SistPublicaciones.getInstancia().buscarPublicaciones(this.txtBuscar.getText());
+		if(buscado.compareTo("")!=0) {
+			ArrayList<PublicacionView> pubPersistidas= SistPublicaciones.getInstancia().buscarPublicaciones(buscado);
 			if(pubPersistidas.size()>0)
 				for (PublicacionView publicacion : pubPersistidas) {
 					this.TablaBuscarPublic.addRow(publicacion.getNumPublicacion(),
