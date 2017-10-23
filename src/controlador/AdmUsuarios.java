@@ -1,11 +1,8 @@
 package controlador;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-import persistencia.AdmPersistenciaParametrosGrales;
 import modelo.Admin;
-import modelo.Password;
 import modelo.Publicacion;
 import modelo.Usuario;
 import modelo.UsuarioRegular;

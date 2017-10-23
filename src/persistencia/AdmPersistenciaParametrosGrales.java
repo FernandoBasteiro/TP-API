@@ -3,11 +3,6 @@ package persistencia;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.time.LocalDateTime;
-
-import controlador.AdmUsuarios;
-import modelo.Oferta;
-import modelo.Usuario;
 
 public class AdmPersistenciaParametrosGrales {
 	static private AdmPersistenciaParametrosGrales instancia;

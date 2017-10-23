@@ -2,9 +2,8 @@ package modelo;
 
 import java.time.LocalDateTime;
 
-
-import persistencia.AdmPersistenciaUsuarioMySQL;
 import controlador.UsuarioView;
+import persistencia.AdmPersistenciaUsuarioMySQL;
 
 public class Admin extends Usuario {
 	

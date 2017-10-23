@@ -28,7 +28,7 @@ public class VistaModificarUsuario extends JFrame {
 	public VistaModificarUsuario() {
 		setTitle("Modificar Usuario");
 		setResizable(false);
-		setBounds(100, 100, 199, 224);
+		setBounds(100, 100, 352, 210);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -37,43 +37,43 @@ public class VistaModificarUsuario extends JFrame {
 		UsuarioView uv = AdmUsuarios.getInstancia().getLoggedUserView();
 		
 		JLabel lblUsuario = new JLabel("Usuario:");
-		lblUsuario.setBounds(10, 11, 90, 14);
+		lblUsuario.setBounds(10, 11, 83, 14);
 		contentPane.add(lblUsuario);
 		
 		JLabel lblNombre = new JLabel("Nombre:");
-		lblNombre.setBounds(10, 36, 90, 14);
+		lblNombre.setBounds(10, 36, 83, 14);
 		contentPane.add(lblNombre);
 		
 		JLabel lblDomicilio = new JLabel("Domicilio:");
-		lblDomicilio.setBounds(10, 61, 90, 14);
+		lblDomicilio.setBounds(10, 61, 83, 14);
 		contentPane.add(lblDomicilio);
 		
 		JLabel lblEmail = new JLabel("E-Mail:");
-		lblEmail.setBounds(10, 86, 90, 14);
+		lblEmail.setBounds(10, 86, 83, 14);
 		contentPane.add(lblEmail);
 		
 		JLabel lblContrasea = new JLabel("Contrase\u00F1a:");
-		lblContrasea.setBounds(10, 111, 90, 14);
+		lblContrasea.setBounds(10, 111, 83, 14);
 		contentPane.add(lblContrasea);
 		
 		TextField textUsuario = new TextField();
-		textUsuario.setBounds(106, 3, 75, 22);
+		textUsuario.setBounds(95, 3, 247, 22);
 		contentPane.add(textUsuario);
 		
 		TextField textNombre = new TextField();
-		textNombre.setBounds(106, 28, 75, 22);
+		textNombre.setBounds(95, 28, 247, 22);
 		contentPane.add(textNombre);
 		
 		TextField textDomicilio = new TextField();
-		textDomicilio.setBounds(106, 53, 75, 22);
+		textDomicilio.setBounds(95, 53, 247, 22);
 		contentPane.add(textDomicilio);
 		
 		TextField textMail = new TextField();
-		textMail.setBounds(106, 78, 75, 22);
+		textMail.setBounds(95, 78, 247, 22);
 		contentPane.add(textMail);
 		
 		TextField textPassword = new TextField();
-		textPassword.setBounds(106, 103, 75, 22);
+		textPassword.setBounds(95, 103, 247, 22);
 		contentPane.add(textPassword);
 		
 		if (uv != null) {
@@ -88,7 +88,7 @@ public class VistaModificarUsuario extends JFrame {
 		}
 		
 		JLabel lblMensaje = new JLabel("");
-		lblMensaje.setBounds(10, 170, 171, 14);
+		lblMensaje.setBounds(10, 162, 332, 22);
 		contentPane.add(lblMensaje);
 		
 		JButton btnConfirmarCambios = new JButton("Confirmar cambios");

@@ -15,6 +15,9 @@ import javax.swing.border.EmptyBorder;
 
 import controlador.PublicacionView;
 import controlador.SistPublicaciones;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
 
 public class VistaVerPublicaciones extends JFrame {
 
@@ -40,7 +43,7 @@ public class VistaVerPublicaciones extends JFrame {
 			}
 		});
 		setResizable(false);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 445, 326);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -51,7 +54,7 @@ public class VistaVerPublicaciones extends JFrame {
 		modelPublicaciones = new DefaultListModel<>();
 		listPublicaciones = new JList(modelPublicaciones);
 		listPublicaciones.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		listPublicaciones.setBounds(10, 11, 424, 249);
+		listPublicaciones.setBounds(6, 6, 433, 292);
 		contentPane.add(listPublicaciones);
 		
 		//cargarPublicaciones(buscado);
@@ -79,9 +82,13 @@ public class VistaVerPublicaciones extends JFrame {
 			}
 			listPublicaciones.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent evt) {
-					JList list = (JList)evt.getSource();
-					if (evt.getClickCount() == 2) {
-						VistaVerPublicacion.getInstancia(publicaciones.get(list.locationToIndex(evt.getPoint()))).setVisible(true);;
+					try {
+						JList list = (JList)evt.getSource();
+						if (evt.getClickCount() == 2) {
+							VistaVerPublicacion.getInstancia(publicaciones.get(list.locationToIndex(evt.getPoint()))).setVisible(true);;
+						}
+					} catch (Exception e) {
+						System.err.println(e.getMessage());
 					}
 				}
 			});
@@ -90,5 +97,4 @@ public class VistaVerPublicaciones extends JFrame {
 			modelPublicaciones.addElement("No se encontraron publicaciones");
 		}
 	}
-
 }

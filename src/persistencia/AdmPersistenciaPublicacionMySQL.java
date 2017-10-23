@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import controlador.AdmUsuarios;
+import controlador.SistPublicaciones;
 import modelo.CompraInmediata;
 import modelo.Oferta;
 import modelo.Publicacion;
@@ -32,9 +33,8 @@ public class AdmPersistenciaPublicacionMySQL {
 		Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
 		// Inserto los datos de la publicacion
 		try {
-			PreparedStatement ps = con.prepareStatement("select nroPublicacion,tipoPublicacion,nombreDeProducto,descripcion,fechaPublicacion,precioPublicado,estadoPublicacion,nombreDeUsuarioVendedor,stock,fechaHasta,ultimaOferta from publicaciones where nombreDeProducto=?");
-			ps.setString(1, nombreDeProducto);
-			ResultSet rs=ps.executeQuery();
+			Statement ps = con.createStatement();
+			ResultSet rs=ps.executeQuery("select nroPublicacion,tipoPublicacion,nombreDeProducto,descripcion,fechaPublicacion,precioPublicado,estadoPublicacion,nombreDeUsuarioVendedor,stock,fechaHasta,ultimaOferta from publicaciones where nombreDeProducto like '%"+nombreDeProducto+"%'");
 			
 			while(rs.next()) {
 				ArrayList<String> imagenes = new ArrayList<String>();
@@ -184,6 +184,29 @@ public class AdmPersistenciaPublicacionMySQL {
 	}
 	
 	public int updatePublicacion(int nroPublicacion) {
+		Publicacion p=SistPublicaciones.getInstancia().buscarPublicacion(nroPublicacion);
+		Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
+		// Actualizo los datos de la publicacion
+		try {
+			PreparedStatement ps = con.prepareStatement("update publicaciones set tipoPublicacion=?,nombreDeProducto=?,descripcion=?,fechaPublicacion=?,precioPublicado=?,estadoPublicacion=?,nombreDeUsuarioVendedor=?,fechaHasta=?) where nroPublicacion=?");
+			ps.setString(1, p.getPublicacionView().getTipoPublicacion());
+			ps.setString(2, p.getPublicacionView().getNombreProducto());
+			ps.setString(3, p.getPublicacionView().getDescripcion());
+			ps.setTimestamp(4, Timestamp.valueOf(p.getPublicacionView().getFechaPublicacion()));
+			ps.setFloat(5, p.getPublicacionView().getPrecioActual());
+			ps.setString(6, p.getPublicacionView().getEstadoPublicacion());
+			ps.setString(7, p.getVendedor().getNombreDeUsuario());
+			ps.setTimestamp(8, Timestamp.valueOf(p.getPublicacionView().getFechaHasta()));
+			ps.setInt(9, nroPublicacion);
+			ps.executeUpdate();
+			
+//			System.out.println("ID generado: " + rs.getInt(1));
+			
+		} catch (Exception e) {
+			System.out.println("Error Query: " + e.getMessage());
+			return -1;
+		}
+		PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
 		return 0;
 	}
 	
