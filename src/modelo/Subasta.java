@@ -25,7 +25,8 @@ public class Subasta extends Publicacion {
 		super(nombreDeProducto, descripcion, imagenes, precioPublicado, vendedor);
 		this.fechaHasta = fechaHasta;
 		this.ofertas = new ArrayList<Oferta>();
-		Oferta ofertaVacia = new Oferta(precioPublicado, null, null);
+//		Oferta ofertaVacia = new Oferta(precioPublicado, null, null);
+		Oferta ofertaVacia = new Oferta(precioPublicado, vendedor, "Efectivo");
 		ofertas.add(ofertaVacia);
 		this.nroPublicacion=AdmPersistenciaPublicacionMySQL.getInstancia().insertPublicacion(this);
 		AdmPersistenciaOfertasMySQL.getInstancia().insertOferta(ofertaVacia, this.nroPublicacion);
