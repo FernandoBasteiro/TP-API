@@ -124,6 +124,12 @@ public class MenuVistas extends JFrame {
 		contentPane.add(btnBuscar);
 		
 	    table = new JTable(TablaBuscarPublic);
+	    table.getColumnModel().getColumn(4).setWidth(0);
+	    table.getColumnModel().getColumn(4).setMinWidth(0);
+	    table.getColumnModel().getColumn(4).setMaxWidth(0);
+	    table.getColumnModel().getColumn(5).setWidth(0);
+	    table.getColumnModel().getColumn(5).setMinWidth(0);
+	    table.getColumnModel().getColumn(5).setMaxWidth(0);
 	    table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent evt) {
