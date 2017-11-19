@@ -53,7 +53,7 @@ public class AdmPersistenciaMovCtaCteMySQL {
 		ArrayList<MovCtaCte> movimientos = new ArrayList<MovCtaCte>();
 		try {
 			Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
-			String sql = "SELECT * FROM movCtaCte WHERE nombreDeUsuario = ?)";
+			String sql = "SELECT nroMovimiento,monto,concepto,nroVenta,fechaMovimiento FROM movCtaCte WHERE nombreDeUsuario = ?";
 			PreparedStatement s = con.prepareStatement(sql);
 			s.setString(1, nombreDeUsuario);
 			ResultSet rs = s.executeQuery();

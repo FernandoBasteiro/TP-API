@@ -14,8 +14,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import controlador.MovCtaCteView;
 import controlador.PublicacionView;
 import controlador.SistPublicaciones;
+import controlador.SistemaVentas;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -23,8 +25,9 @@ import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.SwingConstants;
 
-public class VistaVerPublicaciones extends JFrame {
+public class VistaVerCtaCorriente extends JFrame {
 
 	/**
 	 * 
@@ -32,19 +35,27 @@ public class VistaVerPublicaciones extends JFrame {
 	private static final long serialVersionUID = -8055099091938307831L;
 	
 	private JPanel contentPane;
-	static private VistaVerPublicaciones instancia;
+	static private VistaVerCtaCorriente instancia;
 	static private String buscado;
-	private ArrayList<PublicacionView> publicaciones;
+	private ArrayList<MovCtaCteView> movimientos;
 	private JTextField textField;
 	
-	private JTable tablaPublicaciones;
+	private JTable tablaMovimientos;
 	private DefaultTableModel tableModel;
 
-	private VistaVerPublicaciones() {
+	public static VistaVerCtaCorriente getInstancia(String stringBuscado) {
+		buscado = stringBuscado;
+		if (instancia == null) {
+			instancia = new VistaVerCtaCorriente();
+		}
+		return instancia;
+	}
+	
+	private VistaVerCtaCorriente() {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowActivated(WindowEvent arg0) {
-				cargarPublicaciones(buscado);
+				cargarCtaCorriente(buscado);
 			}
 		});
 		setResizable(false);
@@ -54,27 +65,29 @@ public class VistaVerPublicaciones extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel label = new JLabel("Buscar Publicacion:");
-		label.setBounds(6, 7, 129, 20);
-		contentPane.add(label);
+		JLabel lblDiasDeMovimientos = new JLabel("Dias de movimientos:");
+		lblDiasDeMovimientos.setBounds(6, 7, 191, 20);
+		contentPane.add(lblDiasDeMovimientos);
 		
 		textField = new JTextField();
+		textField.setHorizontalAlignment(SwingConstants.RIGHT);
+		textField.setText("15");
 		textField.setColumns(10);
-		textField.setBounds(147, 7, 129, 20);
+		textField.setBounds(209, 7, 62, 20);
 		contentPane.add(textField);
 		
-		String[] cols = {"Nombre", "Precio", "Tipo"};
+		String[] cols = {"Concepto", "Monto"};
 		tableModel = new DefaultTableModel(cols, 0){
 			public boolean isCellEditable(int row, int column) {
 			       return false;
 			    }
 		};
-		tablaPublicaciones = new JTable(tableModel);
-		tablaPublicaciones.addMouseListener(new MouseAdapter() {
+		tablaMovimientos = new JTable(tableModel);
+		tablaMovimientos.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				JTable tabla = (JTable)e.getSource();
 				if (e.getClickCount() == 2) {
-					VistaVerPublicacion.getInstancia(publicaciones.get(tabla.getSelectedRow())).setVisible(true);
+//					VistaVerPublicacion.getInstancia(movimientos.get(tabla.getSelectedRow())).setVisible(true);
 				}
 			}
 		});
@@ -83,11 +96,10 @@ public class VistaVerPublicaciones extends JFrame {
 		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
 		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
 		
-		tablaPublicaciones.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
-		tablaPublicaciones.getColumnModel().getColumn(1).setCellRenderer(rightRenderer);
-		tablaPublicaciones.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+		tablaMovimientos.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+		tablaMovimientos.getColumnModel().getColumn(1).setCellRenderer(rightRenderer);
 		
-		JScrollPane scrollPane = new JScrollPane(tablaPublicaciones);
+		JScrollPane scrollPane = new JScrollPane(tablaMovimientos);
 		scrollPane.setVisible(true);
 	    scrollPane.setBounds(6, 39, 433, 259);
 	    contentPane.add(scrollPane);
@@ -97,40 +109,26 @@ public class VistaVerPublicaciones extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				if (! textField.getText().isEmpty()) {
 					buscado = textField.getText();
-					cargarPublicaciones(buscado);
+					cargarCtaCorriente(buscado);
 				}
 				else {
 					//TODO Mostrar error.
 				}
 			}
 		});
-		button.setBounds(299, 7, 89, 23);
+		button.setBounds(350, 7, 89, 23);
 		contentPane.add(button);
 	}
 	
-	public static VistaVerPublicaciones getInstancia(String stringBuscado) {
-		buscado = stringBuscado;
-		if (instancia == null) {
-			instancia = new VistaVerPublicaciones();
-		}
-		return instancia;
-	}
-	
-	private void cargarPublicaciones (String buscado) {
-		if (buscado.equals("")) {
-			publicaciones = SistPublicaciones.getInstancia().verMisPublicaciones();
-		}
-		else {
-			publicaciones = SistPublicaciones.getInstancia().buscarPublicaciones(buscado);
-		}
-		textField.setText(buscado);
+	private void cargarCtaCorriente (String buscado) {
+//			movimientos = Sistema
+//		textField.setText(buscado);
 		tableModel.setRowCount(0);
-		if (publicaciones != null && publicaciones.size() > 0) {
-			for (int i = 0; i < publicaciones.size(); i++) {
+		if (movimientos != null && movimientos.size() > 0) {
+			for (int i = 0; i < movimientos.size(); i++) {
 				Object[] rowData = {
-						publicaciones.get(i).getNombreProducto(),
-						String.format("%.2f", publicaciones.get(i).getPrecioActual()),
-						publicaciones.get(i).getTipoPublicacion()
+						movimientos.get(i).getConcepto(),
+						String.format("%.2f", movimientos.get(i).getMonto())
 						};
 				tableModel.addRow(rowData);
 			}
