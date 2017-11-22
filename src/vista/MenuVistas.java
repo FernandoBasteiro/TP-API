@@ -114,6 +114,11 @@ public class MenuVistas extends JFrame {
 		menuBar.add(mnCuenta);
 		
 		JMenuItem mntmVerCuentaCorriente = new JMenuItem("Ver Cuenta Corrientes");
+		mntmVerCuentaCorriente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VistaVerCtaCorriente.getInstancia("15").setVisible(true);
+			}
+		});
 		mnCuenta.add(mntmVerCuentaCorriente);
 		
 		JLabel lblBuscarPublicacion = new JLabel("Buscar Publicacion:");

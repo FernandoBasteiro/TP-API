@@ -14,6 +14,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import controlador.AdmUsuarios;
 import controlador.MovCtaCteView;
 import controlador.PublicacionView;
 import controlador.SistPublicaciones;
@@ -121,8 +122,8 @@ public class VistaVerCtaCorriente extends JFrame {
 	}
 	
 	private void cargarCtaCorriente (String buscado) {
-//			movimientos = Sistema
-//		textField.setText(buscado);
+		movimientos = AdmUsuarios.getInstancia().getMovsCtaCteView();
+		textField.setText(buscado);
 		tableModel.setRowCount(0);
 		if (movimientos != null && movimientos.size() > 0) {
 			for (int i = 0; i < movimientos.size(); i++) {
