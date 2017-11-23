@@ -9,8 +9,6 @@ import java.sql.Statement;
 import java.util.Properties;
 import java.util.Vector;
 
-import javax.swing.JOptionPane;
-
 
 public class PoolConnectionMySQL
 {
