@@ -50,7 +50,6 @@ public class SistPublicaciones {
 	
 	public ArrayList<PublicacionView> buscarPublicaciones(String publicacionBuscada) {
 
-		//TODO Hacer el Select en la DB -> Traer todos los usuarios que esten vendiendo el producto buscado con sus respectivas publicaciones, etc.
 		ArrayList<Publicacion> pubs = AdmPersistenciaPublicacionMySQL.getInstancia().buscarPublicacionesProducto(publicacionBuscada);
 		boolean agregarPub=true;
 		if(publicaciones.size()>0) {
@@ -71,12 +70,9 @@ public class SistPublicaciones {
 				publicaciones.add(pubPersistida);
 			}
 		}
-		//TODO Esto ahora es Case sensitive. Arreglarlo para que ignore el case.
 		ArrayList<PublicacionView> pv = new ArrayList<PublicacionView>();
 		for (int i = 0; i < pubs.size(); i++) {
-//			if (pubs.get(i).sosBuscado(publicacionBuscada)) {
-				pv.add(pubs.get(i).getPublicacionView());
-//			}
+			pv.add(pubs.get(i).getPublicacionView());
 		}
 		return pv;
 	}
@@ -121,7 +117,6 @@ public class SistPublicaciones {
 				return publicaciones.get(i);
 			}
 		}
-		//TODO Buscar en base de datos la publicacion -> Depende de como queramos trabajar, puede llegar a ser al pedo hacer esto.
 		return null;
 	}
 	
@@ -129,7 +124,6 @@ public class SistPublicaciones {
 		return this.buscarPublicaciones((UsuarioRegular)AdmUsuarios.getInstancia().getUsuarioLogueado());
 	}
 	
-	//TODO hacerOferta quizas habria que dividirlo en 3 distintos segun el medio de Pago elegido.
 	public int hacerOferta(int nroPublicacion, float monto, int cantidad, String medioDePago, String nroTarjeta, String CBU) {
 		if (AdmUsuarios.getInstancia().getUsuarioLogueado() != null) {
 			int resultado =  buscarPublicacion(nroPublicacion).ofertar(monto, cantidad, AdmUsuarios.getInstancia().getUsuarioLogueado(), medioDePago);			

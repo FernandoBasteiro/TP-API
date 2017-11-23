@@ -44,7 +44,7 @@ public class UsuarioRegular extends Usuario {
 		this.ctacte = ctacte;
 	}
 	public ArrayList<Publicacion> getPublicaciones() {
-		//TODO Cargar publicaciones de la DB!
+		//TODO LOW Cargar publicaciones de la DB! (Ver si se usa)
 		return publicaciones;
 	}
 	public void setPublicaciones(ArrayList<Publicacion> publicaciones) {
@@ -120,7 +120,7 @@ public class UsuarioRegular extends Usuario {
 	
 
 	
-	//TODO Todo lo que tiene que ver con calificaciones empieza aca. No hay nada codeado.
+	//TODO MID Todo lo que tiene que ver con calificaciones empieza aca. No hay nada codeado.
 	public int calificacionesPendientes(){
 		// Deberia revisar en todas los objetos "venta" del usuario, osea sus compras, y en todas las ventas de sus publicaciones, osea sus ventas, las calificaciones pendietnes.
 		return 0;

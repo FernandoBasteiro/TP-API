@@ -17,7 +17,7 @@ public class Subasta extends Publicacion {
 	public int ofertar(float monto, int cantidad, Usuario comprador, String medioDePago) {
 		Oferta o = new Oferta(monto, comprador, medioDePago);
 		AdmPersistenciaOfertasMySQL.getInstancia().insertOferta(o, this.nroPublicacion);
-		//TODO Comprobar que la oferta sea superior a las anteriores.
+		//TODO HIGH Comprobar que la oferta sea superior a las anteriores.
 		ofertas.add(o);
 		return 1;
 	}
@@ -54,7 +54,7 @@ public class Subasta extends Publicacion {
 
 	@Override
 	public PublicacionView getPublicacionView() {
-		PublicacionView sv = new SubastaView("Subasta", nombreProducto, descripcion, fechaPublicacion, this.imagenes, this.getPrecioActual(), estadoPublicacion, nroPublicacion, fechaHasta, this.vendedor==AdmUsuarios.getInstancia().getUsuarioLogueado());  //TODO Sera aceptable esto?
+		PublicacionView sv = new SubastaView("Subasta", nombreProducto, descripcion, fechaPublicacion, this.imagenes, this.getPrecioActual(), estadoPublicacion, nroPublicacion, fechaHasta, this.vendedor==AdmUsuarios.getInstancia().getUsuarioLogueado());
 		return sv;
 	}
 	

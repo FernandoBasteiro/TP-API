@@ -101,7 +101,6 @@ public class SistemaVentas {
 		for (int i = 0; i < ventas.size(); i++) {
 			if (ventas.get(i).getNroVenta() == nroVenta) {
 				return ventas.get(i);
-				//TODO Set nueva fecha de ultima modificacion de la venta (Cosa que nunca tuve en cuenta).
 			}
 		}
 		Venta ventaAux = Venta.buscarVentaDB(nroVenta);

@@ -92,7 +92,7 @@ public abstract class Venta {
 		this.estadoPago = "Pagado";
 		AdmUsuarios.getInstancia().cargarMovCtaCte(publicacion.getVendedor(), (montoUnitario * cantidad), "VENTA", this);
 		AdmUsuarios.getInstancia().cargarMovCtaCte(publicacion.getVendedor(), -montoComision, "COMISION", this);
-		//TODO Generar Calificacion para Comprador y Vendedor.
+		//TODO MID Generar Calificacion para Comprador y Vendedor.
 		AdmPersistenciaVentaMySQL.getInstancia().updateEstadoVenta(this);
 		return 0;
 	}
