@@ -118,26 +118,7 @@ public class UsuarioRegular extends Usuario {
 		return 0;
 	}
 	
-	/* Esta funcion mostraria los mensajes no leidos solamente:
-	public ArrayList<MensajeView> getMensajesNoLeidos {
-		ArrayList<MensajeView> mensajes = new ArrayList<MensajeView>();
-		for (Mensaje m : this.mensajes) {
-			if (m.noLeido()) {
-				mensajes.add(m.getView());
-			}
-		}
-	}
-	*/
-	
-	/* Esta funcion mostraria TODOS los mensajes del usuario:
-	public ArrayList<MensajeView> getMensajes {
-		---Primero el administrador de persistencia deberia cargar todos los mensajes del usuario en memoria--
-		ArrayList<MensajeView> mensajes = new ArrayList<MensajeView>();
-		for (Mensaje m : this.mensajes) {
-			mensajes.add(m.getView());
-		}
-	}
-	*/
+
 	
 	//TODO Todo lo que tiene que ver con calificaciones empieza aca. No hay nada codeado.
 	public int calificacionesPendientes(){

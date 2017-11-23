@@ -202,9 +202,9 @@ public class AdmPersistenciaPublicacionMySQL {
 	public int updateStockPublicacion(CompraInmediata ci) {
 		try {
 			Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
-			PreparedStatement s = con.prepareStatement("UPDATE publicaciones SET estadoPublicacion = ? AND stock = ? WHERE nroPublicacion = ?");
+			PreparedStatement s = con.prepareStatement("UPDATE publicaciones SET estadoPublicacion = ?, stock = ? WHERE nroPublicacion = ?");
 			s.setString(1, ci.getEstadoPublicacion());
-			s.setInt(1, ci.getStock());
+			s.setInt(2, ci.getStock());
 			s.setInt(3, ci.getNroPublicacion());
 			s.execute();
 			PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
