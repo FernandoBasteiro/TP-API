@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import controlador.AdmUsuarios;
+import controlador.SistPublicaciones;
 import modelo.CompraInmediata;
 import modelo.Oferta;
 import modelo.Publicacion;

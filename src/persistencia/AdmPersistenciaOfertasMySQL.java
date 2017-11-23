@@ -29,7 +29,9 @@ public class AdmPersistenciaOfertasMySQL {
 		Oferta o = null;
 		try {
 			Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
-			PreparedStatement s = con.prepareStatement("SELECT * FROM ofertas JOIN (SELECT Max(monto) OfertaMaxima FROM ofertas WHERE nroPublicacion = ?) maxima WHERE ofertas.monto = maxima.OfertaMaxima");
+//			PreparedStatement s = con.prepareStatement("SELECT * FROM ofertas JOIN (SELECT Max(monto) OfertaMaxima FROM ofertas WHERE nroPublicacion = ?) maxima WHERE ofertas.monto = maxima.OfertaMaxima");
+			PreparedStatement s = con.prepareStatement("select nroOferta,monto,medioDePago,fechaOferta,nroPublicacion,nombreDeUsuario from ofertas where monto=(SELECT Max(monto) OfertaMaxima FROM ofertas WHERE nroPublicacion = ?) order by monto desc,fechaOferta");
+					
 			s.setInt(1, nroPublicacion);
 			ResultSet rs = s.executeQuery();
 			if (rs.next()){
@@ -42,11 +44,11 @@ public class AdmPersistenciaOfertasMySQL {
 				o = new Oferta(monto, u, medioDePago, fechaOferta);
 			}
 			PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
-			return o;
 		} catch (Exception e) {
 			System.out.println("Error Query: " + e.getMessage());
 			return null;
 		}
+		return o;
 	}
 	
 	public ArrayList<Oferta> getOfertas(int nroPublicacion) {

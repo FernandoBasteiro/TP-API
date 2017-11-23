@@ -1,5 +1,13 @@
-jdbc=jdbc:sqlserver://
-servidor=tpai.ddns.net
-usuario=tpaidb_user
-password=Sarasa123#
+setdriver=my
+ssclasspath=com.microsoft.sqlserver.jdbc.SQLServerDriver
+ssjdbc=jdbc:sqlserver://
+ssservidor=bd
+ssusuario=A_Interactivas_01
+sspassword=A_Interactivas_01
+
+myclasspath=com.mysql.jdbc.Driver
+myjdbc=jdbc:mysql://
+myservidor=www.basteiro.com.ar/bastei40_API
+myusuario=bastei40_API
+mypassword=Sarasa17
 conexiones=3

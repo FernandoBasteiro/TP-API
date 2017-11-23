@@ -3,7 +3,6 @@ package modelo;
 import java.time.LocalDateTime;
 
 import controlador.UsuarioView;
-import persistencia.AdmPersistenciaParametrosGrales;
 import persistencia.AdmPersistenciaUsuarioMySQL;
 
 public abstract class Usuario {
