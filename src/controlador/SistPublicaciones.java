@@ -57,7 +57,7 @@ public class SistPublicaciones {
 			for (Publicacion pubPersistida : pubs) {
 				agregarPub=true;
 				for (Publicacion pubMemoria : publicaciones) {
-					if(pubPersistida.getPublicacionView().getNumPublicacion()==pubMemoria.getPublicacionView().getNumPublicacion()) {
+					if(pubPersistida.getNroPublicacion()==pubMemoria.getNroPublicacion()) {
 						agregarPub=false;
 						break;
 					}
