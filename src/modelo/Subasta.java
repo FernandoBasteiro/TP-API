@@ -3,6 +3,7 @@ package modelo;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import controlador.AdmUsuarios;
 import controlador.PublicacionView;
 import controlador.SubastaView;
 import persistencia.AdmPersistenciaOfertasMySQL;
@@ -30,6 +31,7 @@ public class Subasta extends Publicacion {
 		ofertas.add(ofertaVacia);
 		this.nroPublicacion=AdmPersistenciaPublicacionMySQL.getInstancia().insertPublicacion(this);
 		AdmPersistenciaOfertasMySQL.getInstancia().insertOferta(ofertaVacia, this.nroPublicacion);
+		System.out.println("Nombre: " + nombreProducto + " - NumeroP: " + nroPublicacion);
 	}
 	
 	public Subasta(String nombreDeProducto, String descripcion, ArrayList<String> imagenes, float precioPublicado, LocalDateTime fechaHasta, int numPublicacion, LocalDateTime fechaPublicacion, Oferta ultimaOferta, UsuarioRegular vendedor) {
@@ -52,7 +54,7 @@ public class Subasta extends Publicacion {
 
 	@Override
 	public PublicacionView getPublicacionView() {
-		PublicacionView sv = new SubastaView("Subasta", nombreProducto, descripcion, fechaPublicacion, this.imagenes, this.getPrecioActual(), estadoPublicacion, nroPublicacion, fechaHasta);  //TODO Sera aceptable esto?
+		PublicacionView sv = new SubastaView("Subasta", nombreProducto, descripcion, fechaPublicacion, this.imagenes, this.getPrecioActual(), estadoPublicacion, nroPublicacion, fechaHasta, this.vendedor==AdmUsuarios.getInstancia().getUsuarioLogueado());  //TODO Sera aceptable esto?
 		return sv;
 	}
 	

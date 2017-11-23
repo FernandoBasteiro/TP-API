@@ -9,9 +9,9 @@ public class SubastaView extends PublicacionView {
 	public SubastaView(String tipoPublicacion, String nombreProducto,
 			String descripcion, LocalDateTime fechaPublicacion,
 			ArrayList<String> imagenes, float precioActual,
-			String estadoPublicacion, int numPublicacion, LocalDateTime fechaHasta) {
+			String estadoPublicacion, int numPublicacion, LocalDateTime fechaHasta, boolean soyDueno) {
 		super(tipoPublicacion, nombreProducto, descripcion, fechaPublicacion, imagenes,
-				precioActual, estadoPublicacion, numPublicacion);
+				precioActual, estadoPublicacion, numPublicacion, soyDueno);
 		this.fechaHasta = fechaHasta;
 	}
 

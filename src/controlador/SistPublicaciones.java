@@ -149,6 +149,20 @@ public class SistPublicaciones {
 		return -1; // 
 	}
 	
+	public int transformarEnSubasta(int nroPublicacion, float precioMinimo, LocalDateTime fechaHasta) {
+		Publicacion p = buscarPublicacion(nroPublicacion);
+		if (p instanceof CompraInmediata) {
+			Publicacion s = ((CompraInmediata) p).transformarEnSubasta(precioMinimo, fechaHasta);
+			if (s != null) {
+				publicaciones.add(s);
+				AdmUsuarios.getInstancia().agregarPublicacionAUsuario(s);
+				return 0;
+			}
+			return 1; //Error Stock = 0
+		}
+		return 2; //Error La publicacion no era CompraInmediata.
+	}
+	
 	public String getNombrePublicacion(Publicacion p) {
 		return p.getNombre();
 	}

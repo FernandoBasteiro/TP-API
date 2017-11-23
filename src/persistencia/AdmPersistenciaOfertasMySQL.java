@@ -85,7 +85,12 @@ public class AdmPersistenciaOfertasMySQL {
 			s.setString(2, o.getMedioDePago());
 			s.setTimestamp(3, Timestamp.valueOf(o.getFechaOferta()));
 			s.setInt(4, nroPublicacion);
-			s.setString(5, o.getComprador().getNombreDeUsuario());
+			if (o.getComprador() == null) {
+				s.setString(5, null);
+			}
+			else {
+				s.setString(5, o.getComprador().getNombreDeUsuario());
+			}
 
 			//System.out.println(s.toString());
 			s.execute();

@@ -17,7 +17,7 @@ public class Efectivo extends Venta{
 		super(p, c, cantidad, montoUnitario);
 		this.nroVenta = AdmPersistenciaVentaMySQL.getInstancia().insertarVenta(this);
 		
-		AdmUsuarios.getInstancia().cargarMovCtaCte(c, -(montoUnitario * cantidad), "Compra de " + p.getNombre(), this);
+		AdmUsuarios.getInstancia().cargarMovCtaCte(c, -(montoUnitario * cantidad), "COMPRA", this);
 		confirmarPago();
 	}
 }

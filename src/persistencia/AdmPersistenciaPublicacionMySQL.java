@@ -33,8 +33,10 @@ public class AdmPersistenciaPublicacionMySQL {
 		Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
 		// Inserto los datos de la publicacion
 		try {
-			Statement ps = con.createStatement();
-			ResultSet rs=ps.executeQuery("select nroPublicacion,tipoPublicacion,nombreDeProducto,descripcion,fechaPublicacion,precioPublicado,estadoPublicacion,nombreDeUsuarioVendedor,stock,fechaHasta,ultimaOferta from publicaciones where nombreDeProducto like '%"+nombreDeProducto+"%'");
+			String sql = "SELECT nroPublicacion,tipoPublicacion,nombreDeProducto,descripcion,fechaPublicacion,precioPublicado,estadoPublicacion,nombreDeUsuarioVendedor,stock,fechaHasta,ultimaOferta from publicaciones WHERE nombreDeProducto LIKE ?";
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, '%' + nombreDeProducto + '%');
+			ResultSet rs=ps.executeQuery();
 			
 			while(rs.next()) {
 				ArrayList<String> imagenes = new ArrayList<String>();
@@ -183,31 +185,35 @@ public class AdmPersistenciaPublicacionMySQL {
 		return publicaciones;
 	}
 	
-	public int updatePublicacion(int nroPublicacion) {
-		Publicacion p=SistPublicaciones.getInstancia().buscarPublicacion(nroPublicacion);
-		Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
-		// Actualizo los datos de la publicacion
+	public int updateEstadoPublicacion(Publicacion p) {
 		try {
-			PreparedStatement ps = con.prepareStatement("update publicaciones set tipoPublicacion=?,nombreDeProducto=?,descripcion=?,fechaPublicacion=?,precioPublicado=?,estadoPublicacion=?,nombreDeUsuarioVendedor=?,fechaHasta=?) where nroPublicacion=?");
-			ps.setString(1, p.getPublicacionView().getTipoPublicacion());
-			ps.setString(2, p.getPublicacionView().getNombreProducto());
-			ps.setString(3, p.getPublicacionView().getDescripcion());
-			ps.setTimestamp(4, Timestamp.valueOf(p.getPublicacionView().getFechaPublicacion()));
-			ps.setFloat(5, p.getPublicacionView().getPrecioActual());
-			ps.setString(6, p.getPublicacionView().getEstadoPublicacion());
-			ps.setString(7, p.getVendedor().getNombreDeUsuario());
-			ps.setTimestamp(8, Timestamp.valueOf(p.getPublicacionView().getFechaHasta()));
-			ps.setInt(9, nroPublicacion);
-			ps.executeUpdate();
-			
-//			System.out.println("ID generado: " + rs.getInt(1));
-			
+			Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
+			PreparedStatement s = con.prepareStatement("UPDATE publicaciones SET estadoPublicacion = ? WHERE nroPublicacion = ?");
+			s.setString(1, p.getEstadoPublicacion());
+			s.setInt(2, p.getNroPublicacion());
+			s.execute();
+			PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
+			return 0;
 		} catch (Exception e) {
 			System.out.println("Error Query: " + e.getMessage());
-			return -1;
+			return 1;
 		}
-		PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
-		return 0;
+	}
+	
+	public int updateStockPublicacion(CompraInmediata ci) {
+		try {
+			Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
+			PreparedStatement s = con.prepareStatement("UPDATE publicaciones SET estadoPublicacion = ?, stock = ? WHERE nroPublicacion = ?");
+			s.setString(1, ci.getEstadoPublicacion());
+			s.setInt(2, ci.getStock());
+			s.setInt(3, ci.getNroPublicacion());
+			s.execute();
+			PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
+			return 0;
+		} catch (Exception e) {
+			System.out.println("Error Query: " + e.getMessage());
+			return 1;
+		}
 	}
 	
 	public int insertPublicacion(Subasta s) {
@@ -244,7 +250,6 @@ public class AdmPersistenciaPublicacionMySQL {
 				ps.setString(2, imagenTexto);
 				ps.executeUpdate();
 			}
-			
 		} catch (Exception e) {
 			System.out.println("Error Query: " + e.getMessage());
 			this.deletePublicacion(con, nroPublicacion);
@@ -281,12 +286,10 @@ public class AdmPersistenciaPublicacionMySQL {
 		//inserto los datos de la lista de imagenes
 		try {
 			for (String imagenTexto : ci.getPublicacionView().getImagenes()) {
-				if(imagenTexto.length()>0) {
-					PreparedStatement ps = con.prepareStatement("INSERT INTO imagenesPublicaciones (nroPublicacion,imagenURL) VALUES (?,?)");
-					ps.setInt(1, nroPublicacion);
-					ps.setString(2, imagenTexto);
-					ps.executeUpdate();
-				}
+				PreparedStatement ps = con.prepareStatement("INSERT INTO imagenesPublicaciones (nroPublicacion,imagenURL) VALUES (?,?)");
+				ps.setInt(1, nroPublicacion);
+				ps.setString(2, imagenTexto);
+				ps.executeUpdate();
 			}
 			
 		} catch (Exception e) {
