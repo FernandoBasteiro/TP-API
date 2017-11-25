@@ -22,6 +22,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 import controlador.AdmUsuarios;
 import controlador.PublicacionView;
@@ -36,13 +38,16 @@ public class MenuVistas extends JFrame {
 	private static final long serialVersionUID = 9144541504916134590L;
 	
 	static private MenuVistas instancia;
+	static private String buscado;
 	private JPanel contentPane;
 	private JTextField txtBuscar;
-	private ObjetoTablaPublicaciones TablaBuscarPublic;
-	private JTable table;
 	private JLabel lblUsuarioLogueado;
 	private JLabel lblCalificacionesPendientes;
-	private JLabel lblEstadoCuentaCorriente;
+	
+	private ArrayList<PublicacionView> publicaciones;
+	private JTable tablaPublicaciones;
+	private DefaultTableModel tableModel;
+	
 
 	static public MenuVistas getInstancia() {
 		if (instancia == null) {
@@ -55,7 +60,6 @@ public class MenuVistas extends JFrame {
 	 * Create the frame.
 	 */
 	private MenuVistas() {
-		TablaBuscarPublic=new ObjetoTablaPublicaciones();
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowActivated(WindowEvent arg0) {
@@ -65,7 +69,7 @@ public class MenuVistas extends JFrame {
 		
 		setTitle("Sistema de compras");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 671, 514);
+		setBounds(100, 100, 528, 508);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -105,53 +109,62 @@ public class MenuVistas extends JFrame {
 		});
 		mnPublicaciones.add(mntmVerMisPublicaciones);
 		
+		JMenu mnCuenta = new JMenu("Cuenta");
+		menuBar.add(mnCuenta);
+		
+		JMenuItem mntmVerCuentaCorriente = new JMenuItem("Ver Cuenta Corrientes");
+		mntmVerCuentaCorriente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VistaVerCtaCorriente.getInstancia().setVisible(true);
+			}
+		});
+		mnCuenta.add(mntmVerCuentaCorriente);
+		
 		JLabel lblBuscarPublicacion = new JLabel("Buscar Publicacion:");
 		lblBuscarPublicacion.setBounds(6, 10, 138, 14);
 		contentPane.add(lblBuscarPublicacion);
 		
 		txtBuscar = new JTextField();
-		txtBuscar.setBounds(156, 7, 99, 20);
+		txtBuscar.setBounds(156, 7, 283, 20);
 		contentPane.add(txtBuscar);
 		txtBuscar.setColumns(10);
 		
-		JButton btnBuscar = new JButton("Buscar");
-		btnBuscar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (! txtBuscar.getText().isEmpty()) {
-					VistaVerPublicaciones.getInstancia(txtBuscar.getText()).setVisible(true);
-				}
-				else {
-					//TODO Mostrar error.
-				}
-				
-			}
-		});
-		btnBuscar.setBounds(266, 6, 89, 23);
-		contentPane.add(btnBuscar);
 		
-	    table = new JTable(TablaBuscarPublic);
-	    table.getColumnModel().getColumn(4).setWidth(0);
-	    table.getColumnModel().getColumn(4).setMinWidth(0);
-	    table.getColumnModel().getColumn(4).setMaxWidth(0);
-	    table.getColumnModel().getColumn(5).setWidth(0);
-	    table.getColumnModel().getColumn(5).setMinWidth(0);
-	    table.getColumnModel().getColumn(5).setMaxWidth(0);
-	    table.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent evt) {
-				try {
-					if (evt.getClickCount() == 2) {
-						JTable tabla = (JTable)evt.getSource();
-						VistaVerPublicacion.getInstancia(SistPublicaciones.getInstancia().buscarPublicacion(Integer.parseInt(tabla.getValueAt(tabla.getSelectedRow(), 5).toString())).getPublicacionView()).setVisible(true);
-					}
-				} catch (Exception e) {
-					System.err.println(e.getMessage());
+		String[] cols = {"Nombre", "Precio", "Tipo"};
+		tableModel = new DefaultTableModel(cols, 0){
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 7277948369760956569L;
+
+			public boolean isCellEditable(int row, int column) {
+			       return false;
+			    }
+		};
+		tablaPublicaciones = new JTable(tableModel);
+		tablaPublicaciones.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				JTable tabla = (JTable)e.getSource();
+				if (e.getClickCount() == 2) {
+					VistaVerPublicacion.getInstancia(publicaciones.get(tabla.getSelectedRow())).setVisible(true);
 				}
 			}
 		});
-		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(6, 36, 659, 388);
-		contentPane.add(scrollPane);
+		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+		rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+		
+		tablaPublicaciones.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+		tablaPublicaciones.getColumnModel().getColumn(1).setCellRenderer(rightRenderer);
+		tablaPublicaciones.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+		
+		JScrollPane scrollPane2 = new JScrollPane(tablaPublicaciones);
+		scrollPane2.setVisible(true);
+	    scrollPane2.setBounds(6, 36, 433, 388);
+	    contentPane.add(scrollPane2);
+		
+		
 		
 		lblUsuarioLogueado = new JLabel("");
 		lblUsuarioLogueado.setHorizontalAlignment(SwingConstants.LEFT);
@@ -163,42 +176,45 @@ public class MenuVistas extends JFrame {
 		lblCalificacionesPendientes.setBounds(227, 436, 199, 20);
 		contentPane.add(lblCalificacionesPendientes);
 		
-		lblEstadoCuentaCorriente = new JLabel("");
-		lblEstadoCuentaCorriente.setHorizontalAlignment(SwingConstants.LEFT);
-		lblEstadoCuentaCorriente.setBounds(438, 436, 227, 20);
-		contentPane.add(lblEstadoCuentaCorriente);
-		
-		JButton btnTodo = new JButton("Buscar todo");
-		btnTodo.addActionListener(new ActionListener() {
+		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MenuVistas.this.actualizarTablaPublicaciones("%");
+				if (! txtBuscar.getText().isEmpty()) {
+					buscado = txtBuscar.getText();
+					cargarPublicaciones(buscado);
+				}
+				else {
+					//TODO Mostrar error.
+				}
 			}
 		});
-		btnTodo.setBounds(367, 4, 117, 29);
-		contentPane.add(btnTodo);
+		btnBuscar.setBounds(438, 7, 89, 23);
+		contentPane.add(btnBuscar);
 	}
 
 	private void cargarDatosUsuario(){
 		UsuarioLogueadoView vul = AdmUsuarios.getInstancia().getVistaUsuarioLogueado();
 		lblUsuarioLogueado.setText(vul.getNombre());
 		lblCalificacionesPendientes.setText("Calificaciones Pendientes (" + String.valueOf(vul.getCalificacionesPendientes()) + ")");
-		lblEstadoCuentaCorriente.setText("Estado Cuenta Corriente: " + String.valueOf(vul.getEstadoCtaCte()));
 	}
 
-	private void actualizarTablaPublicaciones(String buscado){
-		this.TablaBuscarPublic.remAll();
-		if(buscado.compareTo("")!=0) {
-			ArrayList<PublicacionView> pubPersistidas= SistPublicaciones.getInstancia().buscarPublicaciones(buscado);
-			if(pubPersistidas.size()>0)
-				for (PublicacionView publicacion : pubPersistidas) {
-					this.TablaBuscarPublic.addRow(publicacion.getNumPublicacion(),
-												 publicacion.getTipoPublicacion(),
-												 publicacion.getNombreProducto(),
-												 publicacion.getDescripcion(),
-												 publicacion.getPrecioActual(),
-												 publicacion.getEstadoPublicacion()
-													);
-			this.repaint();
+	private void cargarPublicaciones (String buscado) {
+		if (buscado.equals("")) {
+			publicaciones = SistPublicaciones.getInstancia().verMisPublicaciones();
+		}
+		else {
+			publicaciones = SistPublicaciones.getInstancia().buscarPublicaciones(buscado);
+		}
+		txtBuscar.setText(buscado);
+		tableModel.setRowCount(0);
+		if (publicaciones != null && publicaciones.size() > 0) {
+			for (int i = 0; i < publicaciones.size(); i++) {
+				Object[] rowData = {
+						publicaciones.get(i).getNombreProducto(),
+						String.format("%.2f", publicaciones.get(i).getPrecioActual()),
+						publicaciones.get(i).getTipoPublicacion()
+						};
+				tableModel.addRow(rowData);
 			}
 		}
 	}
