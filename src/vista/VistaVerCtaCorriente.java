@@ -4,6 +4,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -57,7 +58,7 @@ public class VistaVerCtaCorriente extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		String[] cols = {"Concepto", "Monto"};
+		String[] cols = {"Fecha","Concepto","Producto","Cantidad","Monto"};
 		tableModel = new DefaultTableModel(cols, 0){
 			/**
 			 * 
@@ -83,7 +84,10 @@ public class VistaVerCtaCorriente extends JFrame {
 		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
 		
 		tablaMovimientos.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
-		tablaMovimientos.getColumnModel().getColumn(1).setCellRenderer(rightRenderer);
+//		tablaMovimientos.getColumnModel().getColumn(1).setCellRenderer();
+//		tablaMovimientos.getColumnModel().getColumn(2).setCellRenderer(rightRenderer);
+		tablaMovimientos.getColumnModel().getColumn(3).setCellRenderer(rightRenderer);
+		tablaMovimientos.getColumnModel().getColumn(4).setCellRenderer(rightRenderer);
 		
 		JScrollPane scrollPane = new JScrollPane(tablaMovimientos);
 		scrollPane.setVisible(true);
@@ -102,13 +106,30 @@ public class VistaVerCtaCorriente extends JFrame {
 	}
 	
 	private void cargarCtaCorriente () {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		String gFecha;
+		String gConcepto;
+		String gProducto;
+		String gCantidad;
+		String gMonto;
 		movimientos = AdmUsuarios.getInstancia().getMovsCtaCteView();
 		tableModel.setRowCount(0);
 		if (movimientos != null && movimientos.size() > 0) {
 			for (int i = 0; i < movimientos.size(); i++) {
+				if (movimientos.get(i).getFechaCompra()==null)
+					gFecha=" ";
+				else
+					gFecha=movimientos.get(i).getFechaCompra().format(formatter);
+				gConcepto=movimientos.get(i).getConcepto();
+				gProducto=movimientos.get(i).getNombreProducto();
+				gCantidad=String.format("%3d", movimientos.get(i).getCantidad());
+				gMonto=String.format("%.2f", movimientos.get(i).getMonto());
 				Object[] rowData = {
-						movimientos.get(i).getConcepto(),
-						String.format("%.2f", movimientos.get(i).getMonto())
+						gFecha,
+						gConcepto,
+						gProducto,
+						gCantidad,
+						gMonto
 						};
 				tableModel.addRow(rowData);
 			}
