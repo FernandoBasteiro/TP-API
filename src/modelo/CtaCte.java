@@ -6,7 +6,7 @@ import persistencia.AdmPersistenciaMovCtaCteMySQL;
 import controlador.MovCtaCteView;
 
 public class CtaCte {
-	private float saldoTotal;
+	private float saldoTotal; //TODO MID Remover el saldo y calcularlo en base a los movimientos cargados.
 	private ArrayList<MovCtaCte> movimientos;
 	
 	public CtaCte() {
