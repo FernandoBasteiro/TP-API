@@ -30,7 +30,7 @@ public class MovCtaCte {
 	}
 	
 	public MovCtaCteView getMovCtaCteView(){
-		return (new MovCtaCteView(this.monto, this.concepto));
+		return (new MovCtaCteView(this.monto, this.concepto,this.venta));
 	}
 	
 	public float getMonto() {
