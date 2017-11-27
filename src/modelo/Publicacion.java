@@ -3,6 +3,7 @@ package modelo;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import persistencia.AdmPersistenciaPublicacionMySQL;
 import controlador.PublicacionView;
 
 public abstract class Publicacion {
@@ -83,4 +84,7 @@ public abstract class Publicacion {
 		return nombreProducto;
 	}
 	
+	static public Publicacion buscarPublicacionDB(int nroPublicacion) {
+		return AdmPersistenciaPublicacionMySQL.getInstancia().buscarPublicacion(nroPublicacion);
+	}
 }

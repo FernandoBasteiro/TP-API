@@ -117,7 +117,7 @@ public class SistPublicaciones {
 				return publicaciones.get(i);
 			}
 		}
-		return null;
+		return Publicacion.buscarPublicacionDB(numeroPublicacion);
 	}
 	
 	public ArrayList<PublicacionView> verMisPublicaciones() {
