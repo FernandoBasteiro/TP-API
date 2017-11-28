@@ -133,13 +133,14 @@ public class AdmPersistenciaPublicacionMySQL {
 		return publicacion;
 	}
 	
-	public ArrayList<Publicacion> buscarPublicacionesUsuario(String nombreDeUsuario) {
+	public ArrayList<Publicacion> buscarPublicacionesUsuario(String nombreDeUsuario, String buscado) {
 		ArrayList<Publicacion> publicaciones=new ArrayList<Publicacion>();
 		Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
 		// Inserto los datos de la publicacion
 		try {
-			PreparedStatement ps = con.prepareStatement("select nroPublicacion,tipoPublicacion,nombreDeProducto,descripcion,fechaPublicacion,precioPublicado,estadoPublicacion,nombreDeUsuarioVendedor,stock,fechaHasta,ultimaOferta from publicaciones where nombreDeUsuarioVendedor=?");
+			PreparedStatement ps = con.prepareStatement("select nroPublicacion,tipoPublicacion,nombreDeProducto,descripcion,fechaPublicacion,precioPublicado,estadoPublicacion,nombreDeUsuarioVendedor,stock,fechaHasta,ultimaOferta from publicaciones where nombreDeUsuarioVendedor=? and nombreDeProducto like ?");
 			ps.setString(1, nombreDeUsuario);
+			ps.setString(2, "%"+buscado+"%");
 			ResultSet rs=ps.executeQuery();
 			
 			while(rs.next()) {

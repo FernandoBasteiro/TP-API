@@ -77,10 +77,10 @@ public class SistPublicaciones {
 		return pv;
 	}
 	
-	public ArrayList<PublicacionView> buscarPublicaciones(UsuarioRegular u) {
+	public ArrayList<PublicacionView> buscarPublicaciones(UsuarioRegular u, String buscado) {
 		if (u != null) {
 			ArrayList<PublicacionView> pv = null;
-			ArrayList<Publicacion> pubs = AdmPersistenciaPublicacionMySQL.getInstancia().buscarPublicacionesUsuario(u.getNombreDeUsuario());
+			ArrayList<Publicacion> pubs = AdmPersistenciaPublicacionMySQL.getInstancia().buscarPublicacionesUsuario(u.getNombreDeUsuario(), buscado);
 			if (pubs.size() > 0) {pv = new ArrayList<PublicacionView>();}
 			for (int i = 0; i < pubs.size(); i++) {
 				pv.add(pubs.get(i).getPublicacionView());
@@ -120,8 +120,8 @@ public class SistPublicaciones {
 		return Publicacion.buscarPublicacionDB(numeroPublicacion);
 	}
 	
-	public ArrayList<PublicacionView> verMisPublicaciones() {
-		return this.buscarPublicaciones((UsuarioRegular)AdmUsuarios.getInstancia().getUsuarioLogueado());
+	public ArrayList<PublicacionView> verMisPublicaciones(String buscado) {
+		return this.buscarPublicaciones((UsuarioRegular)AdmUsuarios.getInstancia().getUsuarioLogueado(),buscado);
 	}
 	
 	public int hacerOferta(int nroPublicacion, float monto, int cantidad, String medioDePago, String nroTarjeta, String CBU) {
