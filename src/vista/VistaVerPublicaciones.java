@@ -95,13 +95,13 @@ public class VistaVerPublicaciones extends JFrame {
 		JButton button = new JButton("Buscar");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (! textField.getText().isEmpty()) {
+//				if (! textField.getText().isEmpty()) {
 					buscado = textField.getText();
 					cargarPublicaciones(buscado);
-				}
-				else {
-					//TODO Mostrar error.
-				}
+//				}
+//				else {
+//					//TODO Mostrar error.
+//				}
 			}
 		});
 		button.setBounds(299, 7, 89, 23);
@@ -117,12 +117,12 @@ public class VistaVerPublicaciones extends JFrame {
 	}
 	
 	private void cargarPublicaciones (String buscado) {
-		if (buscado.equals("")) {
-			publicaciones = SistPublicaciones.getInstancia().verMisPublicaciones();
-		}
-		else {
-			publicaciones = SistPublicaciones.getInstancia().buscarPublicaciones(buscado);
-		}
+//		if (buscado.equals("")) {
+			publicaciones = SistPublicaciones.getInstancia().verMisPublicaciones(buscado);
+//		}
+//		else {
+//			publicaciones = SistPublicaciones.getInstancia().buscarPublicaciones(buscado);
+//		}
 		textField.setText(buscado);
 		tableModel.setRowCount(0);
 		if (publicaciones != null && publicaciones.size() > 0) {

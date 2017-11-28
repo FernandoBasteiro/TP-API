@@ -179,13 +179,13 @@ public class MenuVistas extends JFrame {
 		JButton btnBuscar = new JButton("Buscar");
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (! txtBuscar.getText().isEmpty()) {
+//				if (! txtBuscar.getText().isEmpty()) {
 					buscado = txtBuscar.getText();
 					cargarPublicaciones(buscado);
-				}
-				else {
-					//TODO Mostrar error.
-				}
+//				}
+//				else {
+//					//TODO Mostrar error.
+//				}
 			}
 		});
 		btnBuscar.setBounds(438, 7, 89, 23);
@@ -199,12 +199,12 @@ public class MenuVistas extends JFrame {
 	}
 
 	private void cargarPublicaciones (String buscado) {
-		if (buscado.equals("")) {
-			publicaciones = SistPublicaciones.getInstancia().verMisPublicaciones();
-		}
-		else {
+//		if (buscado.equals("")) {
+//			publicaciones = SistPublicaciones.getInstancia().verMisPublicaciones(buscado);
+//		}
+//		else {
 			publicaciones = SistPublicaciones.getInstancia().buscarPublicaciones(buscado);
-		}
+//		}
 		txtBuscar.setText(buscado);
 		tableModel.setRowCount(0);
 		if (publicaciones != null && publicaciones.size() > 0) {

@@ -65,7 +65,7 @@ public class AdmPersistenciaMovCtaCteMySQL {
 		ArrayList<MovCtaCte> movimientos = new ArrayList<MovCtaCte>();
 		try {
 			Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
-			String sql = "SELECT nroMovimiento, monto, movTipo.descripcion concepto, nroVenta, fechaMovimiento FROM `movCtaCte` LEFT JOIN movTipo ON movCtaCte.concepto = movTipo.concepto WHERE nombreDeUsuario = ? order by nroVenta,nroMovimiento";
+			String sql = "SELECT nroMovimiento, monto, movTipo.descripcion concepto, nroVenta, fechaMovimiento FROM movCtaCte LEFT JOIN movTipo ON movCtaCte.concepto = movTipo.concepto WHERE nombreDeUsuario = ? order by nroVenta,nroMovimiento";
 			PreparedStatement s = con.prepareStatement(sql);
 			s.setString(1, nombreDeUsuario);
 			ResultSet rs = s.executeQuery();
