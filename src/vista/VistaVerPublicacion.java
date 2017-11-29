@@ -1,20 +1,31 @@
 package vista;
 
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.net.URL;
 import java.time.LocalDateTime;
 
+import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import controlador.PublicacionView;
 import controlador.SistPublicaciones;
+
+import javax.swing.JSpinner;
+import javax.swing.SwingConstants;
 
 public class VistaVerPublicacion extends JFrame {
 
@@ -50,10 +61,13 @@ public class VistaVerPublicacion extends JFrame {
 	private JTextField txtNroTarjeta;
 	private JButton btnConvertirASubasta;
 	
+	private JLabel lblImagen;
+	private JSpinner spinner;
+	
+	private SpinnerNumberModel modelo;
+	
 	static public VistaVerPublicacion getInstancia(PublicacionView publicacion) {
-		if (instancia == null) {
-			instancia = new VistaVerPublicacion();
-		}
+		instancia = new VistaVerPublicacion(); //TODO Dado que no es mas un singleton, habria que dejar de tratarlo como tal.
 		instancia.cargarDatos(publicacion);
 		return instancia;
 	}
@@ -65,7 +79,7 @@ public class VistaVerPublicacion extends JFrame {
 
 	private VistaVerPublicacion() {
 		setResizable(false);
-		setBounds(100, 100, 310, 389);
+		setBounds(100, 100, 565, 316);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -205,16 +219,91 @@ public class VistaVerPublicacion extends JFrame {
 		contentPane.add(comboBox);
 		
 		btnConvertirASubasta = new JButton("Convertir a Subasta");
-		btnConvertirASubasta.setBounds(10, 256, 285, 23);
+		btnConvertirASubasta.setBounds(10, 251, 285, 23);
 		contentPane.add(btnConvertirASubasta);
+		
+		lblImagen = new JLabel();
+		lblImagen.setBounds(305, 33, 240, 240);
+		contentPane.add(lblImagen);
+		
+		JLabel lblImagenes = new JLabel("Imagenes:");
+		lblImagenes.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblImagenes.setBounds(305, 11, 100, 14);
+		contentPane.add(lblImagenes);
+		
+		
+	}
+	
+	private Image buscarImagen(String path) {
+		try {
+			URL url = new URL(path);
+			BufferedImage imagenOriginal = ImageIO.read(url);
+
+			
+			int alto = imagenOriginal.getHeight();
+			int ancho = imagenOriginal.getWidth();
+			int nuevoAlto;
+			int nuevoAncho;
+			if (alto > ancho) {
+				nuevoAlto = 240;
+				nuevoAncho = nuevoAlto * ancho / alto;
+			}
+			else {
+				nuevoAncho = 240;
+				nuevoAlto = nuevoAncho * alto / ancho;
+				
+			}
+			Image image = imagenOriginal.getScaledInstance(nuevoAncho, nuevoAlto, java.awt.Image.SCALE_SMOOTH);
+			
+			return image;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 	
 	public void cargarDatos(PublicacionView publicacion){
+		if (publicacion.getImagenes().size() > 0) {
+			modelo = new SpinnerNumberModel(1, 1, publicacion.getImagenes().size(), 1);
+			spinner = new JSpinner(modelo);
+			spinner.setBounds(415, 8, 130, 20);
+			spinner.addChangeListener(new ChangeListener() {
+				public void stateChanged(ChangeEvent arg0) {
+					try {
+						Image imagen = buscarImagen(publicacion.getImagenes().get((Integer) spinner.getValue() -1));
+						lblImagen.setIcon(new ImageIcon(imagen));
+					}
+					catch (Exception e) {
+						System.err.println(e.getMessage());
+					}
+				}
+			});
+			contentPane.add(spinner);
+		}
+		try {
+			Image imagen = buscarImagen(publicacion.getImagenes().get(0));
+			lblImagen.setIcon(new ImageIcon(imagen));
+		}
+		catch (Exception e) {
+			try {
+				lblImagen.setIcon(new ImageIcon("nodisponible.png"));
+			}
+			catch (Exception e2) {
+				System.err.println(e.getMessage());
+				System.err.println(e2.getMessage());
+			}
+		}
+		
 		txtNombre.setText(publicacion.getNombreProducto());
 		txtDescripcion.setText(publicacion.getDescripcion());
 		txtPrecio.setText(String.valueOf(publicacion.getPrecioActual()));
 		txtTipoPublicacion.setText(publicacion.getTipoPublicacion());
-		
+		if (publicacion.getSoyDueno()) {
+			btnComprar.setEnabled(false);
+		}
+		else {
+			btnComprar.setEnabled(true);
+		}
 		if (publicacion.getTipoPublicacion().equals("Subasta")) {
 			lblFinDeSubasta.setVisible(true);
 			txtFinSubasta.setVisible(true);
