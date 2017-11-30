@@ -33,7 +33,7 @@ public class AdmPersistenciaPublicacionMySQL {
 		Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
 		// Inserto los datos de la publicacion
 		try {
-			String sql = "SELECT nroPublicacion,tipoPublicacion,nombreDeProducto,descripcion,fechaPublicacion,precioPublicado,estadoPublicacion,nombreDeUsuarioVendedor,stock,fechaHasta,ultimaOferta from publicaciones WHERE nombreDeProducto LIKE ?";
+			String sql = "SELECT nroPublicacion,tipoPublicacion,nombreDeProducto,descripcion,fechaPublicacion,precioPublicado,estadoPublicacion,nombreDeUsuarioVendedor,stock,fechaHasta,ultimaOferta from publicaciones WHERE estadoPublicacion != 'Finalizada' AND nombreDeProducto LIKE ?";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, '%' + nombreDeProducto + '%');
 			ResultSet rs=ps.executeQuery();

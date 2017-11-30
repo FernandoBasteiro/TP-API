@@ -6,16 +6,16 @@ import persistencia.AdmPersistenciaMovCtaCteMySQL;
 import controlador.MovCtaCteView;
 
 public class CtaCte {
-	private float saldoTotal; //TODO MID Remover el saldo y calcularlo en base a los movimientos cargados.
+	//private float saldoTotal; //TODO MID Remover el saldo y calcularlo en base a los movimientos cargados.
 	private ArrayList<MovCtaCte> movimientos;
 	
 	public CtaCte() {
-		this.saldoTotal = 0;
+		//this.saldoTotal = 0;
 		movimientos = null;
 	}
 	
 	public CtaCte(float saldo) {
-		this.saldoTotal = saldo;
+		//this.saldoTotal = saldo;
 		movimientos = null;
 	}
 	
@@ -26,7 +26,7 @@ public class CtaCte {
 				movimientos = new ArrayList<MovCtaCte>();
 			}
 			this.movimientos.add(movimiento);
-			saldoTotal = saldoTotal + monto;
+			//saldoTotal = saldoTotal + monto;
 			return 0;
 		}
 		else {
@@ -34,9 +34,9 @@ public class CtaCte {
 		}	
 	}
 
-	public float getSaldoTotal() {
+	/*public float getSaldoTotal() {
 		return saldoTotal;
-	}
+	}*/
 
 	public ArrayList<MovCtaCteView> getMovsCtaCteView(String nombreDeUsuario) {
 		this.movimientos = AdmPersistenciaMovCtaCteMySQL.getInstancia().buscarMovimientos(nombreDeUsuario);
