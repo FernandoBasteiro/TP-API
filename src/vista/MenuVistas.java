@@ -180,8 +180,8 @@ public class MenuVistas extends JFrame {
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 //				if (! txtBuscar.getText().isEmpty()) {
-					buscado = txtBuscar.getText();
-					cargarPublicaciones(buscado);
+					//buscado = txtBuscar.getText();
+					cargarPublicaciones();
 //				}
 //				else {
 //					//TODO Mostrar error.
@@ -198,14 +198,10 @@ public class MenuVistas extends JFrame {
 		lblCalificacionesPendientes.setText("Calificaciones Pendientes (" + String.valueOf(vul.getCalificacionesPendientes()) + ")");
 	}
 
-	private void cargarPublicaciones (String buscado) {
-//		if (buscado.equals("")) {
-//			publicaciones = SistPublicaciones.getInstancia().verMisPublicaciones(buscado);
-//		}
-//		else {
-			publicaciones = SistPublicaciones.getInstancia().buscarPublicaciones(buscado);
-//		}
-		txtBuscar.setText(buscado);
+	public void cargarPublicaciones () {
+		buscado = txtBuscar.getText();
+		publicaciones = SistPublicaciones.getInstancia().buscarPublicaciones(buscado);
+//		txtBuscar.setText(buscado);
 		tableModel.setRowCount(0);
 		if (publicaciones != null && publicaciones.size() > 0) {
 			for (int i = 0; i < publicaciones.size(); i++) {

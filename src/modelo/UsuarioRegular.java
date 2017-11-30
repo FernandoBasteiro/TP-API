@@ -147,11 +147,13 @@ public class UsuarioRegular extends Usuario {
 	}
 	//Fin de la parte de calificaciones
 	
+	/*
 	public float getSaldoCtaCte() {
 		return ctacte.getSaldoTotal();
 	}
+	*/
 	
 	public UsuarioLogueadoView getUsuarioLogueadoView() {
-		return (new UsuarioLogueadoView(this.nombre, this.getCtacte().getSaldoTotal(), this.calificacionesPendientes()));
+		return (new UsuarioLogueadoView(this.nombre, this.calificacionesPendientes()));
 	}
 }

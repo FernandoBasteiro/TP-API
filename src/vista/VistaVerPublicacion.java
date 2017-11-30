@@ -223,6 +223,7 @@ public class VistaVerPublicacion extends JFrame {
 		contentPane.add(btnConvertirASubasta);
 		
 		lblImagen = new JLabel();
+		lblImagen.setHorizontalAlignment(SwingConstants.CENTER);
 		lblImagen.setBounds(305, 33, 240, 240);
 		contentPane.add(lblImagen);
 		
@@ -298,7 +299,7 @@ public class VistaVerPublicacion extends JFrame {
 		txtDescripcion.setText(publicacion.getDescripcion());
 		txtPrecio.setText(String.valueOf(publicacion.getPrecioActual()));
 		txtTipoPublicacion.setText(publicacion.getTipoPublicacion());
-		if (publicacion.getSoyDueno()) {
+		if (publicacion.getSoyDueno() | publicacion.getEstadoPublicacion().equals("Finalizada") | publicacion.getStock() == 0) {
 			btnComprar.setEnabled(false);
 		}
 		else {
@@ -333,6 +334,7 @@ public class VistaVerPublicacion extends JFrame {
 					}
 					int resultado = SistPublicaciones.getInstancia().hacerOferta(publicacion.getNumPublicacion(), Float.valueOf(txtOferta.getText()), 1, comboBox.getSelectedItem().toString(), nroTarjeta, CBU);
 					instancia.setVisible(false);
+					MenuVistas.getInstancia().cargarPublicaciones();
 					VistaVerPublicacion.setInstancia(null);
 				}
 			});
@@ -378,6 +380,7 @@ public class VistaVerPublicacion extends JFrame {
 					}
 					int resultado = SistPublicaciones.getInstancia().hacerOferta(publicacion.getNumPublicacion(), publicacion.getPrecioActual(), Integer.valueOf(txtCantidad.getText()), comboBox.getSelectedItem().toString(), nroTarjeta, CBU);
 					instancia.setVisible(false);
+					MenuVistas.getInstancia().cargarPublicaciones();
 					VistaVerPublicacion.setInstancia(null);
 				}
 			});

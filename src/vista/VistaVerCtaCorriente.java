@@ -48,7 +48,7 @@ public class VistaVerCtaCorriente extends JFrame {
 			@Override
 			public void windowActivated(WindowEvent arg0) {
 				cargarCtaCorriente();
-				cargarDatosUsuario();
+				//cargarDatosUsuario();
 			}
 		});
 		setResizable(false);
@@ -99,12 +99,12 @@ public class VistaVerCtaCorriente extends JFrame {
 		lblEstadoCuentaCorriente.setBounds(6, 277, 227, 20);
 		contentPane.add(lblEstadoCuentaCorriente);
 	}
-	
+	/*
 	private void cargarDatosUsuario(){
 		UsuarioLogueadoView vul = AdmUsuarios.getInstancia().getVistaUsuarioLogueado();
-		lblEstadoCuentaCorriente.setText("Estado Cuenta Corriente: " + String.valueOf(vul.getEstadoCtaCte()));
+		//lblEstadoCuentaCorriente.setText("Estado Cuenta Corriente: " + String.valueOf(vul.getEstadoCtaCte()));
 	}
-	
+	*/
 	private void cargarCtaCorriente () {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		String gFecha;
@@ -112,6 +112,8 @@ public class VistaVerCtaCorriente extends JFrame {
 		String gProducto;
 		String gCantidad;
 		String gMonto;
+		float totalCtaCte = 0;
+		
 		movimientos = AdmUsuarios.getInstancia().getMovsCtaCteView();
 		tableModel.setRowCount(0);
 		if (movimientos != null && movimientos.size() > 0) {
@@ -123,6 +125,7 @@ public class VistaVerCtaCorriente extends JFrame {
 				gConcepto=movimientos.get(i).getConcepto();
 				gProducto=movimientos.get(i).getNombreProducto();
 				gCantidad=String.format("%3d", movimientos.get(i).getCantidad());
+				totalCtaCte = totalCtaCte + movimientos.get(i).getMonto();
 				gMonto=String.format("%.2f", movimientos.get(i).getMonto());
 				Object[] rowData = {
 						gFecha,
@@ -134,5 +137,7 @@ public class VistaVerCtaCorriente extends JFrame {
 				tableModel.addRow(rowData);
 			}
 		}
+		lblEstadoCuentaCorriente.setText("Estado Cuenta Corriente: " + totalCtaCte);
+		
 	}
 }

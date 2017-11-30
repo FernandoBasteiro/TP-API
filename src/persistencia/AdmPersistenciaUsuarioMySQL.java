@@ -73,7 +73,7 @@ public class AdmPersistenciaUsuarioMySQL {
 	public int insertUsuario(UsuarioRegular u) {
 		try {
 			Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
-			PreparedStatement s = con.prepareStatement("INSERT INTO usuarios VALUES (?,?,?,?,?,?,?,?,?,?)");
+			PreparedStatement s = con.prepareStatement("INSERT INTO usuarios (nombreDeUsuario, nombre, domicilio, mail, fechaCreacion, passwordString, passwordModif, activo, administrador) VALUES (?,?,?,?,?,?,?,?,?)");
 			s.setString(1, u.getNombreDeUsuario());
 			s.setString(2, u.getNombre());
 			s.setString(3, u.getDomicilio());
@@ -81,9 +81,8 @@ public class AdmPersistenciaUsuarioMySQL {
 			s.setTimestamp(5, Timestamp.valueOf(u.getFechaCreacion()));
 			s.setString(6, u.getPassword().getPasswordString());
 			s.setTimestamp(7, Timestamp.valueOf(u.getPassword().getUltimaModificacion()));
-			s.setFloat(8, u.getCtacte().getSaldoTotal());
-			s.setBoolean(9, u.estaActivo());
-			s.setBoolean(10, false);
+			s.setBoolean(8, u.estaActivo());
+			s.setBoolean(9, false);
 			//System.out.println(s.toString());
 			s.execute();
 			PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
@@ -127,7 +126,6 @@ public class AdmPersistenciaUsuarioMySQL {
 						"mail = ?, " +
 						"passwordString = ?, " +
 						"passwordModif = ?, " +
-						"saldoCtaCte = ?, " +
 						"activo = ? " + 
 						"WHERE nombreDeUsuario = ?"
 						);
@@ -136,9 +134,8 @@ public class AdmPersistenciaUsuarioMySQL {
 				s.setString(3, u.getMail());
 				s.setString(4, u.getPassword().getPasswordString());
 				s.setTimestamp(5, Timestamp.valueOf(u.getPassword().getUltimaModificacion()));
-				s.setFloat(6, u.getCtacte().getSaldoTotal());
-				s.setBoolean(7, u.estaActivo());
-				s.setString(8, u.getNombreDeUsuario());
+				s.setBoolean(6, u.estaActivo());
+				s.setString(7, u.getNombreDeUsuario());
 				//System.out.println(s.toString());
 				s.execute();
 				PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
