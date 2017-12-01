@@ -2,7 +2,7 @@ package modelo;
 
 import java.time.LocalDateTime;
 
-import persistencia.AdmPersistenciaVentaMySQL;
+import persistencia.AdmPersistenciaVenta;
 
 public class MercadoPago extends Venta{
 	private String nroTarjeta;
@@ -18,7 +18,7 @@ public class MercadoPago extends Venta{
 		//Constructor para nuevas Ventas
 		super(p, c, cantidad, montoPagado);
 		this.nroTarjeta = nroTarjeta;
-		this.nroVenta = AdmPersistenciaVentaMySQL.getInstancia().insertarVenta(this);
+		this.nroVenta = AdmPersistenciaVenta.getInstancia().insertarVenta(this);
 	}
 
 	public String getNroTarjeta() {

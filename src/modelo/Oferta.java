@@ -3,7 +3,7 @@ package modelo;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-import persistencia.AdmPersistenciaOfertasMySQL;
+import persistencia.AdmPersistenciaOfertas;
 
 public class Oferta {
 	private float monto;
@@ -41,15 +41,15 @@ public class Oferta {
 	}
 	
 	public int insertOferta(int nroPublicacion) {
-		return AdmPersistenciaOfertasMySQL.getInstancia().insertOferta(this, nroPublicacion);
+		return AdmPersistenciaOfertas.getInstancia().insertOferta(this, nroPublicacion);
 	}
 	
 	static public Oferta buscarMayorOferta(int nroPublicacion){
-		return AdmPersistenciaOfertasMySQL.getInstancia().getMayorOferta(nroPublicacion);
+		return AdmPersistenciaOfertas.getInstancia().getMayorOferta(nroPublicacion);
 	}
 	
 	static public ArrayList<Oferta> buscarOfertas(int nroPublicacion) {
-		return AdmPersistenciaOfertasMySQL.getInstancia().getOfertas(nroPublicacion);
+		return AdmPersistenciaOfertas.getInstancia().getOfertas(nroPublicacion);
 	}
 	
 

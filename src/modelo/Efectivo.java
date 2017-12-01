@@ -3,7 +3,7 @@ package modelo;
 import java.time.LocalDateTime;
 
 import controlador.AdmUsuarios;
-import persistencia.AdmPersistenciaVentaMySQL;
+import persistencia.AdmPersistenciaVenta;
 
 public class Efectivo extends Venta{
 	public Efectivo(int nroVenta, Publicacion p, Usuario c, int cantidad, float montoUnitario,
@@ -15,7 +15,7 @@ public class Efectivo extends Venta{
 	public Efectivo(Publicacion p, UsuarioRegular c, int cantidad, float montoUnitario) {
 		//Constructor para nuevas Ventas
 		super(p, c, cantidad, montoUnitario);
-		this.nroVenta = AdmPersistenciaVentaMySQL.getInstancia().insertarVenta(this);
+		this.nroVenta = AdmPersistenciaVenta.getInstancia().insertarVenta(this);
 		
 		AdmUsuarios.getInstancia().cargarMovCtaCte(c, -(montoUnitario * cantidad), "COMPRA", this);
 		confirmarPago();

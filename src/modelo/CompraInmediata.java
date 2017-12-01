@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import controlador.AdmUsuarios;
 import controlador.CompraInmediataView;
 import controlador.PublicacionView;
-import persistencia.AdmPersistenciaPublicacionMySQL;
+import persistencia.AdmPersistenciaPublicacion;
 
 public class CompraInmediata extends Publicacion {
 	private int stock;
@@ -15,7 +15,7 @@ public class CompraInmediata extends Publicacion {
 		super(nombreDeProducto, descripcion, imagenes, precioPublicado, vendedor);
 		this.stock = stock;
 		// this.numPublicacion = persistir! -> Puede que en realidad lo tenga que hacer el controlador, para poder revisar los errores del persistir.
-		this.nroPublicacion=AdmPersistenciaPublicacionMySQL.getInstancia().insertPublicacion(this);
+		this.nroPublicacion=AdmPersistenciaPublicacion.getInstancia().insertPublicacion(this);
 		System.out.println("Nombre: " + nombreProducto + " - NumeroP: " + nroPublicacion);
 	}
 	
@@ -36,7 +36,7 @@ public class CompraInmediata extends Publicacion {
 			if (this.stock == 0) {
 				this.estadoPublicacion = "Finalizada";
 			}
-			int error = AdmPersistenciaPublicacionMySQL.getInstancia().updateStockPublicacion(this); //TODO LOW Si falla habria que volver todo atras.
+			int error = AdmPersistenciaPublicacion.getInstancia().updateStockPublicacion(this); //TODO LOW Si falla habria que volver todo atras.
 			return 0;
 		}
 		else if (this.stock == -1) {
@@ -66,7 +66,7 @@ public class CompraInmediata extends Publicacion {
 			if (this.stock > 0) {
 				this.estadoPublicacion = "Activa";
 			}
-			int error = AdmPersistenciaPublicacionMySQL.getInstancia().updateStockPublicacion(this); //TODO LOW Si falla habria que volver todo atras.
+			int error = AdmPersistenciaPublicacion.getInstancia().updateStockPublicacion(this); //TODO LOW Si falla habria que volver todo atras.
 		}
 		return 0;
 	}
@@ -77,7 +77,7 @@ public class CompraInmediata extends Publicacion {
 				if (--this.stock == 0){
 					this.estadoPublicacion = "Finalizada";
 				}
-				int error = AdmPersistenciaPublicacionMySQL.getInstancia().updateStockPublicacion(this); //TODO LOW Si falla habria que volver todo atras.
+				int error = AdmPersistenciaPublicacion.getInstancia().updateStockPublicacion(this); //TODO LOW Si falla habria que volver todo atras.
 			}
 			Subasta s = new Subasta(this.nombreProducto, this.descripcion, this.imagenes, precioMinimo, fechaHasta, this.vendedor);
 			return s;

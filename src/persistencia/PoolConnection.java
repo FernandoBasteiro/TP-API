@@ -9,6 +9,8 @@ import java.sql.Statement;
 import java.util.Properties;
 import java.util.Vector;
 
+import javax.swing.JOptionPane;
+
 
 public class PoolConnection
 {
@@ -39,9 +41,10 @@ public class PoolConnection
 	{
 		try
 		{
-			//Setear driver
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-			String dbConnectString = jdbc + servidor; 
+//			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName(classpath);
+			
+			String dbConnectString = jdbc + servidor;
 			Connection con = DriverManager.getConnection (dbConnectString, usuario, password);
             
             return con;
@@ -122,7 +125,7 @@ public class PoolConnection
 	{
 		connections.add(c);
 	}
-
+	
 	public void testConnection()
 	{
 		try {
@@ -130,20 +133,20 @@ public class PoolConnection
 			Connection con = PoolConnection.getPoolConnection().getConnection();
 			
 			Statement s = con.createStatement();
-			String sentencia = "select count(*) usuarios from sys.sysusers where sid is not null and islogin=1";
+			String sentencia = "select 1 valor from dual";
 			s.executeQuery(sentencia);
 			ResultSet rs = s.getResultSet();
 			
 			while (rs.next())
 			{
-				numUsuarios = Integer.parseInt(rs.getString("usuarios"));
+				numUsuarios = Integer.parseInt(rs.getString("valor"));
 			}
-			if (numUsuarios>0)
-				System.out.println("Existen usuarios");
-			else
-				System.out.println("No se encontraron usuarios");
+			if (numUsuarios==1)
+				System.out.println("Prueba exitosa");
+			PoolConnection.getPoolConnection().realeaseConnection(con);
 		} catch (Exception e) {
 			System.out.println("Error Query: " + e.getMessage());
 		}
 	}
+	
 }

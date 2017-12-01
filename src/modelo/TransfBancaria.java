@@ -2,7 +2,7 @@ package modelo;
 
 import java.time.LocalDateTime;
 
-import persistencia.AdmPersistenciaVentaMySQL;
+import persistencia.AdmPersistenciaVenta;
 
 public class TransfBancaria extends Venta{
 	private String CBU;
@@ -18,7 +18,7 @@ public class TransfBancaria extends Venta{
 		//Constructor para nuevas Ventas
 		super(p, c, cantidad, montoPagado);
 		this.CBU = CBU;
-		this.nroVenta = AdmPersistenciaVentaMySQL.getInstancia().insertarVenta(this);
+		this.nroVenta = AdmPersistenciaVenta.getInstancia().insertarVenta(this);
 	}
 
 	public String getCBU() {

@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import persistencia.AdmPersistenciaParametrosGrales;
-import persistencia.AdmPersistenciaVentaMySQL;
+import persistencia.AdmPersistenciaVenta;
 import controlador.AdmUsuarios;
 import controlador.SistPublicaciones;
 
@@ -93,7 +93,7 @@ public abstract class Venta {
 		AdmUsuarios.getInstancia().cargarMovCtaCte(publicacion.getVendedor(), (montoUnitario * cantidad), "VENTA", this);
 		AdmUsuarios.getInstancia().cargarMovCtaCte(publicacion.getVendedor(), -montoComision, "COMISION", this);
 		//TODO MID Generar Calificacion para Comprador y Vendedor.
-		AdmPersistenciaVentaMySQL.getInstancia().updateEstadoVenta(this);
+		AdmPersistenciaVenta.getInstancia().updateEstadoVenta(this);
 		return 0;
 	}
 	
@@ -102,7 +102,7 @@ public abstract class Venta {
 		if (publicacion instanceof CompraInmediata) {
 			SistPublicaciones.getInstancia().devolverStock((CompraInmediata) publicacion, cantidad);
 		}
-		AdmPersistenciaVentaMySQL.getInstancia().updateEstadoVenta(this);
+		AdmPersistenciaVenta.getInstancia().updateEstadoVenta(this);
 		return 0;
 	}
 
@@ -111,14 +111,14 @@ public abstract class Venta {
 	}
 	
 	static public ArrayList<Venta> buscarComprasDB(String nombreDeUsuario) {
-		return AdmPersistenciaVentaMySQL.getInstancia().buscarCompras(nombreDeUsuario);
+		return AdmPersistenciaVenta.getInstancia().buscarCompras(nombreDeUsuario);
 	}
 	
 	static public ArrayList<Venta> buscarVentasDB(int nroPublicacion) {
-		return AdmPersistenciaVentaMySQL.getInstancia().buscarVentas(nroPublicacion);
+		return AdmPersistenciaVenta.getInstancia().buscarVentas(nroPublicacion);
 	}
 	
 	static public Venta buscarVentaDB(int nroVenta) {
-		return AdmPersistenciaVentaMySQL.getInstancia().buscarVenta(nroVenta);
+		return AdmPersistenciaVenta.getInstancia().buscarVenta(nroVenta);
 	}
 }

@@ -2,7 +2,7 @@ package modelo;
 
 import java.util.ArrayList;
 
-import persistencia.AdmPersistenciaMovCtaCteMySQL;
+import persistencia.AdmPersistenciaMovCtaCte;
 import controlador.MovCtaCteView;
 
 public class CtaCte {
@@ -39,7 +39,7 @@ public class CtaCte {
 	}*/
 
 	public ArrayList<MovCtaCteView> getMovsCtaCteView(String nombreDeUsuario) {
-		this.movimientos = AdmPersistenciaMovCtaCteMySQL.getInstancia().buscarMovimientos(nombreDeUsuario);
+		this.movimientos = AdmPersistenciaMovCtaCte.getInstancia().buscarMovimientos(nombreDeUsuario);
 		movimientos = MovCtaCte.buscarMovimientosDB(nombreDeUsuario);
 		ArrayList<MovCtaCteView> movsView = new ArrayList<MovCtaCteView>();
 		for (int i = 0; i < movimientos.size(); i++) {

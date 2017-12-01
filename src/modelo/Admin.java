@@ -3,7 +3,7 @@ package modelo;
 import java.time.LocalDateTime;
 
 import controlador.UsuarioView;
-import persistencia.AdmPersistenciaUsuarioMySQL;
+import persistencia.AdmPersistenciaUsuario;
 
 public class Admin extends Usuario {
 	
@@ -16,7 +16,7 @@ public class Admin extends Usuario {
 	
 	public Admin(String nombreDeUsuario, String passwordString) {
 		super(nombreDeUsuario, passwordString);
-		AdmPersistenciaUsuarioMySQL.getInstancia().insertUsuario(this);
+		AdmPersistenciaUsuario.getInstancia().insertUsuario(this);
 	}
 
 	public UsuarioView getUsuarioView() {

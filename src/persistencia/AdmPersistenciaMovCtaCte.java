@@ -12,23 +12,23 @@ import controlador.SistemaVentas;
 import modelo.MovCtaCte;
 import modelo.Venta;
 
-public class AdmPersistenciaMovCtaCteMySQL {
-	static private AdmPersistenciaMovCtaCteMySQL instancia;
+public class AdmPersistenciaMovCtaCte {
+	static private AdmPersistenciaMovCtaCte instancia;
 	
-	private AdmPersistenciaMovCtaCteMySQL() {
+	private AdmPersistenciaMovCtaCte() {
 		
 	}
 	
-	public static AdmPersistenciaMovCtaCteMySQL getInstancia(){
+	public static AdmPersistenciaMovCtaCte getInstancia(){
 		if (instancia == null) {
-			instancia = new AdmPersistenciaMovCtaCteMySQL();
+			instancia = new AdmPersistenciaMovCtaCte();
 		}
 		return instancia;
 	}
 	
 	public int insert(String nombreDeUsuario, MovCtaCte m) {
 		try {
-			Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
+			Connection con = PoolConnection.getPoolConnection().getConnection();
 			String buscarConcepto = "SELECT * FROM movTipo WHERE descripcion = ?";
 			PreparedStatement c = con.prepareStatement(buscarConcepto);
 			c.setString(1, m.getConcepto());
@@ -53,7 +53,7 @@ public class AdmPersistenciaMovCtaCteMySQL {
 			ResultSet rs = s.getGeneratedKeys();
 			rs.next();
 			
-			PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
+			PoolConnection.getPoolConnection().realeaseConnection(con);
 			return rs.getInt(1);
 		} catch (Exception e) {
 			System.out.println("Error Query: " + e.getMessage());
@@ -64,7 +64,7 @@ public class AdmPersistenciaMovCtaCteMySQL {
 	public ArrayList<MovCtaCte> buscarMovimientos(String nombreDeUsuario) {
 		ArrayList<MovCtaCte> movimientos = new ArrayList<MovCtaCte>();
 		try {
-			Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
+			Connection con = PoolConnection.getPoolConnection().getConnection();
 			String sql = "SELECT nroMovimiento, monto, movTipo.descripcion concepto, nroVenta, fechaMovimiento FROM movCtaCte LEFT JOIN movTipo ON movCtaCte.concepto = movTipo.concepto WHERE nombreDeUsuario = ? order by nroVenta,nroMovimiento";
 			PreparedStatement s = con.prepareStatement(sql);
 			s.setString(1, nombreDeUsuario);
@@ -80,7 +80,7 @@ public class AdmPersistenciaMovCtaCteMySQL {
 				m = new MovCtaCte(nroMovimiento, v, monto, concepto, fechaMovimiento);
 				movimientos.add(m);
 			}
-			PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
+			PoolConnection.getPoolConnection().realeaseConnection(con);
 			return movimientos;
 
 		} catch (Exception e) {

@@ -14,23 +14,23 @@ import modelo.Oferta;
 import modelo.Publicacion;
 import modelo.Subasta;
 
-public class AdmPersistenciaPublicacionMySQL {
-	static private AdmPersistenciaPublicacionMySQL instancia;
+public class AdmPersistenciaPublicacion {
+	static private AdmPersistenciaPublicacion instancia;
 	
-	static public AdmPersistenciaPublicacionMySQL getInstancia(){
+	static public AdmPersistenciaPublicacion getInstancia(){
 		if (instancia == null) {
-			instancia = new AdmPersistenciaPublicacionMySQL();
+			instancia = new AdmPersistenciaPublicacion();
 		}
 		return instancia;
 	}
 	
-	private AdmPersistenciaPublicacionMySQL() {
+	private AdmPersistenciaPublicacion() {
 		
 	}
 	
 	public ArrayList<Publicacion> buscarPublicacionesProducto(String nombreDeProducto) {
 		ArrayList<Publicacion> publicaciones=new ArrayList<Publicacion>();
-		Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
+		Connection con = PoolConnection.getPoolConnection().getConnection();
 		// Inserto los datos de la publicacion
 		try {
 			String sql = "SELECT nroPublicacion,tipoPublicacion,nombreDeProducto,descripcion,fechaPublicacion,precioPublicado,estadoPublicacion,nombreDeUsuarioVendedor,stock,fechaHasta,ultimaOferta from publicaciones WHERE estadoPublicacion != 'Finalizada' AND nombreDeProducto LIKE ?";
@@ -58,7 +58,7 @@ public class AdmPersistenciaPublicacionMySQL {
 							AdmUsuarios.getInstancia().buscarUsuarioRegular(rs.getString("nombreDeUsuarioVendedor")));
 					publicaciones.add(ci);
 				} else if (rs.getString("tipoPublicacion").equals("Subasta")) {
-					Oferta oferta = AdmPersistenciaOfertasMySQL.getInstancia().getMayorOferta(rs.getInt("nroPublicacion"));
+					Oferta oferta = AdmPersistenciaOfertas.getInstancia().getMayorOferta(rs.getInt("nroPublicacion"));
 					Subasta s = new Subasta(rs.getString("nombreDeProducto"),
 							rs.getString("descripcion"),
 							imagenes,
@@ -77,13 +77,13 @@ public class AdmPersistenciaPublicacionMySQL {
 			System.out.println("Error Query: " + e.getMessage());
 			return null;
 		}
-		PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
+		PoolConnection.getPoolConnection().realeaseConnection(con);
 		return publicaciones;
 	}
 	
 	public Publicacion buscarPublicacion(int nroPublicacion) {
 		Publicacion publicacion=null;
-		Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
+		Connection con = PoolConnection.getPoolConnection().getConnection();
 		// Inserto los datos de la publicacion
 		try {
 			PreparedStatement ps = con.prepareStatement("select nroPublicacion,tipoPublicacion,nombreDeProducto,descripcion,fechaPublicacion,precioPublicado,estadoPublicacion,nombreDeUsuarioVendedor,stock,fechaHasta,ultimaOferta from publicaciones where nroPublicacion=?");
@@ -110,7 +110,7 @@ public class AdmPersistenciaPublicacionMySQL {
 							AdmUsuarios.getInstancia().buscarUsuarioRegular(rs.getString("nombreDeUsuarioVendedor")));
 					publicacion=ci;
 				} else if (rs.getString("tipoPublicacion").equals("Subasta")) {
-					Oferta oferta = AdmPersistenciaOfertasMySQL.getInstancia().getMayorOferta(rs.getInt("nroPublicacion"));
+					Oferta oferta = AdmPersistenciaOfertas.getInstancia().getMayorOferta(rs.getInt("nroPublicacion"));
 					Subasta s = new Subasta(rs.getString("nombreDeProducto"),
 							rs.getString("descripcion"),
 							imagenes,
@@ -129,13 +129,13 @@ public class AdmPersistenciaPublicacionMySQL {
 			System.out.println("Error Query: " + e.getMessage());
 			return null;
 		}
-		PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
+		PoolConnection.getPoolConnection().realeaseConnection(con);
 		return publicacion;
 	}
 	
 	public ArrayList<Publicacion> buscarPublicacionesUsuario(String nombreDeUsuario, String buscado) {
 		ArrayList<Publicacion> publicaciones=new ArrayList<Publicacion>();
-		Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
+		Connection con = PoolConnection.getPoolConnection().getConnection();
 		// Inserto los datos de la publicacion
 		try {
 			PreparedStatement ps = con.prepareStatement("select nroPublicacion,tipoPublicacion,nombreDeProducto,descripcion,fechaPublicacion,precioPublicado,estadoPublicacion,nombreDeUsuarioVendedor,stock,fechaHasta,ultimaOferta from publicaciones where nombreDeUsuarioVendedor=? and nombreDeProducto like ?");
@@ -163,7 +163,7 @@ public class AdmPersistenciaPublicacionMySQL {
 							AdmUsuarios.getInstancia().buscarUsuarioRegular(nombreDeUsuario));
 					publicaciones.add(ci);
 				} else if (rs.getString("tipoPublicacion").equals("Subasta")) {
-					Oferta oferta = AdmPersistenciaOfertasMySQL.getInstancia().getMayorOferta(rs.getInt("nroPublicacion"));
+					Oferta oferta = AdmPersistenciaOfertas.getInstancia().getMayorOferta(rs.getInt("nroPublicacion"));
 					Subasta s = new Subasta(rs.getString("nombreDeProducto"),
 							rs.getString("descripcion"),
 							imagenes,
@@ -182,18 +182,18 @@ public class AdmPersistenciaPublicacionMySQL {
 			System.out.println("Error Query: " + e.getMessage());
 			return null;
 		}
-		PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
+		PoolConnection.getPoolConnection().realeaseConnection(con);
 		return publicaciones;
 	}
 	
 	public int updateEstadoPublicacion(Publicacion p) {
 		try {
-			Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
+			Connection con = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement s = con.prepareStatement("UPDATE publicaciones SET estadoPublicacion = ? WHERE nroPublicacion = ?");
 			s.setString(1, p.getEstadoPublicacion());
 			s.setInt(2, p.getNroPublicacion());
 			s.execute();
-			PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
+			PoolConnection.getPoolConnection().realeaseConnection(con);
 			return 0;
 		} catch (Exception e) {
 			System.out.println("Error Query: " + e.getMessage());
@@ -203,13 +203,13 @@ public class AdmPersistenciaPublicacionMySQL {
 	
 	public int updateStockPublicacion(CompraInmediata ci) {
 		try {
-			Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
+			Connection con = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement s = con.prepareStatement("UPDATE publicaciones SET estadoPublicacion = ?, stock = ? WHERE nroPublicacion = ?");
 			s.setString(1, ci.getEstadoPublicacion());
 			s.setInt(2, ci.getStock());
 			s.setInt(3, ci.getNroPublicacion());
 			s.execute();
-			PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
+			PoolConnection.getPoolConnection().realeaseConnection(con);
 			return 0;
 		} catch (Exception e) {
 			System.out.println("Error Query: " + e.getMessage());
@@ -218,7 +218,7 @@ public class AdmPersistenciaPublicacionMySQL {
 	}
 	
 	public int insertPublicacion(Subasta s) {
-		Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
+		Connection con = PoolConnection.getPoolConnection().getConnection();
 		int nroPublicacion=0;
 		// Inserto los datos de la publicacion
 		try {
@@ -256,12 +256,12 @@ public class AdmPersistenciaPublicacionMySQL {
 			this.deletePublicacion(con, nroPublicacion);
 			return -1;
 		}
-		PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
+		PoolConnection.getPoolConnection().realeaseConnection(con);
 		return nroPublicacion;
 	}
 	
 	public int insertPublicacion(CompraInmediata ci) {
-		Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
+		Connection con = PoolConnection.getPoolConnection().getConnection();
 		int nroPublicacion=0;
 		try {
 			PreparedStatement ps = con.prepareStatement("INSERT INTO publicaciones (tipoPublicacion,nombreDeProducto,descripcion,fechaPublicacion,precioPublicado,estadoPublicacion,nombreDeUsuarioVendedor,stock) VALUES (?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
@@ -299,7 +299,7 @@ public class AdmPersistenciaPublicacionMySQL {
 			return -1;
 		}
 		
-		PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
+		PoolConnection.getPoolConnection().realeaseConnection(con);
 		return nroPublicacion;
 	}
 	

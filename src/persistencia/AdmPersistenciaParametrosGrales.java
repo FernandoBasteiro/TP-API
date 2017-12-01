@@ -21,7 +21,7 @@ public class AdmPersistenciaParametrosGrales {
 	public String getParametro(String tabla, String clave) {
 		String valor = null;
 		try {
-			Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
+			Connection con = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement s = con.prepareStatement("SELECT * FROM parametros WHERE tabla = ? AND clave = ?");
 			s.setString(1, tabla);
 			s.setString(2, clave);
@@ -29,7 +29,7 @@ public class AdmPersistenciaParametrosGrales {
 			if (rs.next()){
 				valor = rs.getString("valor1");
 			}
-			PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
+			PoolConnection.getPoolConnection().realeaseConnection(con);
 			return valor;
 		} catch (Exception e) {
 			System.out.println("Error Query: " + e.getMessage());
@@ -39,14 +39,14 @@ public class AdmPersistenciaParametrosGrales {
 	
 	public int setParametro(String tabla, String clave, String parametro) {
 		try {
-			Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
+			Connection con = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement s = con.prepareStatement("UPDATE parametros SET valor1 = ? WHERE tabla = ? AND clave = ?");
 			
 			s.setString(1, parametro);
 			s.setString(2, tabla);
 			s.setString(3, clave);
 			s.execute();
-			PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
+			PoolConnection.getPoolConnection().realeaseConnection(con);
 			return 0;
 		} catch (Exception e) {
 			System.out.println("Error Query: " + e.getMessage());

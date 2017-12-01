@@ -14,15 +14,15 @@ import modelo.Password;
 import modelo.Usuario;
 import modelo.UsuarioRegular;
 
-public class AdmPersistenciaUsuarioMySQL {
-	static private AdmPersistenciaUsuarioMySQL instancia;
+public class AdmPersistenciaUsuario {
+	static private AdmPersistenciaUsuario instancia;
 	
-	private AdmPersistenciaUsuarioMySQL() {
+	private AdmPersistenciaUsuario() {
 	}
 	
-	static public AdmPersistenciaUsuarioMySQL getInstancia(){
+	static public AdmPersistenciaUsuario getInstancia(){
 		if (instancia == null) {
-			instancia = new AdmPersistenciaUsuarioMySQL();
+			instancia = new AdmPersistenciaUsuario();
 		}
 		return instancia;
 	}
@@ -30,7 +30,7 @@ public class AdmPersistenciaUsuarioMySQL {
 	public Usuario buscarUsuario(String usuario) {
 		Usuario u = null;
 		try {
-			Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
+			Connection con = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement s = con.prepareStatement("SELECT * FROM usuarios WHERE nombreDeUsuario = ?");
 			s.setString(1, usuario);
 			ResultSet rs = s.executeQuery();
@@ -44,7 +44,7 @@ public class AdmPersistenciaUsuarioMySQL {
 				String passwordString = rs.getString("passwordString");
 				LocalDateTime passwordModif = rs.getTimestamp("passwordModif").toLocalDateTime();
 				Float saldoCtaCte = rs.getFloat("saldoCtaCte");
-				PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
+				PoolConnection.getPoolConnection().realeaseConnection(con);
 				CtaCte c = new CtaCte(saldoCtaCte);
 				Password p = new Password(passwordString, passwordModif);
 				Boolean activo = rs.getBoolean("activo");
@@ -62,7 +62,7 @@ public class AdmPersistenciaUsuarioMySQL {
 					u = new UsuarioRegular(nombre, domicilio, mail, nombreDeUsuario, p, c, fechaCreacion, cv, cc, activo);
 				}
 			}
-			PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
+			PoolConnection.getPoolConnection().realeaseConnection(con);
 			return u;
 		} catch (Exception e) {
 			System.out.println("Error Query: " + e.getMessage());
@@ -72,7 +72,7 @@ public class AdmPersistenciaUsuarioMySQL {
 	
 	public int insertUsuario(UsuarioRegular u) {
 		try {
-			Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
+			Connection con = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement s = con.prepareStatement("INSERT INTO usuarios (nombreDeUsuario, nombre, domicilio, mail, fechaCreacion, passwordString, passwordModif, activo, administrador) VALUES (?,?,?,?,?,?,?,?,?)");
 			s.setString(1, u.getNombreDeUsuario());
 			s.setString(2, u.getNombre());
@@ -85,7 +85,7 @@ public class AdmPersistenciaUsuarioMySQL {
 			s.setBoolean(9, false);
 			//System.out.println(s.toString());
 			s.execute();
-			PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
+			PoolConnection.getPoolConnection().realeaseConnection(con);
 			return 0;
 		} catch (Exception e) {
 			System.out.println("Error Query: " + e.getMessage());
@@ -97,7 +97,7 @@ public class AdmPersistenciaUsuarioMySQL {
 	
 	public int insertUsuario(Admin u) {
 		try {
-			Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
+			Connection con = PoolConnection.getPoolConnection().getConnection();
 			PreparedStatement s = con.prepareStatement("INSERT INTO usuarios (nombreDeUsuario,fechaCreacion,passwordString,passwordModif,activo,administrador) VALUES (?,?,?,?,?,?)");
 			s.setString(1, u.getNombreDeUsuario());
 			s.setTimestamp(2, Timestamp.valueOf(u.getFechaCreacion()));
@@ -107,7 +107,7 @@ public class AdmPersistenciaUsuarioMySQL {
 			s.setBoolean(6, true);
 			//System.out.println(s.toString());
 			s.execute();
-			PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
+			PoolConnection.getPoolConnection().realeaseConnection(con);
 			return 0;
 		} catch (Exception e) {
 			System.out.println("Error Query: " + e.getMessage());
@@ -117,7 +117,7 @@ public class AdmPersistenciaUsuarioMySQL {
 	
 	public int updateUsuario(Usuario usuario) {
 		try {
-			Connection con = PoolConnectionMySQL.getPoolConnection().getConnection();
+			Connection con = PoolConnection.getPoolConnection().getConnection();
 			if (usuario instanceof UsuarioRegular) {
 				UsuarioRegular u = (UsuarioRegular) usuario;
 				PreparedStatement s = con.prepareStatement("UPDATE usuarios SET " + 
@@ -138,7 +138,7 @@ public class AdmPersistenciaUsuarioMySQL {
 				s.setString(7, u.getNombreDeUsuario());
 				//System.out.println(s.toString());
 				s.execute();
-				PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
+				PoolConnection.getPoolConnection().realeaseConnection(con);
 				return 0;
 			}
 			else if (usuario instanceof Admin) {
@@ -155,7 +155,7 @@ public class AdmPersistenciaUsuarioMySQL {
 				s.setString(4, u.getNombreDeUsuario());
 				//System.out.println(s.toString());
 				s.execute();
-				PoolConnectionMySQL.getPoolConnection().realeaseConnection(con);
+				PoolConnection.getPoolConnection().realeaseConnection(con);
 				return 0;
 			}
 			else {

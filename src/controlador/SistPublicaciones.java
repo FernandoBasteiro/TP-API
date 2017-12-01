@@ -7,7 +7,7 @@ import modelo.CompraInmediata;
 import modelo.Publicacion;
 import modelo.Subasta;
 import modelo.UsuarioRegular;
-import persistencia.AdmPersistenciaPublicacionMySQL;
+import persistencia.AdmPersistenciaPublicacion;
 
 public class SistPublicaciones {
 	private ArrayList<Publicacion> publicaciones;
@@ -50,7 +50,7 @@ public class SistPublicaciones {
 	
 	public ArrayList<PublicacionView> buscarPublicaciones(String publicacionBuscada) {
 
-		ArrayList<Publicacion> pubs = AdmPersistenciaPublicacionMySQL.getInstancia().buscarPublicacionesProducto(publicacionBuscada);
+		ArrayList<Publicacion> pubs = AdmPersistenciaPublicacion.getInstancia().buscarPublicacionesProducto(publicacionBuscada);
 		boolean agregarPub=true;
 		if(publicaciones.size()>0) {
 			for (Publicacion pubPersistida : pubs) {
@@ -80,7 +80,7 @@ public class SistPublicaciones {
 	public ArrayList<PublicacionView> buscarPublicaciones(UsuarioRegular u, String buscado) {
 		if (u != null) {
 			ArrayList<PublicacionView> pv = null;
-			ArrayList<Publicacion> pubs = AdmPersistenciaPublicacionMySQL.getInstancia().buscarPublicacionesUsuario(u.getNombreDeUsuario(), buscado);
+			ArrayList<Publicacion> pubs = AdmPersistenciaPublicacion.getInstancia().buscarPublicacionesUsuario(u.getNombreDeUsuario(), buscado);
 			if (pubs.size() > 0) {pv = new ArrayList<PublicacionView>();}
 			for (int i = 0; i < pubs.size(); i++) {
 				pv.add(pubs.get(i).getPublicacionView());

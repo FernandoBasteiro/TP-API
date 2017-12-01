@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import controlador.AdmUsuarios;
 import controlador.PublicacionView;
 import controlador.SubastaView;
-import persistencia.AdmPersistenciaOfertasMySQL;
-import persistencia.AdmPersistenciaPublicacionMySQL;
+import persistencia.AdmPersistenciaOfertas;
+import persistencia.AdmPersistenciaPublicacion;
 
 public class Subasta extends Publicacion {
 	private LocalDateTime fechaHasta;
@@ -16,7 +16,7 @@ public class Subasta extends Publicacion {
 	@Override
 	public int ofertar(float monto, int cantidad, Usuario comprador, String medioDePago) {
 		Oferta o = new Oferta(monto, comprador, medioDePago);
-		AdmPersistenciaOfertasMySQL.getInstancia().insertOferta(o, this.nroPublicacion);
+		AdmPersistenciaOfertas.getInstancia().insertOferta(o, this.nroPublicacion);
 		//TODO HIGH Comprobar que la oferta sea superior a las anteriores.
 		ofertas.add(o);
 		return 1;
@@ -29,8 +29,8 @@ public class Subasta extends Publicacion {
 //		Oferta ofertaVacia = new Oferta(precioPublicado, null, null);
 		Oferta ofertaVacia = new Oferta(precioPublicado, vendedor, "Efectivo");
 		ofertas.add(ofertaVacia);
-		this.nroPublicacion=AdmPersistenciaPublicacionMySQL.getInstancia().insertPublicacion(this);
-		AdmPersistenciaOfertasMySQL.getInstancia().insertOferta(ofertaVacia, this.nroPublicacion);
+		this.nroPublicacion=AdmPersistenciaPublicacion.getInstancia().insertPublicacion(this);
+		AdmPersistenciaOfertas.getInstancia().insertOferta(ofertaVacia, this.nroPublicacion);
 		System.out.println("Nombre: " + nombreProducto + " - NumeroP: " + nroPublicacion);
 	}
 	

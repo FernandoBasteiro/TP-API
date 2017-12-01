@@ -1,11 +1,11 @@
 package main;
 
-import persistencia.PoolConnectionMySQL;
+import persistencia.PoolConnection;
 
 public class TestConnection {
 
 	public static void main(String[] args) {
-		PoolConnectionMySQL con=PoolConnectionMySQL.getPoolConnection();
+		PoolConnection con=PoolConnection.getPoolConnection();
 		con.testConnection();
 	}
 

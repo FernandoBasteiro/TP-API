@@ -7,7 +7,7 @@ import controlador.CalificacionView;
 import controlador.MovCtaCteView;
 import controlador.UsuarioLogueadoView;
 import controlador.UsuarioView;
-import persistencia.AdmPersistenciaUsuarioMySQL;
+import persistencia.AdmPersistenciaUsuario;
 
 public class UsuarioRegular extends Usuario {
 	private String nombre;
@@ -81,7 +81,7 @@ public class UsuarioRegular extends Usuario {
 		this.calificacionesVendedor = null;
 		this.calificacionesComprador = null;
 		this.mensajes = null;
-		AdmPersistenciaUsuarioMySQL.getInstancia().insertUsuario(this);
+		AdmPersistenciaUsuario.getInstancia().insertUsuario(this);
 	}
 	
 	public UsuarioRegular(String nombre, String domicilio, String mail,
