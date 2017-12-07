@@ -5,8 +5,8 @@ import java.util.ArrayList;
 
 import controlador.CalificacionView;
 import controlador.MovCtaCteView;
-import controlador.UsuarioLogueadoView;
 import controlador.UsuarioView;
+import persistencia.AdmPersistenciaCalificacion;
 import persistencia.AdmPersistenciaUsuario;
 
 public class UsuarioRegular extends Usuario {
@@ -17,7 +17,6 @@ public class UsuarioRegular extends Usuario {
 	private ArrayList<Publicacion> publicaciones;
 	private ArrayList<Calificacion> calificacionesVendedor;
 	private ArrayList<Calificacion> calificacionesComprador;
-	private ArrayList<Mensaje> mensajes;
 	
 	public String getNombre() {
 		return nombre;
@@ -50,26 +49,7 @@ public class UsuarioRegular extends Usuario {
 	public void setPublicaciones(ArrayList<Publicacion> publicaciones) {
 		this.publicaciones = publicaciones;
 	}
-	public ArrayList<Calificacion> getCalificacionesVendedor() {
-		return calificacionesVendedor;
-	}
-	public void setCalificacionesVendedor(
-			ArrayList<Calificacion> calificacionesVendedor) {
-		this.calificacionesVendedor = calificacionesVendedor;
-	}
-	public ArrayList<Calificacion> getCalificacionesComprador() {
-		return calificacionesComprador;
-	}
-	public void setCalificacionesComprador(
-			ArrayList<Calificacion> calificacionesComprador) {
-		this.calificacionesComprador = calificacionesComprador;
-	}
-	public ArrayList<Mensaje> getMensajes() {
-		return mensajes;
-	}
-	public void setMensajes(ArrayList<Mensaje> mensajes) {
-		this.mensajes = mensajes;
-	}
+	
 	public UsuarioRegular(String nombre, String domicilio, String mail,
 			String nombreDeUsuario, String passwordString) {
 		super(nombreDeUsuario, passwordString);
@@ -80,7 +60,6 @@ public class UsuarioRegular extends Usuario {
 		this.publicaciones = null;
 		this.calificacionesVendedor = null;
 		this.calificacionesComprador = null;
-		this.mensajes = null;
 		AdmPersistenciaUsuario.getInstancia().insertUsuario(this);
 	}
 	
@@ -121,20 +100,61 @@ public class UsuarioRegular extends Usuario {
 
 	
 	//TODO MID Todo lo que tiene que ver con calificaciones empieza aca. No hay nada codeado.
-	public int calificacionesPendientes(){
-		// Deberia revisar en todas los objetos "venta" del usuario, osea sus compras, y en todas las ventas de sus publicaciones, osea sus ventas, las calificaciones pendietnes.
-		return 0;
-	}
-	
 	public ArrayList<CalificacionView> getCalificacionesPendientesCompradorView() {
-		return null;
+		calificacionesComprador = Calificacion.buscarCalificacionesComprador(this.nombreDeUsuario);
+		ArrayList<CalificacionView> cp = new ArrayList<CalificacionView>();
+		for (int i = 0; i < calificacionesComprador.size();i++) {
+			if (calificacionesComprador.get(i).isPendiente()) {
+				cp.add(calificacionesComprador.get(i).getView());
+			}
+		}
+		return cp;
 	}
 	
 	public ArrayList<CalificacionView> getCalificacionesPendientesVendedorView() {
-		return null;
+		calificacionesVendedor = Calificacion.buscarCalificacionesVendedor(this.nombreDeUsuario);
+		ArrayList<CalificacionView> cp = new ArrayList<CalificacionView>();
+		for (int i = 0; i < calificacionesVendedor.size();i++) {
+			if (calificacionesVendedor.get(i).isPendiente()) {
+				cp.add(calificacionesVendedor.get(i).getView());
+			}
+		}
+		return cp;
+	}
+	
+	public ArrayList<CalificacionView> getCalificacionesCompletasCompradorView() {
+		calificacionesComprador = Calificacion.buscarCalificacionesComprador(this.nombreDeUsuario);
+		ArrayList<CalificacionView> cp = new ArrayList<CalificacionView>();
+		for (int i = 0; i < calificacionesComprador.size();i++) {
+			if (! calificacionesComprador.get(i).isPendiente()) {
+				cp.add(calificacionesComprador.get(i).getView());
+			}
+		}
+		return cp;
+	}
+	
+	public ArrayList<CalificacionView> getCalificacionesCompletasVendedorView() {
+		calificacionesVendedor = Calificacion.buscarCalificacionesVendedor(this.nombreDeUsuario);
+		ArrayList<CalificacionView> cp = new ArrayList<CalificacionView>();
+		for (int i = 0; i < calificacionesVendedor.size();i++) {
+			if (! calificacionesVendedor.get(i).isPendiente()) {
+				cp.add(calificacionesVendedor.get(i).getView());
+			}
+		}
+		return cp;
 	}
 	
 	private Calificacion buscarCalificacion(int nroCalificacion) {
+		for (int i = 0; i < calificacionesVendedor.size(); i++){
+			if (calificacionesVendedor.get(i).getNumero() == nroCalificacion) {
+				return calificacionesVendedor.get(i);
+			}
+		}
+		for (int i = 0; i < calificacionesComprador.size(); i++){
+			if (calificacionesComprador.get(i).getNumero() == nroCalificacion) {
+				return calificacionesComprador.get(i);
+			}
+		}
 		return null;
 	}
 	
@@ -146,14 +166,4 @@ public class UsuarioRegular extends Usuario {
 		return -1;
 	}
 	//Fin de la parte de calificaciones
-	
-	/*
-	public float getSaldoCtaCte() {
-		return ctacte.getSaldoTotal();
-	}
-	*/
-	
-	public UsuarioLogueadoView getUsuarioLogueadoView() {
-		return (new UsuarioLogueadoView(this.nombre, this.calificacionesPendientes()));
-	}
 }

@@ -1,7 +1,9 @@
 package modelo;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
+import persistencia.AdmPersistenciaCalificacion;
 import controlador.CalificacionView;
 
 public class Calificacion {
@@ -12,28 +14,28 @@ public class Calificacion {
 	private Venta venta;
 	private int numero;
 	
-	public Calificacion(Venta v) {
+	public Calificacion(Venta v, boolean esVendedor) {
+		//Constructor para las calificaciones nuevas generadas por una venta confirmada.
 		this.pendiente = true;
 		this.venta = v;
-		// this.numero = AdmPersistenciaCalificacion.getInstancia().insertCalificacion(SistemaVenta.getInstancia().getNumeroVenta(v));
-		// Revisar que no haya fallado la persistencia de la Calificacion... Si fallo poner el numero en negativo o algo para poder verlo desde el controlador.
+		this.numero = AdmPersistenciaCalificacion.getInstancia().insertCalificacion(this, esVendedor);
 	}
 	
 	public Calificacion(int numero, Venta v) {
+		//Constructor para las calificaciones pendientes recuperadas de la BD
 		this.pendiente = true;
 		this.venta = v;
 		this.numero = numero;
-		// Este constructor es para las calificaciones que vienen de la BD pero estan todavia pendientes.
 	}
 
 	public Calificacion(int puntuacion, String comentario, LocalDateTime fechaCalificacion, int numero, Venta v) {
+		//Constructor para las calificaciones completas recuperadas de la BD
 		this.pendiente = false;
 		this.venta = v;
 		this.numero = numero;
 		this.puntuacion = puntuacion;
 		this.comentario = comentario;
 		this.fechaCalificacion = fechaCalificacion;
-		// Este constructor es para las calificaciones que vienen de la BD que ya fueron "calificadas" por el usuario.
 	}
 	
 	public boolean pendiente () {
@@ -50,9 +52,7 @@ public class Calificacion {
 			this.puntuacion = puntuacion;
 			this.comentario = comentario;
 			this.fechaCalificacion = LocalDateTime.now();
-			//int error = persistir;
-			int error = 0;
-			return error;
+			return AdmPersistenciaCalificacion.getInstancia().updateCalificacion(this);
 		}
 		return -1;
 	}
@@ -61,4 +61,36 @@ public class Calificacion {
 		return (this.numero == numero);
 	}
 
+	public int getPuntuacion() {
+		return puntuacion;
+	}
+
+	public String getComentario() {
+		return comentario;
+	}
+
+	public boolean isPendiente() {
+		return pendiente;
+	}
+
+	public LocalDateTime getFechaCalificacion() {
+		return fechaCalificacion;
+	}
+
+	public Venta getVenta() {
+		return venta;
+	}
+
+	public int getNumero() {
+		return numero;
+	}
+	
+	static public ArrayList<Calificacion> buscarCalificacionesComprador(String nombreDeUsuario) {
+		return AdmPersistenciaCalificacion.getInstancia().buscarCalificacionesComprador(nombreDeUsuario);
+	}
+	
+	static public ArrayList<Calificacion> buscarCalificacionesVendedor(String nombreDeUsuario) {
+		return AdmPersistenciaCalificacion.getInstancia().buscarCalificacionesVendedor(nombreDeUsuario);
+	}
+	
 }

@@ -14,7 +14,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import controlador.AdmUsuarios;
-import controlador.UsuarioLogueadoView;
 
 public class VistaMenuPrincipal extends JFrame {
 
@@ -116,9 +115,9 @@ public class VistaMenuPrincipal extends JFrame {
 	}
 	
 	private void cargarDatosUsuario(){
-		UsuarioLogueadoView vul = AdmUsuarios.getInstancia().getVistaUsuarioLogueado();
-		lblUsuarioLogueado.setText(vul.getNombre());
-		lblCalificacionesPendientes.setText("Calificaciones Pendientes (" + String.valueOf(vul.getCalificacionesPendientes()) + ")");
+		//UsuarioLogueadoView vul = AdmUsuarios.getInstancia().getVistaUsuarioLogueado();
+		//lblUsuarioLogueado.setText(vul.getNombre());
+		//lblCalificacionesPendientes.setText("Calificaciones Pendientes (" + String.valueOf(vul.getCalificacionesPendientes()) + ")");
 		//slblEstadoCuentaCorriente.setText("Estado Cuenta Corriente: " + String.valueOf(vul.getEstadoCtaCte()));
 	}
 

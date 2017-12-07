@@ -178,14 +178,6 @@ public class AdmUsuarios {
 		return u.getPublicaciones();
 	}
 	
-	public UsuarioLogueadoView getVistaUsuarioLogueado() {
-		if (usuarioLogueado != null) {
-			UsuarioRegular u = (UsuarioRegular)usuarioLogueado;
-			return u.getUsuarioLogueadoView();
-		}
-		return null;
-	}
-	
 	public String cargarExpiracionPass() {
 		return Usuario.setCaducidadPass();
 	}
