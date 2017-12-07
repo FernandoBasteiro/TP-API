@@ -20,7 +20,7 @@ public class CalificacionView {
 		this.comentario = comentario;
 		this.pendiente = pendiente;
 		this.fechaCalificacion = fechaCalificacion;
-		this.productoComprado = SistemaVentas.getInstancia().getNombrePublicacion(v);
+		this.productoComprado = v.getPublicacion().getNombre();
 	}
 
 	public int getNumero() {

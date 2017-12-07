@@ -28,7 +28,7 @@ import javax.swing.table.DefaultTableModel;
 import controlador.AdmUsuarios;
 import controlador.PublicacionView;
 import controlador.SistPublicaciones;
-import controlador.UsuarioLogueadoView;
+import controlador.UsuarioView;
 
 public class MenuVistas extends JFrame {
 
@@ -193,9 +193,9 @@ public class MenuVistas extends JFrame {
 	}
 
 	private void cargarDatosUsuario(){
-		UsuarioLogueadoView vul = AdmUsuarios.getInstancia().getVistaUsuarioLogueado();
+		UsuarioView vul = AdmUsuarios.getInstancia().getLoggedUserView();
 		lblUsuarioLogueado.setText(vul.getNombre());
-		lblCalificacionesPendientes.setText("Calificaciones Pendientes (" + String.valueOf(vul.getCalificacionesPendientes()) + ")");
+		//lblCalificacionesPendientes.setText("Calificaciones Pendientes (" + String.valueOf(vul.getCalificacionesPendientes()) + ")");
 	}
 
 	public void cargarPublicaciones () {

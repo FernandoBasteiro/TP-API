@@ -146,6 +146,16 @@ public class AdmUsuarios {
 		return null;
 	}
 	
+	public ArrayList<MovCtaCteView> getComisionesPagadasView(){
+		if (usuarioLogueado != null) {
+			if (usuarioLogueado instanceof UsuarioRegular) {
+				UsuarioRegular u = (UsuarioRegular)usuarioLogueado;
+				return u.getComisionesPagadas();
+			}
+		}
+		return null;
+	}
+	
 	public UsuarioView getLoggedUserView(){
 		if (usuarioLogueado != null) {
 			return this.usuarioLogueado.getUsuarioView();
@@ -178,14 +188,6 @@ public class AdmUsuarios {
 		return u.getPublicaciones();
 	}
 	
-	public UsuarioLogueadoView getVistaUsuarioLogueado() {
-		if (usuarioLogueado != null) {
-			UsuarioRegular u = (UsuarioRegular)usuarioLogueado;
-			return u.getUsuarioLogueadoView();
-		}
-		return null;
-	}
-	
 	public String cargarExpiracionPass() {
 		return Usuario.setCaducidadPass();
 	}
@@ -193,5 +195,34 @@ public class AdmUsuarios {
 	public int guardarExpiracionPass(String caducidad) {
 		return Usuario.setCaducidadPass(caducidad);
 	}
+	
 
+	
+	public ArrayList<CalificacionView> getCalificacionesPendientesView() {
+		if (usuarioLogueado != null) {
+			if (usuarioLogueado instanceof UsuarioRegular) {
+				return ((UsuarioRegular) usuarioLogueado).getCalificacionesPendientesView();
+			}
+		}
+		return null;
+	}
+	
+	public ArrayList<CalificacionView> getCalificacionesView() {
+		if (usuarioLogueado != null) {
+			if (usuarioLogueado instanceof UsuarioRegular) {
+				return ((UsuarioRegular) usuarioLogueado).getCalificacionesView();
+			}
+		}
+		return null;
+	}
+	
+	public int setCalificacion(int nroCalificacion, int puntuacion, String comentarios) {
+		if (usuarioLogueado != null) {
+			if (usuarioLogueado instanceof UsuarioRegular) {
+				return ((UsuarioRegular) usuarioLogueado).setCalificacion(nroCalificacion, puntuacion, comentarios);
+			}
+		}
+		return 1;
+	}
+	
 }

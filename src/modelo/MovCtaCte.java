@@ -57,4 +57,8 @@ public class MovCtaCte {
 		return AdmPersistenciaMovCtaCte.getInstancia().buscarMovimientos(nombreDeUsuario);
 	}
 	
+	public boolean sosComision(){
+		return (concepto.equals("COMISION"));
+	}
+	
 }

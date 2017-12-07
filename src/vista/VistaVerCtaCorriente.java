@@ -19,7 +19,6 @@ import javax.swing.table.DefaultTableModel;
 
 import controlador.AdmUsuarios;
 import controlador.MovCtaCteView;
-import controlador.UsuarioLogueadoView;
 
 public class VistaVerCtaCorriente extends JFrame {
 
