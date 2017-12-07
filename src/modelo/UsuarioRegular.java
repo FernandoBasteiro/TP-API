@@ -158,6 +158,17 @@ public class UsuarioRegular extends Usuario {
 		return null;
 	}
 	
+	public int crearCalificacion(Venta v, boolean esVendedor) {
+		Calificacion c = new Calificacion(v, esVendedor);
+		if (esVendedor) {
+			calificacionesVendedor.add(c);
+		}
+		else {
+			calificacionesComprador.add(c);
+		}
+		return 0;
+	}
+	
 	public int setCalificacion(int nroCalificacion, int valorCalificacion, String comentarioCalificacion) {
 		Calificacion c = buscarCalificacion(nroCalificacion);
 		if (c != null) {

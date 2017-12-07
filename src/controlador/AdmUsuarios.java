@@ -185,5 +185,37 @@ public class AdmUsuarios {
 	public int guardarExpiracionPass(String caducidad) {
 		return Usuario.setCaducidadPass(caducidad);
 	}
-
+	
+	public ArrayList<CalificacionView> getCalificacionesPendientesCompradorView() {
+		if (usuarioLogueado != null) {
+			if (usuarioLogueado instanceof UsuarioRegular) {
+				return ((UsuarioRegular) usuarioLogueado).getCalificacionesPendientesCompradorView();
+			}
+		}
+		return null;
+	}
+	public ArrayList<CalificacionView> getCalificacionesPendientesVendedorView() {
+		if (usuarioLogueado != null) {
+			if (usuarioLogueado instanceof UsuarioRegular) {
+				return ((UsuarioRegular) usuarioLogueado).getCalificacionesPendientesVendedorView();
+			}
+		}
+		return null;
+	}
+	public ArrayList<CalificacionView> getCalificacionesCompletasCompradorView() {
+		if (usuarioLogueado != null) {
+			if (usuarioLogueado instanceof UsuarioRegular) {
+				return ((UsuarioRegular) usuarioLogueado).getCalificacionesCompletasCompradorView();
+			}
+		}
+		return null;
+	}
+	public ArrayList<CalificacionView> getCalificacionesCompletasVendedorView() {
+		if (usuarioLogueado != null) {
+			if (usuarioLogueado instanceof UsuarioRegular) {
+				return ((UsuarioRegular) usuarioLogueado).getCalificacionesCompletasVendedorView();
+			}
+		}
+		return null;
+	}
 }
