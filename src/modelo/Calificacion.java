@@ -14,11 +14,11 @@ public class Calificacion {
 	private Venta venta;
 	private int numero;
 	
-	public Calificacion(Venta v, boolean esVendedor) {
+	public Calificacion(Venta v) {
 		//Constructor para las calificaciones nuevas generadas por una venta confirmada.
 		this.pendiente = true;
 		this.venta = v;
-		this.numero = AdmPersistenciaCalificacion.getInstancia().insertCalificacion(this, esVendedor);
+		this.numero = AdmPersistenciaCalificacion.getInstancia().insertCalificacion(this);
 	}
 	
 	public Calificacion(int numero, Venta v) {
@@ -54,7 +54,7 @@ public class Calificacion {
 			this.fechaCalificacion = LocalDateTime.now();
 			return AdmPersistenciaCalificacion.getInstancia().updateCalificacion(this);
 		}
-		return -1;
+		return 3;
 	}
 	
 	public boolean sosCalificacion(int numero){
@@ -85,20 +85,12 @@ public class Calificacion {
 		return numero;
 	}
 	
-	static public ArrayList<Calificacion> buscarCalificacionesComprador(String nombreDeUsuario) {
-		return AdmPersistenciaCalificacion.getInstancia().buscarCalificacionesComprador(nombreDeUsuario);
+	static public ArrayList<Calificacion> buscarCalificaciones(String nombreDeUsuario) {
+		return AdmPersistenciaCalificacion.getInstancia().buscarCalificaciones(nombreDeUsuario);
 	}
 	
-	static public ArrayList<Calificacion> buscarCalificacionesVendedor(String nombreDeUsuario) {
-		return AdmPersistenciaCalificacion.getInstancia().buscarCalificacionesVendedor(nombreDeUsuario);
-	}
-	
-	static public ArrayList<Calificacion> buscarCalificacionesPendientesComprador(String nombreDeUsuario) {
-		return AdmPersistenciaCalificacion.getInstancia().buscarCalificacionesPendientesComprador(nombreDeUsuario);
-	}
-	
-	static public ArrayList<Calificacion> buscarCalificacionesPendientesVendedor(String nombreDeUsuario) {
-		return AdmPersistenciaCalificacion.getInstancia().buscarCalificacionesPendientesVendedor(nombreDeUsuario);
+	static public ArrayList<Calificacion> buscarCalificacionesPendientes(String nombreDeUsuario) {
+		return AdmPersistenciaCalificacion.getInstancia().buscarCalificacionesPendientes(nombreDeUsuario);
 	}
 	
 }

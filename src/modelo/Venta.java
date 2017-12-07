@@ -92,9 +92,7 @@ public abstract class Venta {
 		this.estadoPago = "Pagado";
 		AdmUsuarios.getInstancia().cargarMovCtaCte(publicacion.getVendedor(), (montoUnitario * cantidad), "VENTA", this);
 		AdmUsuarios.getInstancia().cargarMovCtaCte(publicacion.getVendedor(), -montoComision, "COMISION", this);
-		publicacion.getVendedor().crearCalificacion(this, true);
-		UsuarioRegular r = (UsuarioRegular)this.comprador;
-		r.crearCalificacion(this, false);
+		publicacion.getVendedor().crearCalificacion(this);
 		AdmPersistenciaVenta.getInstancia().updateEstadoVenta(this);
 		return 0;
 	}

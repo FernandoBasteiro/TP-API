@@ -26,16 +26,15 @@ public class AdmPersistenciaCalificacion {
 		return instancia;
 	}
 	
-	public int insertCalificacion(Calificacion c, boolean esVendedor) {
+	public int insertCalificacion(Calificacion c) {
 		try {
 			Connection con = PoolConnection.getPoolConnection().getConnection();
-			String sql = "INSERT INTO calificaciones (comprador, vendedor, pendiente, venta, esVendedor) VALUES (?,?,?,?,?)";
+			String sql = "INSERT INTO calificaciones (comprador, vendedor, pendiente, venta) VALUES (?,?,?,?)";
 			PreparedStatement s = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			s.setString(1, c.getVenta().getComprador().getNombreDeUsuario());
 			s.setString(2, c.getVenta().getPublicacion().getVendedor().getNombreDeUsuario());
 			s.setBoolean(3, true);
 			s.setInt(4, c.getVenta().getNroVenta());
-			s.setBoolean(5, esVendedor);
 			s.execute();
 			ResultSet rs = s.getGeneratedKeys();
 			rs.next();
@@ -66,14 +65,13 @@ public class AdmPersistenciaCalificacion {
 		}
 	}
 	
-	public ArrayList<Calificacion> buscarCalificacionesComprador (String nombreDeUsuario) {
+	public ArrayList<Calificacion> buscarCalificaciones (String nombreDeUsuario) {
 		try {
 			ArrayList<Calificacion> calificaciones = new ArrayList<Calificacion>();
 			Connection con = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement s = con.prepareStatement("SELECT * FROM calificaciones WHERE comprador = ? AND esVendedor = ? AND pendiente = ?");
+			PreparedStatement s = con.prepareStatement("SELECT * FROM calificaciones WHERE vendedor = ? AND pendiente = ?");
 			s.setString(1, nombreDeUsuario);
 			s.setBoolean(2, false);
-			s.setBoolean(3, false);
 			ResultSet rs = s.executeQuery();
 			while (rs.next()) {
 				int numero = rs.getInt("numero");
@@ -92,63 +90,13 @@ public class AdmPersistenciaCalificacion {
 		}
 	}
 	
-	public ArrayList<Calificacion> buscarCalificacionesVendedor (String nombreDeUsuario) {
+	public ArrayList<Calificacion> buscarCalificacionesPendientes (String nombreDeUsuario) {
 		try {
 			ArrayList<Calificacion> calificaciones = new ArrayList<Calificacion>();
 			Connection con = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement s = con.prepareStatement("SELECT * FROM calificaciones WHERE vendedor = ? AND esVendedor = ? AND pendiente = ?");
+			PreparedStatement s = con.prepareStatement("SELECT * FROM calificaciones WHERE comprador = ? AND pendiente = ?");
 			s.setString(1, nombreDeUsuario);
 			s.setBoolean(2, true);
-			s.setBoolean(3, false);
-			ResultSet rs = s.executeQuery();
-			while (rs.next()) {
-				int numero = rs.getInt("numero");
-				int puntuacion = rs.getInt("puntuacion");
-				String comentarios = rs.getString("comentarios");
-				Venta v = SistemaVentas.getInstancia().buscarVenta(rs.getInt("venta"));
-				LocalDateTime fechaCalificacion = rs.getTimestamp("fechaCalificacion").toLocalDateTime();
-				Calificacion c = new Calificacion(puntuacion, comentarios, fechaCalificacion, numero, v);
-				calificaciones.add(c);
-			}
-			return calificaciones;
-		}
-		catch (Exception e) {
-			System.out.println(e.getMessage());
-			return null;
-		}
-	}
-	
-	public ArrayList<Calificacion> buscarCalificacionesPendientesComprador (String nombreDeUsuario) {
-		try {
-			ArrayList<Calificacion> calificaciones = new ArrayList<Calificacion>();
-			Connection con = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement s = con.prepareStatement("SELECT * FROM calificaciones WHERE comprador = ? AND esVendedor = ? AND pendiente = ?");
-			s.setString(1, nombreDeUsuario);
-			s.setBoolean(2, true);
-			s.setBoolean(3, true);
-			ResultSet rs = s.executeQuery();
-			while (rs.next()) {
-				int numero = rs.getInt("numero");
-				Venta v = SistemaVentas.getInstancia().buscarVenta(rs.getInt("venta"));
-				Calificacion c = new Calificacion(numero, v);
-				calificaciones.add(c);
-			}
-			return calificaciones;
-		}
-		catch (Exception e) {
-			System.out.println(e.getMessage());
-			return null;
-		}
-	}
-	
-	public ArrayList<Calificacion> buscarCalificacionesPendientesVendedor (String nombreDeUsuario) {
-		try {
-			ArrayList<Calificacion> calificaciones = new ArrayList<Calificacion>();
-			Connection con = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement s = con.prepareStatement("SELECT * FROM calificaciones WHERE vendedor = ? AND esVendedor = ? AND pendiente = ?");
-			s.setString(1, nombreDeUsuario);
-			s.setBoolean(2, false);
-			s.setBoolean(3, true);
 			ResultSet rs = s.executeQuery();
 			while (rs.next()) {
 				int numero = rs.getInt("numero");
