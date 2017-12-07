@@ -70,25 +70,18 @@ public class AdmPersistenciaCalificacion {
 		try {
 			ArrayList<Calificacion> calificaciones = new ArrayList<Calificacion>();
 			Connection con = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement s = con.prepareStatement("SELECT * FROM calificaciones WHERE comprador = ? AND esVendedor = ?");
+			PreparedStatement s = con.prepareStatement("SELECT * FROM calificaciones WHERE comprador = ? AND esVendedor = ? AND pendiente = ?");
 			s.setString(1, nombreDeUsuario);
 			s.setBoolean(2, false);
+			s.setBoolean(3, false);
 			ResultSet rs = s.executeQuery();
 			while (rs.next()) {
-				Calificacion c;
-				if (rs.getBoolean("pendiente")){
-					int numero = rs.getInt("numero");
-					Venta v = SistemaVentas.getInstancia().buscarVenta(rs.getInt("venta"));
-					c = new Calificacion(numero, v);
-				}
-				else {
-					int numero = rs.getInt("numero");
-					int puntuacion = rs.getInt("puntuacion");
-					String comentarios = rs.getString("comentarios");
-					Venta v = SistemaVentas.getInstancia().buscarVenta(rs.getInt("venta"));
-					LocalDateTime fechaCalificacion = rs.getTimestamp("fechaCalificacion").toLocalDateTime();
-					c = new Calificacion(puntuacion, comentarios, fechaCalificacion, numero, v);
-				}
+				int numero = rs.getInt("numero");
+				int puntuacion = rs.getInt("puntuacion");
+				String comentarios = rs.getString("comentarios");
+				Venta v = SistemaVentas.getInstancia().buscarVenta(rs.getInt("venta"));
+				LocalDateTime fechaCalificacion = rs.getTimestamp("fechaCalificacion").toLocalDateTime();
+				Calificacion c = new Calificacion(puntuacion, comentarios, fechaCalificacion, numero, v);
 				calificaciones.add(c);
 			}
 			return calificaciones;
@@ -103,25 +96,64 @@ public class AdmPersistenciaCalificacion {
 		try {
 			ArrayList<Calificacion> calificaciones = new ArrayList<Calificacion>();
 			Connection con = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement s = con.prepareStatement("SELECT * FROM calificaciones WHERE vendedor = ? AND esVendedor = ?");
+			PreparedStatement s = con.prepareStatement("SELECT * FROM calificaciones WHERE vendedor = ? AND esVendedor = ? AND pendiente = ?");
 			s.setString(1, nombreDeUsuario);
 			s.setBoolean(2, true);
+			s.setBoolean(3, false);
 			ResultSet rs = s.executeQuery();
 			while (rs.next()) {
-				Calificacion c;
-				if (rs.getBoolean("pendiente")){
-					int numero = rs.getInt("numero");
-					Venta v = SistemaVentas.getInstancia().buscarVenta(rs.getInt("venta"));
-					c = new Calificacion(numero, v);
-				}
-				else {
-					int numero = rs.getInt("numero");
-					int puntuacion = rs.getInt("puntuacion");
-					String comentarios = rs.getString("comentarios");
-					Venta v = SistemaVentas.getInstancia().buscarVenta(rs.getInt("venta"));
-					LocalDateTime fechaCalificacion = rs.getTimestamp("fechaCalificacion").toLocalDateTime();
-					c = new Calificacion(puntuacion, comentarios, fechaCalificacion, numero, v);
-				}
+				int numero = rs.getInt("numero");
+				int puntuacion = rs.getInt("puntuacion");
+				String comentarios = rs.getString("comentarios");
+				Venta v = SistemaVentas.getInstancia().buscarVenta(rs.getInt("venta"));
+				LocalDateTime fechaCalificacion = rs.getTimestamp("fechaCalificacion").toLocalDateTime();
+				Calificacion c = new Calificacion(puntuacion, comentarios, fechaCalificacion, numero, v);
+				calificaciones.add(c);
+			}
+			return calificaciones;
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
+	
+	public ArrayList<Calificacion> buscarCalificacionesPendientesComprador (String nombreDeUsuario) {
+		try {
+			ArrayList<Calificacion> calificaciones = new ArrayList<Calificacion>();
+			Connection con = PoolConnection.getPoolConnection().getConnection();
+			PreparedStatement s = con.prepareStatement("SELECT * FROM calificaciones WHERE comprador = ? AND esVendedor = ? AND pendiente = ?");
+			s.setString(1, nombreDeUsuario);
+			s.setBoolean(2, true);
+			s.setBoolean(3, true);
+			ResultSet rs = s.executeQuery();
+			while (rs.next()) {
+				int numero = rs.getInt("numero");
+				Venta v = SistemaVentas.getInstancia().buscarVenta(rs.getInt("venta"));
+				Calificacion c = new Calificacion(numero, v);
+				calificaciones.add(c);
+			}
+			return calificaciones;
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
+	
+	public ArrayList<Calificacion> buscarCalificacionesPendientesVendedor (String nombreDeUsuario) {
+		try {
+			ArrayList<Calificacion> calificaciones = new ArrayList<Calificacion>();
+			Connection con = PoolConnection.getPoolConnection().getConnection();
+			PreparedStatement s = con.prepareStatement("SELECT * FROM calificaciones WHERE vendedor = ? AND esVendedor = ? AND pendiente = ?");
+			s.setString(1, nombreDeUsuario);
+			s.setBoolean(2, false);
+			s.setBoolean(3, true);
+			ResultSet rs = s.executeQuery();
+			while (rs.next()) {
+				int numero = rs.getInt("numero");
+				Venta v = SistemaVentas.getInstancia().buscarVenta(rs.getInt("venta"));
+				Calificacion c = new Calificacion(numero, v);
 				calificaciones.add(c);
 			}
 			return calificaciones;

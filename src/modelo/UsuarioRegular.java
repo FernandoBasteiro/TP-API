@@ -17,6 +17,8 @@ public class UsuarioRegular extends Usuario {
 	private ArrayList<Publicacion> publicaciones;
 	private ArrayList<Calificacion> calificacionesVendedor;
 	private ArrayList<Calificacion> calificacionesComprador;
+	private ArrayList<Calificacion> calificacionesPendientesVendedor;
+	private ArrayList<Calificacion> calificacionesPendientesComprador;
 	
 	public String getNombre() {
 		return nombre;
@@ -101,23 +103,19 @@ public class UsuarioRegular extends Usuario {
 	
 	//TODO MID Todo lo que tiene que ver con calificaciones empieza aca. No hay nada codeado.
 	public ArrayList<CalificacionView> getCalificacionesPendientesCompradorView() {
-		calificacionesComprador = Calificacion.buscarCalificacionesComprador(this.nombreDeUsuario);
+		calificacionesPendientesComprador = Calificacion.buscarCalificacionesPendientesComprador(this.nombreDeUsuario);
 		ArrayList<CalificacionView> cp = new ArrayList<CalificacionView>();
-		for (int i = 0; i < calificacionesComprador.size();i++) {
-			if (calificacionesComprador.get(i).isPendiente()) {
-				cp.add(calificacionesComprador.get(i).getView());
-			}
+		for (int i = 0; i < calificacionesPendientesComprador.size();i++) {
+				cp.add(calificacionesPendientesComprador.get(i).getView());
 		}
 		return cp;
 	}
 	
 	public ArrayList<CalificacionView> getCalificacionesPendientesVendedorView() {
-		calificacionesVendedor = Calificacion.buscarCalificacionesVendedor(this.nombreDeUsuario);
+		calificacionesPendientesVendedor = Calificacion.buscarCalificacionesPendientesVendedor(this.nombreDeUsuario);
 		ArrayList<CalificacionView> cp = new ArrayList<CalificacionView>();
-		for (int i = 0; i < calificacionesVendedor.size();i++) {
-			if (calificacionesVendedor.get(i).isPendiente()) {
-				cp.add(calificacionesVendedor.get(i).getView());
-			}
+		for (int i = 0; i < calificacionesPendientesVendedor.size();i++) {
+			cp.add(calificacionesPendientesVendedor.get(i).getView());
 		}
 		return cp;
 	}
@@ -126,9 +124,7 @@ public class UsuarioRegular extends Usuario {
 		calificacionesComprador = Calificacion.buscarCalificacionesComprador(this.nombreDeUsuario);
 		ArrayList<CalificacionView> cp = new ArrayList<CalificacionView>();
 		for (int i = 0; i < calificacionesComprador.size();i++) {
-			if (! calificacionesComprador.get(i).isPendiente()) {
-				cp.add(calificacionesComprador.get(i).getView());
-			}
+			cp.add(calificacionesComprador.get(i).getView());
 		}
 		return cp;
 	}
@@ -137,22 +133,20 @@ public class UsuarioRegular extends Usuario {
 		calificacionesVendedor = Calificacion.buscarCalificacionesVendedor(this.nombreDeUsuario);
 		ArrayList<CalificacionView> cp = new ArrayList<CalificacionView>();
 		for (int i = 0; i < calificacionesVendedor.size();i++) {
-			if (! calificacionesVendedor.get(i).isPendiente()) {
-				cp.add(calificacionesVendedor.get(i).getView());
-			}
+			cp.add(calificacionesVendedor.get(i).getView());
 		}
 		return cp;
 	}
 	
-	private Calificacion buscarCalificacion(int nroCalificacion) {
-		for (int i = 0; i < calificacionesVendedor.size(); i++){
-			if (calificacionesVendedor.get(i).getNumero() == nroCalificacion) {
-				return calificacionesVendedor.get(i);
+	private Calificacion buscarCalificacionPendiente(int nroCalificacion) {
+		for (int i = 0; i < calificacionesPendientesVendedor.size(); i++){
+			if (calificacionesPendientesVendedor.get(i).getNumero() == nroCalificacion) {
+				return calificacionesPendientesVendedor.get(i);
 			}
 		}
-		for (int i = 0; i < calificacionesComprador.size(); i++){
-			if (calificacionesComprador.get(i).getNumero() == nroCalificacion) {
-				return calificacionesComprador.get(i);
+		for (int i = 0; i < calificacionesPendientesComprador.size(); i++){
+			if (calificacionesPendientesComprador.get(i).getNumero() == nroCalificacion) {
+				return calificacionesPendientesComprador.get(i);
 			}
 		}
 		return null;
@@ -161,16 +155,22 @@ public class UsuarioRegular extends Usuario {
 	public int crearCalificacion(Venta v, boolean esVendedor) {
 		Calificacion c = new Calificacion(v, esVendedor);
 		if (esVendedor) {
+			if (calificacionesVendedor == null) {
+				calificacionesVendedor = new ArrayList<Calificacion>();
+			}
 			calificacionesVendedor.add(c);
 		}
 		else {
+			if (calificacionesComprador == null) {
+				calificacionesComprador = new ArrayList<Calificacion>();
+			}
 			calificacionesComprador.add(c);
 		}
 		return 0;
 	}
 	
 	public int setCalificacion(int nroCalificacion, int valorCalificacion, String comentarioCalificacion) {
-		Calificacion c = buscarCalificacion(nroCalificacion);
+		Calificacion c = buscarCalificacionPendiente(nroCalificacion);
 		if (c != null) {
 			return c.setCalificacion(valorCalificacion, comentarioCalificacion);
 		}

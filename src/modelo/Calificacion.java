@@ -93,4 +93,12 @@ public class Calificacion {
 		return AdmPersistenciaCalificacion.getInstancia().buscarCalificacionesVendedor(nombreDeUsuario);
 	}
 	
+	static public ArrayList<Calificacion> buscarCalificacionesPendientesComprador(String nombreDeUsuario) {
+		return AdmPersistenciaCalificacion.getInstancia().buscarCalificacionesPendientesComprador(nombreDeUsuario);
+	}
+	
+	static public ArrayList<Calificacion> buscarCalificacionesPendientesVendedor(String nombreDeUsuario) {
+		return AdmPersistenciaCalificacion.getInstancia().buscarCalificacionesPendientesVendedor(nombreDeUsuario);
+	}
+	
 }
