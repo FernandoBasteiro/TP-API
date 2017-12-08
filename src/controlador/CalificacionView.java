@@ -11,7 +11,17 @@ public class CalificacionView {
 	private boolean pendiente;
 	private LocalDateTime fechaCalificacion;
 	private String productoComprado;
+	private LocalDateTime fechaVenta;
+	private String nombreVendedor;
 	
+	public LocalDateTime getFechaVenta() {
+		return fechaVenta;
+	}
+
+	public String getNombreVendedor() {
+		return nombreVendedor;
+	}
+
 	public CalificacionView(int numero, int puntuacion, String comentario,
 			boolean pendiente, LocalDateTime fechaCalificacion,
 			Venta v) {
@@ -20,7 +30,9 @@ public class CalificacionView {
 		this.comentario = comentario;
 		this.pendiente = pendiente;
 		this.fechaCalificacion = fechaCalificacion;
-		this.productoComprado = v.getPublicacion().getNombre();
+		this.productoComprado = SistemaVentas.getInstancia().getNombrePublicacion(v);
+		this.fechaVenta = v.getFechaDeCompra();
+		this.nombreVendedor = v.getPublicacion().getVendedor().getNombre();
 	}
 
 	public int getNumero() {
