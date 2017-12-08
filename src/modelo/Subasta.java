@@ -16,8 +16,12 @@ public class Subasta extends Publicacion {
 	@Override
 	public int ofertar(float monto, int cantidad, Usuario comprador, String medioDePago) {
 		Oferta o = new Oferta(monto, comprador, medioDePago);
+		
+		for (String mail : getMailsCompradores()) {
+			System.out.println("Mail enviado a " + mail + " - Oferta superada para producto " + this.nombreProducto + " - Nueva oferta: " + monto);
+		}
 		AdmPersistenciaOfertas.getInstancia().insertOferta(o, this.nroPublicacion);
-		//TODO HIGH Comprobar que la oferta sea superior a las anteriores.
+
 		ofertas.add(o);
 		return 1;
 	}
@@ -54,11 +58,22 @@ public class Subasta extends Publicacion {
 
 	@Override
 	public PublicacionView getPublicacionView() {
-		PublicacionView sv = new SubastaView("Subasta", nombreProducto, descripcion, fechaPublicacion, this.imagenes, this.getPrecioActual(), estadoPublicacion, nroPublicacion, fechaHasta, this.vendedor==AdmUsuarios.getInstancia().getUsuarioLogueado());
+		PublicacionView sv = new SubastaView("Subasta", nombreProducto, descripcion, fechaPublicacion, this.imagenes, this.getPrecioActual(), estadoPublicacion, nroPublicacion, fechaHasta, this.vendedor.getNombreDeUsuario(), this.vendedor==AdmUsuarios.getInstancia().getUsuarioLogueado());
 		return sv;
 	}
 	
-	
+	public ArrayList<String> getMailsCompradores() {
+		ofertas = Oferta.buscarOfertas(this.nroPublicacion);
+		if (ofertas != null) {
+			ArrayList<String> lista = new ArrayList<String>();
+			for (int i = 0; i < ofertas.size(); i++) {
+				UsuarioRegular u = (UsuarioRegular) ofertas.get(i).getComprador();
+				lista.add(u.getMail());
+			}
+			return lista;
+		}
+		return null;
+	}
 	
 
 }

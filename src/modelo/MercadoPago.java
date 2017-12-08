@@ -19,6 +19,7 @@ public class MercadoPago extends Venta{
 		super(p, c, cantidad, montoPagado);
 		this.nroTarjeta = nroTarjeta;
 		this.nroVenta = AdmPersistenciaVenta.getInstancia().insertarVenta(this);
+		System.out.println("Compra generada por Tarjeta de Credito pendiente de confirmacion de Mercado Pago. NroTarjeta: " + this.nroTarjeta);
 	}
 
 	public String getNroTarjeta() {

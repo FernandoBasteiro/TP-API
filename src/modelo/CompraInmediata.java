@@ -36,7 +36,7 @@ public class CompraInmediata extends Publicacion {
 			if (this.stock == 0) {
 				this.estadoPublicacion = "Finalizada";
 			}
-			int error = AdmPersistenciaPublicacion.getInstancia().updateStockPublicacion(this); //TODO LOW Si falla habria que volver todo atras.
+			int error = AdmPersistenciaPublicacion.getInstancia().updateStockPublicacion(this);
 			return 0;
 		}
 		else if (this.stock == -1) {
@@ -56,7 +56,7 @@ public class CompraInmediata extends Publicacion {
 	}
 	
 	public PublicacionView getPublicacionView() {
-		PublicacionView civ = new CompraInmediataView("Compra Inmediata", nombreProducto, descripcion, fechaPublicacion, imagenes, this.getPrecioActual(), estadoPublicacion, nroPublicacion, stock, this.vendedor==AdmUsuarios.getInstancia().getUsuarioLogueado());
+		PublicacionView civ = new CompraInmediataView("Compra Inmediata", nombreProducto, descripcion, fechaPublicacion, imagenes, this.getPrecioActual(), estadoPublicacion, nroPublicacion, stock, this.vendedor.getNombreDeUsuario(), this.vendedor==AdmUsuarios.getInstancia().getUsuarioLogueado());
 		return civ;
 	}
 	
@@ -66,7 +66,7 @@ public class CompraInmediata extends Publicacion {
 			if (this.stock > 0) {
 				this.estadoPublicacion = "Activa";
 			}
-			int error = AdmPersistenciaPublicacion.getInstancia().updateStockPublicacion(this); //TODO LOW Si falla habria que volver todo atras.
+			int error = AdmPersistenciaPublicacion.getInstancia().updateStockPublicacion(this);
 		}
 		return 0;
 	}
@@ -77,7 +77,7 @@ public class CompraInmediata extends Publicacion {
 				if (--this.stock == 0){
 					this.estadoPublicacion = "Finalizada";
 				}
-				int error = AdmPersistenciaPublicacion.getInstancia().updateStockPublicacion(this); //TODO LOW Si falla habria que volver todo atras.
+				int error = AdmPersistenciaPublicacion.getInstancia().updateStockPublicacion(this);
 			}
 			Subasta s = new Subasta(this.nombreProducto, this.descripcion, this.imagenes, precioMinimo, fechaHasta, this.vendedor);
 			return s;

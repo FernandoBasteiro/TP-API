@@ -43,7 +43,6 @@ public class UsuarioRegular extends Usuario {
 		this.ctacte = ctacte;
 	}
 	public ArrayList<Publicacion> getPublicaciones() {
-		//TODO LOW Cargar publicaciones de la DB! (Ver si se usa)
 		return publicaciones;
 	}
 	public void setPublicaciones(ArrayList<Publicacion> publicaciones) {
@@ -58,8 +57,8 @@ public class UsuarioRegular extends Usuario {
 		this.mail = mail;
 		this.ctacte = new CtaCte();
 		this.publicaciones = null;
-		this.calificacionesRecibidas = null;
-		this.calificacionesPendientes = null;
+		this.calificacionesRecibidas = new ArrayList<Calificacion>();
+		this.calificacionesPendientes = new ArrayList<Calificacion>();
 		AdmPersistenciaUsuario.getInstancia().insertUsuario(this);
 	}
 	
@@ -103,18 +102,20 @@ public class UsuarioRegular extends Usuario {
 	public ArrayList<CalificacionView> getCalificacionesView() {
 		calificacionesRecibidas = Calificacion.buscarCalificaciones(this.nombreDeUsuario);
 		ArrayList<CalificacionView> cp = new ArrayList<CalificacionView>();
-		for (int i = 0; i < calificacionesRecibidas.size();i++) {
-				cp.add(calificacionesRecibidas.get(i).getView());
-		}
+		if(calificacionesRecibidas!=null)
+			for (int i = 0; i < calificacionesRecibidas.size();i++) {
+					cp.add(calificacionesRecibidas.get(i).getView());
+			}
 		return cp;
 	}
 	
 	public ArrayList<CalificacionView> getCalificacionesPendientesView() {
 		calificacionesPendientes = Calificacion.buscarCalificacionesPendientes(this.nombreDeUsuario);
 		ArrayList<CalificacionView> cp = new ArrayList<CalificacionView>();
-		for (int i = 0; i < calificacionesPendientes.size();i++) {
-			cp.add(calificacionesPendientes.get(i).getView());
-		}
+		if(calificacionesPendientes!=null)
+			for (int i = 0; i < calificacionesPendientes.size();i++) {
+				cp.add(calificacionesPendientes.get(i).getView());
+			}
 		return cp;
 	}
 	
@@ -129,6 +130,8 @@ public class UsuarioRegular extends Usuario {
 	
 	public int crearCalificacion(Venta v) {
 		Calificacion c = new Calificacion(v);
+		if(calificacionesRecibidas==null)
+			this.calificacionesRecibidas = new ArrayList<Calificacion>();
 		calificacionesRecibidas.add(c);
 		UsuarioRegular ur = (UsuarioRegular)v.getComprador();
 		ur.agregarCalificacionPendiente(c);
@@ -144,6 +147,8 @@ public class UsuarioRegular extends Usuario {
 	}
 	
 	public int agregarCalificacionPendiente(Calificacion c) {
+		if(calificacionesPendientes==null)
+			this.calificacionesPendientes = new ArrayList<Calificacion>();
 		calificacionesPendientes.add(c);
 		return  0;
 	}

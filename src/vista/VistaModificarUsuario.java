@@ -84,7 +84,7 @@ public class VistaModificarUsuario extends JFrame {
 			textMail.setText(uv.getMail());
 		}
 		else {
-			//TODO Cerrar ventana.
+
 		}
 		
 		JLabel lblMensaje = new JLabel("");

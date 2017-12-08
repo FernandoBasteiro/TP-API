@@ -103,7 +103,6 @@ public class VistaAltaUsuario extends JFrame {
 		JButton btnCrearUsuario = new JButton("Crear Usuario");
 		btnCrearUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//TODO Verificar que los campos completados sean validos.
 				String nombre = textNombre.getText();
 				String domicilio = textDomicilio.getText();
 				String mail = textMail.getText();

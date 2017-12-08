@@ -50,11 +50,12 @@ public class AdmPersistenciaCalificacion {
 	public int updateCalificacion(Calificacion c) {
 		try {
 			Connection con = PoolConnection.getPoolConnection().getConnection();
-			PreparedStatement s = con.prepareStatement("UPDATE calificaciones SET puntuacion = ?, comentarios = ?, fechaCalificacion = ?, pendiente = ? WHERE nroVenta = ?");
+			PreparedStatement s = con.prepareStatement("UPDATE calificaciones SET puntuacion = ?, comentarios = ?, fechaCalificacion = ?, pendiente = ? WHERE numero = ?");
 			s.setInt(1, c.getPuntuacion());
 			s.setString(2, c.getComentario());
 			s.setTimestamp(3, Timestamp.valueOf(c.getFechaCalificacion()));
 			s.setBoolean(4, false);
+			s.setInt(5, c.getNumero());
 			s.execute();
 			PoolConnection.getPoolConnection().realeaseConnection(con);
 			return 0;

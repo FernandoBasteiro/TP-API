@@ -86,11 +86,11 @@ public class VistaLogin extends JFrame {
 							VistaLogin.getInstancia().setVisible(false);
 						}
 						else {
-							labelMensaje.setText("Contraseï¿½a cambiada. Fallo el login."); //TODO Traducir mensaje	
+							labelMensaje.setText("Contraseña cambiada. Fallo el login."); 	
 						}
 					}
 					else {
-						labelMensaje.setText("La contraseï¿½a no pudo ser cambiada.");
+						labelMensaje.setText("La contraseña no pudo ser cambiada.");
 					}
 				}
 				else {

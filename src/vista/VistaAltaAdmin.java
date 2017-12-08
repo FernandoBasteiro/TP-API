@@ -77,7 +77,6 @@ public class VistaAltaAdmin extends JFrame {
 		JButton btnCrearAdmin = new JButton("Crear Admin");
 		btnCrearAdmin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//TODO Verificar que los campos completados sean validos.
 				String nombreDeUsuario = textNombreDeUsuario.getText();
 				String passwordString = textPassword.getText();
 				int error = AdmUsuarios.getInstancia().crearAdmin(nombreDeUsuario,passwordString);

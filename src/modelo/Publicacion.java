@@ -13,7 +13,6 @@ public abstract class Publicacion {
 	protected ArrayList<String> imagenes;
 	protected float precioPublicado;
 	protected String estadoPublicacion;
-	protected ArrayList<Venta> ventas;
 	protected int nroPublicacion;
 	protected UsuarioRegular vendedor;
 	//protected static int proxNumPublicacion = 1; // Solo para probar hasta que haya persistencia.
@@ -40,7 +39,6 @@ public abstract class Publicacion {
 		this.precioPublicado = precioPublicado;
 		this.estadoPublicacion = "Activa";
 		this.vendedor = vendedor;
-		this.ventas = new ArrayList<Venta>();
 	}
 	
 	public UsuarioRegular getVendedor() {
@@ -55,7 +53,6 @@ public abstract class Publicacion {
 		this.imagenes = imagenes;
 		this.precioPublicado = precioPublicado;
 		this.estadoPublicacion = "Activa";
-		this.ventas = new ArrayList<Venta>();
 		this.nroPublicacion = nroPublicacion;
 		this.vendedor = vendedor;
 	}

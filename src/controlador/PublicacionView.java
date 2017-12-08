@@ -11,13 +11,18 @@ public abstract class PublicacionView {
 	protected ArrayList<String> imagenes;
 	protected float precioActual;
 	protected String estadoPublicacion;
+	protected String nombreVendedor;
 	protected int numPublicacion;
 	protected boolean soyDueno;
 	
+	public String getNombreVendedor() {
+		return nombreVendedor;
+	}
+
 	public PublicacionView(String tipoPublicacion, String nombreProducto,
 			String descripcion, LocalDateTime fechaPublicacion,
 			ArrayList<String> imagenes, float precioActual,
-			String estadoPublicacion, int numPublicacion, boolean soyDueno) {
+			String estadoPublicacion, int numPublicacion, String nombreVendedor, boolean soyDueno) {
 		this.tipoPublicacion = tipoPublicacion;
 		this.nombreProducto = nombreProducto;
 		this.descripcion = descripcion;
@@ -26,6 +31,7 @@ public abstract class PublicacionView {
 		this.precioActual = precioActual;
 		this.estadoPublicacion = estadoPublicacion;
 		this.numPublicacion = numPublicacion;
+		this.nombreVendedor = nombreVendedor;
 		this.soyDueno = soyDueno;
 		
 	}
