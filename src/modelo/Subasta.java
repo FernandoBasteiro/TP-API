@@ -16,8 +16,12 @@ public class Subasta extends Publicacion {
 	@Override
 	public int ofertar(float monto, int cantidad, Usuario comprador, String medioDePago) {
 		Oferta o = new Oferta(monto, comprador, medioDePago);
+		
+		for (String mail : getMailsCompradores()) {
+			System.out.println("Mail enviado a " + mail + " - Oferta superada para producto " + this.nombreProducto + " - Nueva oferta: " + monto);
+		}
 		AdmPersistenciaOfertas.getInstancia().insertOferta(o, this.nroPublicacion);
-		//TODO HIGH Comprobar que la oferta sea superior a las anteriores.
+
 		ofertas.add(o);
 		return 1;
 	}

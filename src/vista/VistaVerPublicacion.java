@@ -307,7 +307,7 @@ public class VistaVerPublicacion extends JFrame {
 		txtDescripcion.setText(publicacion.getDescripcion());
 		txtPrecio.setText(String.valueOf(publicacion.getPrecioActual()));
 		txtTipoPublicacion.setText(publicacion.getTipoPublicacion());
-		if (publicacion.getSoyDueno() | publicacion.getEstadoPublicacion().equals("Finalizada") | publicacion.getStock() == 0) {
+		if (publicacion.getSoyDueno() | publicacion.getEstadoPublicacion().equals("Finalizada")) {
 			btnComprar.setEnabled(false);
 		}
 		else {

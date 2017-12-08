@@ -19,6 +19,7 @@ public class TransfBancaria extends Venta{
 		super(p, c, cantidad, montoPagado);
 		this.CBU = CBU;
 		this.nroVenta = AdmPersistenciaVenta.getInstancia().insertarVenta(this);
+		System.out.println("Compra generada via Transferencia Bancaria pendiente de confirmacion de banco. CBU: " + this.CBU);
 	}
 
 	public String getCBU() {
