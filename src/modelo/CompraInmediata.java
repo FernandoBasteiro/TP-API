@@ -56,7 +56,7 @@ public class CompraInmediata extends Publicacion {
 	}
 	
 	public PublicacionView getPublicacionView() {
-		PublicacionView civ = new CompraInmediataView("Compra Inmediata", nombreProducto, descripcion, fechaPublicacion, imagenes, this.getPrecioActual(), estadoPublicacion, nroPublicacion, stock, this.vendedor==AdmUsuarios.getInstancia().getUsuarioLogueado());
+		PublicacionView civ = new CompraInmediataView("Compra Inmediata", nombreProducto, descripcion, fechaPublicacion, imagenes, this.getPrecioActual(), estadoPublicacion, nroPublicacion, stock, this.vendedor.getNombreDeUsuario(), this.vendedor==AdmUsuarios.getInstancia().getUsuarioLogueado());
 		return civ;
 	}
 	

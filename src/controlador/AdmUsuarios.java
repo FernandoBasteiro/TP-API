@@ -216,6 +216,16 @@ public class AdmUsuarios {
 		return null;
 	}
 	
+	public ArrayList<CalificacionView> getCalificacionesView(String nombreDeUsuario) {
+		Usuario u = buscarUsuario(nombreDeUsuario);
+		if (u != null) {
+			if (u instanceof UsuarioRegular) {
+				return ((UsuarioRegular) u).getCalificacionesView();
+			}
+		}
+		return null;
+	}
+	
 	public int setCalificacion(int nroCalificacion, int puntuacion, String comentarios) {
 		if (usuarioLogueado != null) {
 			if (usuarioLogueado instanceof UsuarioRegular) {

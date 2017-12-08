@@ -42,7 +42,6 @@ public class MenuVistas extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtBuscar;
 	private JLabel lblUsuarioLogueado;
-	private JLabel lblCalificacionesPendientes;
 	
 	private ArrayList<PublicacionView> publicaciones;
 	private JTable tablaPublicaciones;
@@ -69,7 +68,7 @@ public class MenuVistas extends JFrame {
 		
 		setTitle("Sistema de compras");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 528, 508);
+		setBounds(100, 100, 543, 522);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -115,13 +114,22 @@ public class MenuVistas extends JFrame {
 		JMenuItem mntmVerMisPublicaciones = new JMenuItem("Ver mis publicaciones");
 		mntmVerMisPublicaciones.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VistaVerPublicaciones.getInstancia("").setVisible(true);
+				cargarMisPublicaciones();
 			}
 		});
 		mnPublicaciones.add(mntmVerMisPublicaciones);
 		
 		JMenu mnCalificaciones = new JMenu("Calificaciones");
 		menuBar.add(mnCalificaciones);
+		
+		JMenuItem mntmRecibidas = new JMenuItem("Recibidas");
+		mntmRecibidas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VistaCalificacionesCompletas vcc = new VistaCalificacionesCompletas("");
+				vcc.setVisible(true);
+			}
+		});
+		mnCalificaciones.add(mntmRecibidas);
 		
 		JMenuItem mntmPendientes = new JMenuItem("Pendientes");
 		mntmPendientes.addActionListener(new ActionListener() {
@@ -132,11 +140,11 @@ public class MenuVistas extends JFrame {
 		mnCalificaciones.add(mntmPendientes);
 		
 		JLabel lblBuscarPublicacion = new JLabel("Buscar Publicacion:");
-		lblBuscarPublicacion.setBounds(6, 10, 138, 14);
+		lblBuscarPublicacion.setBounds(6, 10, 125, 14);
 		contentPane.add(lblBuscarPublicacion);
 		
 		txtBuscar = new JTextField();
-		txtBuscar.setBounds(156, 7, 283, 20);
+		txtBuscar.setBounds(141, 7, 283, 20);
 		contentPane.add(txtBuscar);
 		txtBuscar.setColumns(10);
 		
@@ -172,20 +180,15 @@ public class MenuVistas extends JFrame {
 		
 		JScrollPane scrollPane2 = new JScrollPane(tablaPublicaciones);
 		scrollPane2.setVisible(true);
-	    scrollPane2.setBounds(6, 36, 433, 388);
+	    scrollPane2.setBounds(6, 36, 511, 388);
 	    contentPane.add(scrollPane2);
 		
 		
 		
 		lblUsuarioLogueado = new JLabel("");
 		lblUsuarioLogueado.setHorizontalAlignment(SwingConstants.LEFT);
-		lblUsuarioLogueado.setBounds(6, 436, 199, 20);
+		lblUsuarioLogueado.setBounds(6, 436, 511, 20);
 		contentPane.add(lblUsuarioLogueado);
-		
-		lblCalificacionesPendientes = new JLabel("");
-		lblCalificacionesPendientes.setHorizontalAlignment(SwingConstants.LEFT);
-		lblCalificacionesPendientes.setBounds(227, 436, 199, 20);
-		contentPane.add(lblCalificacionesPendientes);
 		
 		JButton btnBuscar = new JButton("Buscar");
 		btnBuscar.addActionListener(new ActionListener() {
@@ -199,7 +202,7 @@ public class MenuVistas extends JFrame {
 //				}
 			}
 		});
-		btnBuscar.setBounds(438, 7, 89, 23);
+		btnBuscar.setBounds(434, 7, 83, 20);
 		contentPane.add(btnBuscar);
 	}
 
@@ -213,6 +216,21 @@ public class MenuVistas extends JFrame {
 		buscado = txtBuscar.getText();
 		publicaciones = SistPublicaciones.getInstancia().buscarPublicaciones(buscado);
 //		txtBuscar.setText(buscado);
+		tableModel.setRowCount(0);
+		if (publicaciones != null && publicaciones.size() > 0) {
+			for (int i = 0; i < publicaciones.size(); i++) {
+				Object[] rowData = {
+						publicaciones.get(i).getNombreProducto(),
+						String.format("%.2f", publicaciones.get(i).getPrecioActual()),
+						publicaciones.get(i).getTipoPublicacion()
+						};
+				tableModel.addRow(rowData);
+			}
+		}
+	}
+	
+	public void cargarMisPublicaciones () {
+		publicaciones = SistPublicaciones.getInstancia().verMisPublicaciones("");
 		tableModel.setRowCount(0);
 		if (publicaciones != null && publicaciones.size() > 0) {
 			for (int i = 0; i < publicaciones.size(); i++) {

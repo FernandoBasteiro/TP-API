@@ -54,7 +54,7 @@ public class Subasta extends Publicacion {
 
 	@Override
 	public PublicacionView getPublicacionView() {
-		PublicacionView sv = new SubastaView("Subasta", nombreProducto, descripcion, fechaPublicacion, this.imagenes, this.getPrecioActual(), estadoPublicacion, nroPublicacion, fechaHasta, this.vendedor==AdmUsuarios.getInstancia().getUsuarioLogueado());
+		PublicacionView sv = new SubastaView("Subasta", nombreProducto, descripcion, fechaPublicacion, this.imagenes, this.getPrecioActual(), estadoPublicacion, nroPublicacion, fechaHasta, this.vendedor.getNombreDeUsuario(), this.vendedor==AdmUsuarios.getInstancia().getUsuarioLogueado());
 		return sv;
 	}
 	

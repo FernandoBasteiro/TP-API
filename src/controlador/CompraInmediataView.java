@@ -9,9 +9,9 @@ public class CompraInmediataView extends PublicacionView {
 	public CompraInmediataView(String tipoPublicacion, String nombreProducto,
 			String descripcion, LocalDateTime fechaPublicacion,
 			ArrayList<String> imagenes, float precioActual,
-			String estadoPublicacion, int numPublicacion, int stock, boolean soyDueno) {
+			String estadoPublicacion, int numPublicacion, int stock, String nombreVendedor, boolean soyDueno) {
 		super(tipoPublicacion, nombreProducto, descripcion, fechaPublicacion, imagenes,
-				precioActual, estadoPublicacion, numPublicacion, soyDueno);
+				precioActual, estadoPublicacion, numPublicacion, nombreVendedor, soyDueno);
 		this.stock = stock;
 	}
 

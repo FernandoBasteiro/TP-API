@@ -63,8 +63,11 @@ public class VistaVerPublicacion extends JFrame {
 	
 	private JLabel lblImagen;
 	private JSpinner spinner;
+	private JButton btnVerCalificacion;
 	
 	private SpinnerNumberModel modelo;
+	
+	private String nombreDeVendedor;
 	
 	static public VistaVerPublicacion getInstancia(PublicacionView publicacion) {
 		instancia = new VistaVerPublicacion(); //TODO Dado que no es mas un singleton, habria que dejar de tratarlo como tal.
@@ -79,7 +82,7 @@ public class VistaVerPublicacion extends JFrame {
 
 	private VistaVerPublicacion() {
 		setResizable(false);
-		setBounds(100, 100, 565, 316);
+		setBounds(100, 100, 600, 348);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -224,13 +227,17 @@ public class VistaVerPublicacion extends JFrame {
 		
 		lblImagen = new JLabel();
 		lblImagen.setHorizontalAlignment(SwingConstants.CENTER);
-		lblImagen.setBounds(305, 33, 240, 240);
+		lblImagen.setBounds(305, 33, 275, 275);
 		contentPane.add(lblImagen);
 		
 		JLabel lblImagenes = new JLabel("Imagenes:");
 		lblImagenes.setHorizontalAlignment(SwingConstants.TRAILING);
 		lblImagenes.setBounds(305, 11, 100, 14);
 		contentPane.add(lblImagenes);
+		
+		btnVerCalificacion = new JButton("Ver Calificaciones Vendedor");
+		btnVerCalificacion.setBounds(10, 285, 285, 23);
+		contentPane.add(btnVerCalificacion);
 		
 		
 	}
@@ -246,11 +253,11 @@ public class VistaVerPublicacion extends JFrame {
 			int nuevoAlto;
 			int nuevoAncho;
 			if (alto > ancho) {
-				nuevoAlto = 240;
+				nuevoAlto = 275;
 				nuevoAncho = nuevoAlto * ancho / alto;
 			}
 			else {
-				nuevoAncho = 240;
+				nuevoAncho = 275;
 				nuevoAlto = nuevoAncho * alto / ancho;
 				
 			}
@@ -295,6 +302,7 @@ public class VistaVerPublicacion extends JFrame {
 			}
 		}
 		
+		nombreDeVendedor = publicacion.getNombreVendedor();
 		txtNombre.setText(publicacion.getNombreProducto());
 		txtDescripcion.setText(publicacion.getDescripcion());
 		txtPrecio.setText(String.valueOf(publicacion.getPrecioActual()));
@@ -385,5 +393,11 @@ public class VistaVerPublicacion extends JFrame {
 				}
 			});
 		}	
+		btnVerCalificacion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VistaCalificacionesCompletas vcc = new VistaCalificacionesCompletas(nombreDeVendedor);
+				vcc.setVisible(true);
+			}
+		});
 	}
 }
