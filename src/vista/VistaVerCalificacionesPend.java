@@ -108,13 +108,11 @@ public class VistaVerCalificacionesPend extends JFrame {
 					comentario=" ";
 				else
 					comentario=VistaVerCalificacionesPend.this.textField.getText();
-					int cal=(int) spnCalificacion.getValue();
-					AdmUsuarios.getInstancia().setCalificacion(calificaciones.get(tablaCalificaciones.getSelectedRow()).getNumero(),cal, comentario);
-					cargarCalificaciones();
-//				}
-//				else {
-//					//TODO Mostrar error.
-//				}
+					
+				int cal=(int) spnCalificacion.getValue();
+				AdmUsuarios.getInstancia().setCalificacion(calificaciones.get(tablaCalificaciones.getSelectedRow()).getNumero(),cal, comentario);
+				cargarCalificaciones();
+
 			}
 		});
 		btnCalificar.setBounds(350, 309, 89, 23);

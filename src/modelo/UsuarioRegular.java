@@ -43,7 +43,6 @@ public class UsuarioRegular extends Usuario {
 		this.ctacte = ctacte;
 	}
 	public ArrayList<Publicacion> getPublicaciones() {
-		//TODO LOW Cargar publicaciones de la DB! (Ver si se usa)
 		return publicaciones;
 	}
 	public void setPublicaciones(ArrayList<Publicacion> publicaciones) {

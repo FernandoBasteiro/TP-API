@@ -38,12 +38,9 @@ public class AdmUsuarios {
 				return 1; //Password vencida. Solicitar cambio.
 			}
 			usuarioLogueado = usuarioAux;
-			//TODO VERY LOW Set nueva fecha de ultima modificacion del usuario.
-			// Comment Ale: Siempre y cuando el usuario haya realizado alguna modificacion, no estamos persistiendo
-			// logues positivos
+			
 			
 			if (usuarioAux instanceof UsuarioRegular) {	
-				//TODO VERY LOW Set nueva fecha de ultima modificacion del usuario.
 				return 0; //Login correcto.
 			}
 			
@@ -61,7 +58,6 @@ public class AdmUsuarios {
 		for (int i = 0; i < usuarios.size(); i++) {
 			if (nombreDeUsuario.equals(usuarios.get(i).getNombreDeUsuario())) {
 				return usuarios.get(i);
-				//TODO VERY LOW Set nueva fecha de ultima modificacion del usuario.
 			}
 		}
 		Usuario usuarioAux = Usuario.buscarUsuarioDB(nombreDeUsuario);
@@ -75,7 +71,6 @@ public class AdmUsuarios {
 		for (int i = 0; i < usuarios.size(); i++) {
 			if (nombreDeUsuario.equals(usuarios.get(i).getNombreDeUsuario())) {
 				return (UsuarioRegular)usuarios.get(i);
-				//TODO VERY LOW Set nueva fecha de ultima modificacion del usuario.
 			}
 		}
 		Usuario usuarioAux = Usuario.buscarUsuarioDB(nombreDeUsuario);

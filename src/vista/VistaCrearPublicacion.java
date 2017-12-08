@@ -123,12 +123,11 @@ public class VistaCrearPublicacion extends JFrame {
 		JList list = new JList(modelImagenes);
 		list.setBounds(10, 161, 483, 95);
 		contentPane.add(list);
-		//TODO Agregar alguna funcion para eliminar imagenes de la lista.
 		
 		JButton btnAgregar = new JButton("Agregar");
 		btnAgregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				imagenes.add(txtImagen.getText()); //TODO Buscar una forma de reducir el ListModel y el AarrayList a un solo objeto.
+				imagenes.add(txtImagen.getText()); 
 				modelImagenes.addElement(txtImagen.getText());
 				txtImagen.setText("");
 			}
@@ -160,9 +159,9 @@ public class VistaCrearPublicacion extends JFrame {
 		JButton btnCrearPublicacion = new JButton("Crear Publicacion");
 		btnCrearPublicacion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//TODO Si todos los campos estan completos y son correctos.
+			
 				int resultado;
-				//imagenes.add(txtImagen.getText()); //TODO Esto tiene que ser un loop que traiga las imagenes de la lista.
+				
 				
 				if (comboBoxTipodePublicacion.getSelectedItem().equals("Subasta")) {
 					resultado = SistPublicaciones.getInstancia().crearSubasta(txtNombreProducto.getText(), txtDescripcion.getText(), imagenes, Float.parseFloat(txtPrecioPublicacion.getText()), LocalDateTime.now().plusDays(Integer.parseInt(txtDuracionSubasta.getText())));

@@ -70,7 +70,7 @@ public class VistaVerPublicacion extends JFrame {
 	private String nombreDeVendedor;
 	
 	static public VistaVerPublicacion getInstancia(PublicacionView publicacion) {
-		instancia = new VistaVerPublicacion(); //TODO Dado que no es mas un singleton, habria que dejar de tratarlo como tal.
+		instancia = new VistaVerPublicacion(); 
 		instancia.cargarDatos(publicacion);
 		return instancia;
 	}
@@ -128,7 +128,7 @@ public class VistaVerPublicacion extends JFrame {
 		contentPane.add(txtTipoPublicacion);
 		txtTipoPublicacion.setColumns(10);
 		
-		btnComprar = new JButton("Comprar"); //TODO El texto quizas deberia cambiar segun si es subasta o compra inmediata.
+		btnComprar = new JButton("Comprar");
 		btnComprar.setBounds(10, 217, 285, 23);
 		contentPane.add(btnComprar);
 		
@@ -326,7 +326,7 @@ public class VistaVerPublicacion extends JFrame {
 			txtCantidad.setText("");
 			btnConvertirASubasta.setEnabled(false);
 			
-			txtFinSubasta.setText(publicacion.getFechaHasta().toString()); //TODO Formato de la fecha.
+			txtFinSubasta.setText(publicacion.getFechaHasta().toString());
 			for (ActionListener al : btnComprar.getActionListeners()){
 				btnComprar.removeActionListener(al);
 			}
@@ -372,7 +372,7 @@ public class VistaVerPublicacion extends JFrame {
 			
 			btnConvertirASubasta.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					SistPublicaciones.getInstancia().transformarEnSubasta(publicacion.getNumPublicacion(), publicacion.getPrecioActual(), LocalDateTime.now().plusDays(10)); //TODO ESTO TIENE QUE ELEGIRLO EL USUARIO!!!!
+					SistPublicaciones.getInstancia().transformarEnSubasta(publicacion.getNumPublicacion(), publicacion.getPrecioActual(), LocalDateTime.now().plusDays(10));
 				}
 			});
 
