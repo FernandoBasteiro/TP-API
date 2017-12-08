@@ -58,7 +58,17 @@ public class Subasta extends Publicacion {
 		return sv;
 	}
 	
+	public ArrayList<String> getMailsCompradores() {
+		ofertas = Oferta.buscarOfertas(this.nroPublicacion);
+		if (ofertas != null) {
+			ArrayList<String> lista = new ArrayList<String>();
+			for (int i = 0; i < ofertas.size(); i++) {
+				UsuarioRegular u = (UsuarioRegular) ofertas.get(i).getComprador();
+				lista.add(u.getMail());
+			}
+			return lista;
+		}
+		return null;
+	}
 	
-	
-
 }

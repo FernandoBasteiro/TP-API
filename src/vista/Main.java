@@ -3,6 +3,7 @@ package vista;
 import java.awt.EventQueue;
 
 import controlador.AdmUsuarios;
+import controlador.SistMail;
 import controlador.SistemaVentas;
 
 public class Main {
@@ -13,6 +14,8 @@ public class Main {
 				try {
 					SistemaVentas.getInstancia().cargarPorcentajeComision();
 					AdmUsuarios.getInstancia().cargarExpiracionPass();
+					
+//					SistMail.getInstance();
 					VistaLogin.getInstancia().setVisible(true);
 //					MenuVistas.getInstancia().setVisible(true);
 				} catch (Exception e) {

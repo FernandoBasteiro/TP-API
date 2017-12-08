@@ -7,9 +7,10 @@ import modelo.CompraInmediata;
 import modelo.Publicacion;
 import modelo.Subasta;
 import modelo.UsuarioRegular;
+import observer.ObservadoMailSubasta;
 import persistencia.AdmPersistenciaPublicacion;
 
-public class SistPublicaciones {
+public class SistPublicaciones extends ObservadoMailSubasta{
 	private ArrayList<Publicacion> publicaciones;
 	private Publicacion publicacionActual;
 	static private SistPublicaciones instancia;

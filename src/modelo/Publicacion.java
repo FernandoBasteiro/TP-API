@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import persistencia.AdmPersistenciaPublicacion;
 import controlador.PublicacionView;
+import observer.ObservadoMailSubasta;
 
 public abstract class Publicacion {
 	protected String nombreProducto;
