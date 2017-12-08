@@ -90,6 +90,17 @@ public class MenuVistas extends JFrame {
 		});
 		mnUsuarios.add(mntmModificarInformacion);
 		
+		JMenu mnCuenta = new JMenu("Cuenta");
+		menuBar.add(mnCuenta);
+		
+		JMenuItem mntmVerCuentaCorriente = new JMenuItem("Ver Cuenta Corrientes");
+		mntmVerCuentaCorriente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VistaVerCtaCorriente.getInstancia().setVisible(true);
+			}
+		});
+		mnCuenta.add(mntmVerCuentaCorriente);
+		
 		JMenu mnPublicaciones = new JMenu("Publicaciones");
 		menuBar.add(mnPublicaciones);
 		
@@ -109,16 +120,16 @@ public class MenuVistas extends JFrame {
 		});
 		mnPublicaciones.add(mntmVerMisPublicaciones);
 		
-		JMenu mnCuenta = new JMenu("Cuenta");
-		menuBar.add(mnCuenta);
+		JMenu mnCalificaciones = new JMenu("Calificaciones");
+		menuBar.add(mnCalificaciones);
 		
-		JMenuItem mntmVerCuentaCorriente = new JMenuItem("Ver Cuenta Corrientes");
-		mntmVerCuentaCorriente.addActionListener(new ActionListener() {
+		JMenuItem mntmPendientes = new JMenuItem("Pendientes");
+		mntmPendientes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VistaVerCtaCorriente.getInstancia().setVisible(true);
+				VistaVerCalificacionesPend.getInstancia(buscado).setVisible(true);
 			}
 		});
-		mnCuenta.add(mntmVerCuentaCorriente);
+		mnCalificaciones.add(mntmPendientes);
 		
 		JLabel lblBuscarPublicacion = new JLabel("Buscar Publicacion:");
 		lblBuscarPublicacion.setBounds(6, 10, 138, 14);

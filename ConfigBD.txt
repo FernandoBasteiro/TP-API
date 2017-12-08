@@ -1,4 +1,4 @@
-setdriver=my
+setdriver=ss
 ssclasspath=com.microsoft.sqlserver.jdbc.SQLServerDriver
 ssjdbc=jdbc:sqlserver://
 ssservidor=bd
