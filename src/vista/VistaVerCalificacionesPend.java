@@ -86,6 +86,10 @@ public class VistaVerCalificacionesPend extends JFrame {
 		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
 		
 		tablaCalificaciones.getColumnModel().getColumn(0).setWidth(0);
+		tablaCalificaciones.getColumnModel().getColumn(0).setMinWidth(0);
+		tablaCalificaciones.getColumnModel().getColumn(0).setMaxWidth(0);
+		tablaCalificaciones.getColumnModel().getColumn(0).setPreferredWidth(0);
+		
 		tablaCalificaciones.getColumnModel().getColumn(1).setCellRenderer(rightRenderer);
 		tablaCalificaciones.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
 		tablaCalificaciones.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
