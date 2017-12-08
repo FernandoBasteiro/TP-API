@@ -225,4 +225,17 @@ public class AdmUsuarios {
 		return 1;
 	}
 	
+	public ArrayList<VentaView> obtenerListadoCompras() {
+		if (usuarioLogueado != null) {
+			return SistemaVentas.getInstancia().buscarCompras(usuarioLogueado.getNombreDeUsuario());
+		}
+		return null;
+	}
+	
+	public ArrayList<VentaView> obtenerListadoVentas() {
+		if (usuarioLogueado != null) {
+			return SistemaVentas.getInstancia().buscarVentas(usuarioLogueado.getNombreDeUsuario());
+		}
+		return null;
+	}
 }

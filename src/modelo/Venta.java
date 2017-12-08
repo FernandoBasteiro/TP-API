@@ -7,6 +7,7 @@ import persistencia.AdmPersistenciaParametrosGrales;
 import persistencia.AdmPersistenciaVenta;
 import controlador.AdmUsuarios;
 import controlador.SistPublicaciones;
+import controlador.VentaView;
 
 public abstract class Venta {
 	protected int nroVenta;
@@ -120,5 +121,9 @@ public abstract class Venta {
 	
 	static public Venta buscarVentaDB(int nroVenta) {
 		return AdmPersistenciaVenta.getInstancia().buscarVenta(nroVenta);
+	}
+	
+	public VentaView getVentaView(){
+		return (new VentaView(this));
 	}
 }

@@ -77,6 +77,29 @@ public class SistPublicaciones {
 		return pv;
 	}
 	
+	public int[] buscarNroPublicaciones(String nombreDeUsuario) {
+		ArrayList<Publicacion> pubs = AdmPersistenciaPublicacion.getInstancia().buscarPublicacionesUsuario(nombreDeUsuario, "");
+		if (publicaciones.size() == 0) {
+			publicaciones = pubs;
+		}
+		else {
+			for (Publicacion p : pubs) {
+				if (! publicacionCargada(p.getNroPublicacion())) {
+					this.publicaciones.add(p);
+				}
+			}
+		}
+		int[] lista;
+		if (pubs != null) {
+			lista = new int[pubs.size()];
+			for (int i = 0; i < pubs.size(); i++) {
+				lista[1] = pubs.get(i).getNroPublicacion();
+			}
+			return lista;
+		}
+		return null;
+	}
+	
 	public ArrayList<PublicacionView> buscarPublicaciones(UsuarioRegular u, String buscado) {
 		if (u != null) {
 			ArrayList<PublicacionView> pv = null;
@@ -90,7 +113,7 @@ public class SistPublicaciones {
 				publicaciones = pubs;
 			}
 			else {
-				for (Publicacion p : publicaciones) {
+				for (Publicacion p : pubs) {
 					if (! publicacionCargada(p.getNroPublicacion())) {
 						this.publicaciones.add(p);
 					}

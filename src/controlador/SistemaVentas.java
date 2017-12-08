@@ -6,6 +6,7 @@ import modelo.Efectivo;
 import modelo.MercadoPago;
 import modelo.Publicacion;
 import modelo.TransfBancaria;
+import modelo.Usuario;
 import modelo.UsuarioRegular;
 import modelo.Venta;
 
@@ -110,16 +111,33 @@ public class SistemaVentas {
 		return ventaAux; 
 	}
 	
-	public ArrayList<Venta> buscarCompras(String nombreDeUsuario) {
+	public ArrayList<VentaView> buscarCompras(String nombreDeUsuario) {
 		ArrayList<Venta> compras = Venta.buscarComprasDB(nombreDeUsuario);
+		ArrayList<VentaView> vv = new ArrayList<VentaView>();
 		if (compras != null) {
 			for (Venta v : compras) {
 				if (! ventaCargada(v.getNroVenta())) {
 					ventas.add(v);
 				}
+				vv.add(v.getVentaView());
 			}
 		}
-		return compras;
+		return vv;
+	}
+	
+	public ArrayList<VentaView> buscarVentas(String nombreDeUsuario) {
+		int[] pubs = SistPublicaciones.getInstancia().buscarNroPublicaciones(nombreDeUsuario);
+		ArrayList<Venta> ventas;
+		ArrayList<VentaView> vv = new ArrayList<VentaView>();
+		for (int i = 0; i < pubs.length; i++) {
+			ventas = Venta.buscarVentasDB(pubs[i]);
+			if (ventas != null) {
+				for (int j = 0; j < ventas.size(); j++) {
+					vv.add(ventas.get(j).getVentaView());
+				}
+			}
+		}
+		return vv;
 	}
 	
 	public ArrayList<Venta> buscarVentas(int nroPublicacion) {
