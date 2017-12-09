@@ -176,6 +176,29 @@ CREATE TABLE dbo.ventas (
 alter table dbo.ventas
 add CONSTRAINT PK_ventas PRIMARY KEY CLUSTERED (nroVenta)
 
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla calificaciones
+--
+
+--drop TABLE dbo.calificaciones;
+CREATE TABLE dbo.calificaciones (
+  numero int IDENTITY(1,1) NOT NULL,
+  comprador varchar(20) NOT NULL,
+  vendedor varchar(20) NOT NULL,
+  puntuacion int DEFAULT NULL,
+  comentarios varchar(255) DEFAULT NULL,
+  pendiente tinyint NOT NULL,
+  venta int NOT NULL,
+  fechaCalificacion datetime DEFAULT NULL
+)
+;
+alter table dbo.calificaciones
+add CONSTRAINT PK_calificaciones PRIMARY KEY CLUSTERED (numero)
+
+
 --
 -- Índices para tablas volcadas
 --
@@ -215,4 +238,10 @@ ALTER TABLE dbo.publicaciones ADD CONSTRAINT FK_nombreDeUsuario3 FOREIGN KEY (no
 ALTER TABLE dbo.ventas ADD CONSTRAINT FK_nombreDeUsuario4 FOREIGN KEY (nombreDeUsuarioComprador) REFERENCES usuarios(nombreDeUsuario);
 ALTER TABLE dbo.ventas ADD CONSTRAINT FK_nroPublicacion3 FOREIGN KEY (nroPublicacion) REFERENCES publicaciones(nroPublicacion);
 
+--
+-- Indices de la tabla calificaciones
+--
+ALTER TABLE dbo.calificaciones ADD CONSTRAINT FK_calif_comprador FOREIGN KEY (comprador) REFERENCES usuarios(nombreDeUsuario);
+ALTER TABLE dbo.calificaciones ADD CONSTRAINT FK_calif_vendedor FOREIGN KEY (vendedor) REFERENCES usuarios(nombreDeUsuario);
+ALTER TABLE dbo.calificaciones ADD CONSTRAINT FK_calif_venta FOREIGN KEY (venta) REFERENCES ventas(nroVenta);
 
